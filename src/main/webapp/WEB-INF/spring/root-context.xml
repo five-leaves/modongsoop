@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.0.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- HikariCP 객체 생성 -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<!-- <property name="driverClassName" value="oracle.jdbc.OracleDriver"></property> -->
+		<!-- <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521/xepdb1"></property> -->
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521/xepdb1"></property>
+		<property name="username" value="ping"></property>
+		<property name="password" value="ping"></property>
+	</bean>
+	<!-- dataSource객체 생성 -->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig"></constructor-arg>
+	</bean>
+	<!--  sqlSessionFactory객체 생성 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="typeAliasesPackage" value="net.fiveleaves.domain"></property>
+	</bean>
+	<!-- jdbc트랜잭션 관리하는 트랜잭션매니저 객체 생성 -->
+	<bean id="transactionManager"
+		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		  <property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 패키지안의 매퍼인터페이스 검색 -->
+	<mybatis-spring:scan base-package="net.fiveleaves.mapper"></mybatis-spring:scan>
+	
+	<!-- spring이 annotation을 활성화할수 있도록 해줌 -->
+	<context:annotation-config></context:annotation-config>
+	
+	<!-- 패키지및 하위패키지를 스캔하여 스프링bean 등록 -->
+	<context:component-scan base-package="net.fiveleaves.service"></context:component-scan>
+	<context:component-scan base-package="net.fiveleaves.aop"></context:component-scan>
+	<context:component-scan base-package="net.fiveleaves.sample"></context:component-scan>
+	
+	<!-- @Aspect를 기반으로 프록시객체를 생성하고 AOP기능을 사용할 수 있도록 설정 -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
+	<!-- 메서드에 트랜잭션을 적용하거나 관리할수 있게해줌 -->
+	<tx:annotation-driven></tx:annotation-driven>
+	
+
+	
+	
+		
+</beans>
