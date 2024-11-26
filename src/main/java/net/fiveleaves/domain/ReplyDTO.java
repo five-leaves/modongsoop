@@ -1,17 +1,17 @@
 package net.fiveleaves.domain;
 
-import org.springframework.stereotype.Component;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Component
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReplyDTO {
 	
 	private Long replyNo;
 	private String replyContent;
+	private Long userNo;
+	private Long boardNo;
 	
-	private UserDTO userDto;
-	private BoardDTO boardDto;
-
 }

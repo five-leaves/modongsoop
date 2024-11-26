@@ -2,21 +2,24 @@ package net.fiveleaves.domain;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClubDTO {
 	
 	private Long clubNo;
 	private String clubName;
 	private String clubContent;
 	private String clubProfile;
-	private int ageMin;
-	private int ageMax;
+	private Integer ageMin;
+	private Integer ageMax;
 	private Date regdate;
 	private Date updateDate;
-	
-	private CategoryDTO categoryDto;
-	private UserDTO userDto;
+	private Long userNo;
+	private Long categoryNo;
 	
 }

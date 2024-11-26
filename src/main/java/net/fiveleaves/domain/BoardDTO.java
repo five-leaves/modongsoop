@@ -2,9 +2,13 @@ package net.fiveleaves.domain;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BoardDTO {
 	
 	private Long boardNo;
@@ -13,7 +17,6 @@ public class BoardDTO {
 	private Long viewCount;
 	private Date regdate;
 	private Date updateDate;
-	
-	private ClubDTO clubDto;
-	private UserDTO userDto;
+	private Long clubNo;
+	private Long userNo;
 }
