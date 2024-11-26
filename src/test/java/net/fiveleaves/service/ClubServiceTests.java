@@ -25,10 +25,10 @@ public class ClubServiceTests {
 		ClubDTO club = new ClubDTO();
 		club.setClubName("새싹 동대문 동호회");
 		club.setClubContent("새싹 동대문 동호회입니다.");
-		club.setClubProfile(null);
-		club.setAgeMin(null);
-		club.setAgeMax(null);
-		club.setCategoryNo(1L);
+		club.setClubProfile("");
+		club.setAgeMin(0);
+		club.setAgeMax(0);
+		club.setCategoryNo(5L);
 		club.setUserNo(1L);
 		
 		service.register(club);
@@ -40,9 +40,21 @@ public class ClubServiceTests {
 	@Test
 	public void testGet() throws Exception {
 		Long clubNo = 1L;
-		
 		ClubDTO club = service.get(clubNo);
 		
 		log.info(club);
+	}
+	
+	// 동호회 전체 목록
+	@Test
+	public void testGetAllClubList() throws Exception {
+		service.getAllClubList().forEach(club -> log.info(club));
+	}
+	
+	// 가입한 동호회 목록
+	@Test
+	public void testGetMyClubList() throws Exception {
+		Long userNo = 1L;
+		service.getMyClubList(userNo).forEach(club -> log.info(club));
 	}
 }
