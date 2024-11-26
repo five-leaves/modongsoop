@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="net.fiveleaves.mapper.ClubMapper">
+ 	
+ 	<!-- 동호회 전체 목록 -->
+ 	<select id="getAllClubList" resultType="ClubDTO">
+ 		<![CDATA[
+ 		select c.club_no,
+			   c.club_name,
+			   c.club_content,
+			   c.club_profile,
+			   c.age_min,
+			   c.age_max,
+			   c.user_no,
+			   c.category_no,
+               ca.category_name,
+			   c.regdate,
+			   c.updatedate
+	 	from clubs c
+        inner join categories ca on c.category_no = ca.category_no 
+ 		where club_no > 0
+ 		]]>
+ 	</select>
+ 	
+ 	<!-- 가입한 동호회 목록 -->
+ 	<select id="getMyClubList" resultType="ClubDTO">
+ 		<![CDATA[
+ 		select c.club_no,
+			   c.club_name,
+			   c.club_content,
+			   c.club_profile,
+			   c.age_min,
+			   c.age_max,
+               c.user_no,
+			   c.category_no,
+               ca.category_name,
+			   cl.regdate
+		from clubs c 
+		inner join club_logs cl on c.club_no = cl.club_no
+		inner join categories ca on c.category_no = ca.category_no
+		where cl.user_no = #{user_no}
+ 		]]>
+ 	</select>
+ 	
+ 	<!-- 동호회 정보 -->
+ 	<select id="readClub" resultType="ClubDTO">
+ 		select c.club_no,
+			   c.club_name,
+			   c.club_content,
+			   c.club_profile,
+			   c.age_min,
+			   c.age_max,
+			   c.category_no,
+			   c.regdate,
+			   c.updatedate,
+			   c.user_no,
+			   u.nickname
+ 		from clubs c
+        inner join users u       on c.user_no = u.user_no 
+        inner join categories ca on c.category_no = ca.category_no
+ 		where club_no = 1
+ 	</select>
+ 	
+ 	<!-- 회원 수 -->
+ 	<select id="countMember" resultType="long">
+ 		select count(*) from club_logs
+ 		where club_no = #{clubNo}
+ 	</select>
+ 	
+ 	<!-- 동호회 등록 -->
+ 	<insert id="createClub">
+ 		<selectKey keyProperty="clubNo" order="BEFORE" resultType="long">
+			select clubs_seq.nextval from dual
+		</selectKey>
+ 		insert into clubs(club_no, club_name , club_content, club_profile, age_min, age_max, user_no, category_no)
+		values (#{clubNo}, #{clubName} , #{clubContent}, #{clubProfile}, #{ageMin}, #{ageMax}, #{userNo}, #{categoryNo})
+ 	</insert>
+ 	
+ 	<!-- 동호회 가입 -->
+ 	<insert id="joinClub">
+ 		insert into club_logs(club_no, user_no)
+ 		values(#{clubNo}, #{userNo})
+ 	</insert>
+ 	
+ 	<!-- 동호회 정보 수정 -->
+ 	<update id="updateClub">
+ 		update clubs 
+		set club_name = #{clubName},
+		club_content = #{clubContent}, 
+		club_profile = #{clubProfile}, 
+		age_min = #{ageMin}, 
+		age_max = #{ageMax}, 
+		category_no = #{categoryNo}
+		where club_no = #{clubNo}
+ 	</update>
+ 	
+ 	<!-- 동호회 삭제 -->
+ 	<delete id="deleteClub">
+ 		delete clubs
+ 		where club_no = #{clubNo}
+ 	</delete>
+ 	
+ 	<!-- 회원 삭제 -->
+ 	<delete id="deleteMember">
+ 		delete club_logs
+ 		where club_no = #{clubNo} and user_no = #{userNo}
+ 	</delete>
+ 	
+ 	<!-- 동호회 회원 전체 삭제 -->
+ 	<delete id="deleteAllMember">
+ 		delete club_logs
+ 		where club_no = #{clubNo} 
+ 	</delete>
+
+ </mapper>
