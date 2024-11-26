@@ -31,6 +31,12 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="typeAliasesPackage" value="net.fiveleaves.domain"></property>
+		<property name="configuration">
+			<bean class="org.apache.ibatis.session.Configuration">
+				<property name="mapUnderscoreToCamelCase" value="true"></property>
+				<property name="jdbcTypeForNull" value="NULL"></property>
+			</bean>
+		</property>
 	</bean>
 	<!-- jdbc트랜잭션 관리하는 트랜잭션매니저 객체 생성 -->
 	<bean id="transactionManager"
@@ -54,9 +60,5 @@
 	
 	<!-- 메서드에 트랜잭션을 적용하거나 관리할수 있게해줌 -->
 	<tx:annotation-driven></tx:annotation-driven>
-	
 
-	
-	
-		
 </beans>
