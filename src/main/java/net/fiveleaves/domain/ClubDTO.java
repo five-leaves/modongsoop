@@ -22,5 +22,6 @@ public class ClubDTO {
 	private Long userNo;
 	private Long categoryNo;
 	private String categoryName;
+	private Integer memberCount;
 	
 }
