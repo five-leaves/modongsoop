@@ -1,44 +1,21 @@
 <%@ page session="false" contentType="text/html; charset=UTF-8"%>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<!-- Header -->
+<header class="forest-header mb-4">
+    <h1>FOREST</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <!-- 동호회 검색 -->
+        <form class="d-flex search-bar" role="search"">
+        <div class="input-group">
+			<input type="text" class="form-control" placeholder="동호회 검색" aria-label="Search">
+			<button class="btn btn-forest" type="button" id="button-addon2">검색</button>
+		</div>
+        </form>
 
-    <title>모동숲</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="/resources/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-
-    <!-- DataTables CSS -->
-    <link href="/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
-
-    <!-- DataTables Responsive CSS -->
-    <link href="/resources/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="/resources/dist/css/sb-admin-2.css" rel="stylesheet">
-    <link href="/resources/dist/css/modongsoop.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>
-    <div id="wrapper">       
-    	<div class="container">
-        
+        <!-- 사용자 정보 -->
+        <div class="d-flex align-items-center ms-4">
+            <img src="/resources/img/profile_placeholder.png" alt="프로필 이미지" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+            <span class="me-3">닉네임</span>
+            <a href="logout.jsp" class="btn btn-forest ms-3">로그아웃</a>
+        </div>
+    </div>
+</header>
