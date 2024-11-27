@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="/resources/dist/css/modongsoop.css" rel="stylesheet">
+    <link href="/resources/css/modongsoop.css" rel="stylesheet">
 
 </head>
         
