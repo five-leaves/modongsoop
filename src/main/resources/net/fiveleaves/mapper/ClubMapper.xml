@@ -7,19 +7,21 @@
  	<select id="getAllClubList" resultType="ClubDTO">
  		<![CDATA[
  		select c.club_no,
-			   c.club_name,
-			   c.club_content,
-			   c.club_profile,
-			   c.age_min,
-			   c.age_max,
-			   c.user_no,
-			   c.category_no,
-               ca.category_name,
-			   c.regdate,
-			   c.updatedate
-	 	from clubs c
-        inner join categories ca on c.category_no = ca.category_no 
- 		where club_no > 0
+ 			   c.club_name,
+	           c.club_content,
+	           c.club_profile,
+	           c.age_min,
+	           c.age_max,
+	           c.category_no,
+	           ca.category_name,
+	           c.regdate,
+	           c.updatedate,
+	           cl.member_count
+		from clubs c
+		inner join categories ca on c.category_no = ca.category_no 
+		inner join (select club_no, count(*) member_count
+		            from club_logs
+		            group by club_no) cl on c.club_no = cl.club_no
  		]]>
  	</select>
  	
@@ -27,19 +29,21 @@
  	<select id="getMyClubList" resultType="ClubDTO">
  		<![CDATA[
  		select c.club_no,
-			   c.club_name,
-			   c.club_content,
-			   c.club_profile,
-			   c.age_min,
-			   c.age_max,
-               c.user_no,
-			   c.category_no,
-               ca.category_name,
-			   cl.regdate
-		from clubs c 
-		inner join club_logs cl on c.club_no = cl.club_no
-		inner join categories ca on c.category_no = ca.category_no
-		where cl.user_no = #{user_no}
+		       c.club_name,
+		       c.club_content,
+		       c.club_profile,
+		       c.age_min,
+		       c.age_max,
+		       cl.regdate,
+		       (select count(*) 
+		        from club_logs cl_sub 
+		        where cl_sub.club_no = c.club_no) as member_count
+		from 
+		    clubs c
+		join 
+		    club_logs cl on c.club_no = cl.club_no
+		where 
+		    cl.user_no = #{userNo}
  		]]>
  	</select>
  	
@@ -59,7 +63,7 @@
  		from clubs c
         inner join users u       on c.user_no = u.user_no 
         inner join categories ca on c.category_no = ca.category_no
- 		where club_no = 1
+ 		where club_no = #{clubNo}
  	</select>
  	
  	<!-- 회원 수 -->
