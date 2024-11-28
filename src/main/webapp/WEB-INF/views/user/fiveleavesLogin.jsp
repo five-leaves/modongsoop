@@ -33,7 +33,7 @@
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="/user/mypage" class="btn btn-lg btn-success btn-block">Login</a>
+                                <a href="/club/list" class="btn btn-lg btn-success btn-block">Login</a>
                             </fieldset>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>
@@ -42,12 +42,23 @@
             </div>
         </div>
     </div>
-
-	<!-- jQuery -->
+    
+    <!-- jQuery -->
     <script src="/resources/vendor/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="/resources/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="/resources/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/resources/dist/js/sb-admin-2.js"></script>
 
 	<script>
 	
