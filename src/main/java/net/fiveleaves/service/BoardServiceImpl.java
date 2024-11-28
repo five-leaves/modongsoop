@@ -2,7 +2,6 @@ package net.fiveleaves.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -43,10 +42,10 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardDTO> getList() {
+	public List<BoardDTO> getList(Long clubNo) {
 		
 		log.info("getList...");
-		return boardMapper.getList();
+		return boardMapper.getList(clubNo);
 	}
 
 }

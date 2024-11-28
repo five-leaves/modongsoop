@@ -6,7 +6,7 @@ import net.fiveleaves.domain.ClubDTO;
 import net.fiveleaves.domain.ClubLogDTO;
 
 public interface ClubMapper {
-	public List<ClubDTO> getAllClubList();				// 동호회 전체 목록
+	public List<ClubDTO> getAllClubList(Long categoryNo);	// 동호회 전체 목록
 	public List<ClubDTO> getAllClubListWithPaging();	// 동호회 전체 목록 페이징	
 	public List<ClubDTO> getMyClubList(Long userNo);	// 가입한 동호회 목록
 	public ClubDTO readClub(Long clubNo);				// 동호회 정보
