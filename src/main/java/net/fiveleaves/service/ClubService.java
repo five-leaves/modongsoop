@@ -14,4 +14,5 @@ public interface ClubService {
 	public boolean removeClub(Long clubNo) throws Exception;			// 동호회 삭제
 	public void join(ClubLogDTO clubLog) throws Exception;				// 동호회 가입
 	public void withdraw(ClubLogDTO clubLog) throws Exception;			// 동호회 탈퇴
+	public List<ClubDTO> search(Long categoryNo) throws Exception;		// 동호회 검색 
 }

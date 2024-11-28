@@ -139,4 +139,21 @@
  		where club_no = #{clubNo} 
  	</delete>
 
+	<!-- 동호회 검색 -->
+	<select id="searchClub" resultType="ClubDTO">
+		select 	c.club_no,
+				c.club_name,
+				c.club_content,
+				c.club_profile,
+				c.age_min,
+				c.age_max,
+				c.user_no,
+				c.category_no,
+				c.regdate,
+				c.updatedate
+		from clubs c
+		where <!-- club_name like '%' || #{clubName} || '%'
+		and club_content like '%' || #{clubContent} || '%'
+		and  -->category_no = #{categoryNo}
+	</select>
  </mapper>
