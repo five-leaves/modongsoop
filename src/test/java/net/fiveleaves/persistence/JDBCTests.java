@@ -1,4 +1,4 @@
-package net.fiveleavs.persistence;
+package net.fiveleaves.persistence;
 
 import static org.junit.Assert.fail;
 
