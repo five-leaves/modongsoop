@@ -156,35 +156,38 @@ body {
 					<button class="btn btn-join w-100">동호회 가입</button>
 					<p>멤버 수: 10명</p>
 					<p>리더: 홍길동</p>
+				</div>
+
+				<!-- Main Content -->
+				<div class="col-md-9">
+					<div class="main-content">
+						<h5>게시물 제목</h5>
 
 
-					<!-- Main Content -->
-					<div class="col-md-9">
-						<div class="main-content">
-							<h5>게시물 제목</h5>
+						<div class="mb-3 cute-border content-content">
+							<h5 class="form-label fw-bold">게시물 상세 내용</h5>
+							<p class="form-control-static">
+								<c:out value="${boardDto.boardContent}" />
+							</p>
 
+							<a href="/board/modify" class="btn btn-secondary btn-sm"> <i
+								class="fa fa-pencil"></i> 수정
+							</a>
 
-							<div class="mb-3 cute-border content-content">
-								<h5 class="form-label fw-bold">게시물 상세 내용</h5>
-								<p class="form-control-static">
-									<c:out value="${boardDto.boardContent}" />
-								</p>
+							<!-- 댓글 -->
+							<div class="comment-box">
+								<input type="text" placeholder="댓글을 작성하세요">
+								<button class="btn btn-forest">보내기</button>
+							</div>
 
-								<a href="/board/modify" class="btn btn-secondary btn-sm"> <i
-									class="fa fa-pencil"></i> 수정
-								</a>
-
-								<!-- 댓글 -->
-								<div class="comment-box">
-									<input type="text" placeholder="댓글을 작성하세요">
-									<button class="btn btn-forest">보내기</button>
-								</div>
-
-								<div class="comment-list">
-									<div class="comment-item">댓글 작성자1: 댓글 내용</div>
-									<div class="comment-item">댓글 작성자2: 댓글 내용</div>
-								</div>
+							<div class="comment-list">
+								<div class="comment-item">댓글 작성자1: 댓글 내용</div>
+								<div class="comment-item">댓글 작성자2: 댓글 내용</div>
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
