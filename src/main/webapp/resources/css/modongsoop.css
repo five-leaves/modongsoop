@@ -67,6 +67,16 @@ body {
     text-align: center;
 }
 
+a.club-link {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 텍스트 색상 초기화 (부모 요소의 색상 사용) */
+}
+
+/* 자식 요소 스타일이 변경되지 않도록 보호 */
+a.club-link * {
+    text-decoration: none; /* 모든 자식 요소에서 밑줄 제거 */
+}
+
 .club-card img {
     width: 60%;
     height: auto;

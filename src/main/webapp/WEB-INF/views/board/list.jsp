@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<%@include file="../includes/head.jsp" %>
 <%@ include file="../includes/header.jsp" %>	
 
             <div class="row">
@@ -104,4 +105,4 @@ $(document).ready(function() {
 	});
 });
 </script>     
-<%@ include file="../includes/footer.jsp" %>
+<%@include file="../includes/foot.jsp" %>
