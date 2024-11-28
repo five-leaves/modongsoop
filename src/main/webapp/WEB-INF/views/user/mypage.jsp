@@ -10,7 +10,7 @@
 
 	<h1>mypage</h1>
 
-	<a href="/fiveleavesLogout">Logout</a>
+	<a href="/user/fiveleavesLogout">Logout</a>
 
 </body>
 </html>

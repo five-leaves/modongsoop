@@ -238,5 +238,6 @@ body {
 		});
 	});
 	</script>
+	
 	</body>     
 	<%@ include file="../includes/foot.jsp" %>

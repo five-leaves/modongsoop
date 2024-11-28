@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<!-- <div class="row">
+<div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">회원가입</div>
@@ -47,7 +47,7 @@
         end panel
     </div>
 </div>
-/.row -->
+/.row
 
 </body>
 </html>
