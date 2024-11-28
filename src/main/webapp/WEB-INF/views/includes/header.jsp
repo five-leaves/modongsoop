@@ -4,10 +4,11 @@
     <h1>FOREST</h1>
     <div class="d-flex justify-content-between align-items-center">
         <!-- 동호회 검색 -->
-        <form class="d-flex search-bar" role="search"">
+        <form class="d-flex search-bar" role="search" action="/club/search" method="get">
         <div class="input-group">
-			<input type="text" class="form-control" placeholder="동호회 검색" aria-label="Search">
-			<button class="btn btn-forest" type="button" id="button-addon2">검색</button>
+        	<label for="clubName"></label>
+			<input type="text" class="form-control" placeholder="동호회 검색" aria-label="Search" id="clubName" name="clubName" required>
+			<button class="btn btn-forest" type="submit" id="button-addon2">검색</button>
 		</div>
         </form>
 

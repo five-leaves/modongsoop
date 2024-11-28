@@ -89,9 +89,9 @@ public class ClubServiceImpl implements ClubService{
 
 	// 동호회 검색
 	@Override
-	public List<ClubDTO> search(Long categoryNo) throws Exception {
-		List<ClubDTO> filteredClubList = mapper.searchClub(categoryNo);
-		return filteredClubList;
+	public List<ClubDTO> search (String clubName) throws Exception {
+		List<ClubDTO> searchedClubList = mapper.searchClub(clubName);
+		return searchedClubList;
 	}
 	
 }

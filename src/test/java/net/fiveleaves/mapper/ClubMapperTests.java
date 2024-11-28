@@ -111,7 +111,7 @@ public class ClubMapperTests {
 	// 동호회 검색
 	@Test
 	public void testSearchClub () {
-		log.info(mapper.searchClub(0L));
+		log.info(mapper.searchClub("오싹"));
 	}
 	
 }

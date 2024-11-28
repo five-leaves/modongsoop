@@ -61,8 +61,7 @@ public class ClubServiceTests {
 	// 동호회 검색
 	@Test
 	public void testSearch() throws Exception {
-		Long categoryNo = 0L;
-		ClubDTO club = (ClubDTO) service.search(categoryNo);
-		log.info(club);
+		String clubName = "오싹";
+		service.search(clubName).forEach(club -> log.info(club));
 	}
 }

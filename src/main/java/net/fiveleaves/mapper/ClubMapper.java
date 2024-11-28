@@ -17,5 +17,5 @@ public interface ClubMapper {
 	public int deleteClub(Long clubNo);					// 동호회 삭제
 	public int deleteMember(ClubLogDTO clubLog);		// 동호회 회원 삭제
 	public int deleteAllMember(Long clubNo);			// 동호회 전체 회원 삭제
-	public List<ClubDTO> searchClub (Long categoryNo);	// 동호회 검색
+	public List<ClubDTO> searchClub (String clubName);	// 동호회 검색
 }
