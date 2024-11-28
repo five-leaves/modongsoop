@@ -31,5 +31,11 @@ public class ClubController {
 			e.printStackTrace();
 		}
 		return null;
+
+	@GetMapping("/search")
+	public void search(Model model) throws Exception {
+
+			log.info("search");
+			model.addAttribute("search", service.search(3L));			
 	}
 }

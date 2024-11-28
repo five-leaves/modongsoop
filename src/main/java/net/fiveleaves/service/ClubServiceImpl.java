@@ -86,5 +86,12 @@ public class ClubServiceImpl implements ClubService{
 			throw new RuntimeException(clubLog.getClubNo() + "번 동호회, " + clubLog.getUserNo() + "번 회원이 없습니다.");
 		};
 	}
+
+	// 동호회 검색
+	@Override
+	public List<ClubDTO> search(Long categoryNo) throws Exception {
+		List<ClubDTO> filteredClubList = mapper.searchClub(categoryNo);
+		return filteredClubList;
+	}
 	
 }
