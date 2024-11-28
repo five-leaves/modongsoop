@@ -45,7 +45,7 @@
         <div class="row">
         	<c:forEach items="${allClubList}" var="club">
 	            <div class="col-6 col-md-6 mb-4">
-	            	<a class="club-link" href='/club/get?clubNo=<c:out value="${club.clubNo}" />'>
+	            	<a class="club-link" href='/board/list?clubNo=<c:out value="${club.clubNo}" />'>
 		                <div class="club-card">
 		                    <img src=<c:out value="${club.clubProfile ? club.clubProfile : '/resources/img/club_placeholder.png'}"/> alt="동호회 이미지">
 		                    <p><c:out value="${club.clubName}" /></p>
