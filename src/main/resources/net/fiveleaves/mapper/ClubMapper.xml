@@ -6,29 +6,49 @@
  	<!-- 동호회 전체 목록 -->
  	<select id="getAllClubList" resultType="ClubDTO">
  		<![CDATA[
- 		select c.club_no,
- 			   c.club_name,
-	           c.club_content,
-	           c.club_profile,
-	           c.age_min,
-	           c.age_max,
-	           c.category_no,
-	           ca.category_name,
-	           c.regdate,
-	           c.updatedate,
-	           cl.member_count
-		from clubs c
-		inner join categories ca on c.category_no = ca.category_no 
-		inner join (select club_no, count(*) member_count
-		            from club_logs
-		            group by club_no) cl on c.club_no = cl.club_no
+ 		select 
+		       club_no,
+		       club_name,
+		       club_content,
+		       club_profile,
+		       age_min,
+		       age_max,
+		       category_no,
+		       category_name,
+		       regdate,
+		       updatedate,
+		       count_member
+		from (
+		    select /*+ INDEX_ASC(c pk_clubs) */
+		           rownum rn,
+		           c.club_no,
+		           c.club_name,
+		           c.club_content,
+		           c.club_profile,
+		           c.age_min,
+		           c.age_max,
+		           c.category_no,
+		           ca.category_name,
+		           c.regdate,
+		           c.updatedate,
+		           cl.count_member
+		    from clubs c
+		    inner join categories ca on c.category_no = ca.category_no 
+		    inner join (select club_no, count(*) count_member
+		                from club_logs
+		                group by club_no) cl on c.club_no = cl.club_no
+		    where rownum < 10
+		    order by c.club_no
+		)
+		where rn > 0
  		]]>
  	</select>
  	
  	<!-- 동호회 전체 목록 페이징 -->
  	<select id="getAllClubListWithPagin" resultType="ClubDTO">
  		<![CDATA[
- 		select c.club_no,
+ 		select /*+ INDEX_ASC(c pk_clubs) */
+ 			   c.club_no,
  			   c.club_name,
 	           c.club_content,
 	           c.club_profile,
