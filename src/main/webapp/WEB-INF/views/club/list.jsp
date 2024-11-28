@@ -34,9 +34,9 @@
         <!-- 카테고리 -->
         <h2 class="mt-5">카테고리</h2>
         <div class="d-flex flex-wrap">
-        	<button class="category-button active">전체</button>
+        	<button class="category-button active" onclick="location.href='?'">전체</button>
         	<c:forEach items="${categoryList}" var="category">
-        		<button class="category-button"><c:out value="${category.categoryName}" /></button>
+        		<button class="category-button" onclick="location.href='?categoryNo=<c:out value="${category.categoryNo}" />'"><c:out value="${category.categoryName}" /></button>
         	</c:forEach>
         </div>
 
@@ -45,13 +45,15 @@
         <div class="row">
         	<c:forEach items="${allClubList}" var="club">
 	            <div class="col-6 col-md-6 mb-4">
-	                <div class="club-card">
-	                    <img src=<c:out value="${club.clubProfile ? club.clubProfile : '/resources/img/club_placeholder.png'}"/> alt="동호회 이미지">
-	                    <p><c:out value="${club.clubName}" /></p>
-	                    <p class="text-muted">동호회 설명</p>
-	                    <p class="badge bg-primary"><c:out value="${club.categoryName}" /></p>
-	                    <p>회원 수: <c:out value="${club.memberCount}"/></p>
-	                </div>
+	            	<a class="club-link" href='/club/get?clubNo=<c:out value="${club.clubNo}" />'>
+		                <div class="club-card">
+		                    <img src=<c:out value="${club.clubProfile ? club.clubProfile : '/resources/img/club_placeholder.png'}"/> alt="동호회 이미지">
+		                    <p><c:out value="${club.clubName}" /></p>
+		                    <p class="text-muted">동호회 설명</p>
+		                    <p class="badge bg-primary"><c:out value="${club.categoryName}" /></p>
+		                    <p>회원 수: <c:out value="${club.memberCount}"/></p>
+		                </div>
+	                </a>
 	            </div>
 	        </c:forEach>
         </div>
