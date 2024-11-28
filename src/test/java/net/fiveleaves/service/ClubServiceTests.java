@@ -48,7 +48,8 @@ public class ClubServiceTests {
 	// 동호회 전체 목록
 	@Test
 	public void testGetAllClubList() throws Exception {
-		service.getAllClubList().forEach(club -> log.info(club));
+		Long categoryNo = null;
+		service.getAllClubList(categoryNo).forEach(club -> log.info(club));
 	}
 	
 	// 가입한 동호회 목록

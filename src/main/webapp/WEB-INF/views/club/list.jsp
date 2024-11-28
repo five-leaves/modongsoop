@@ -34,9 +34,9 @@
         <!-- 카테고리 -->
         <h2 class="mt-5">카테고리</h2>
         <div class="d-flex flex-wrap">
-        	<button class="category-button active">전체</button>
+        	<button class="category-button active" onclick="location.href='?'">전체</button>
         	<c:forEach items="${categoryList}" var="category">
-        		<button class="category-button"><c:out value="${category.categoryName}" /></button>
+        		<button class="category-button" onclick="location.href='?categoryNo=<c:out value="${category.categoryNo}" />'"><c:out value="${category.categoryName}" /></button>
         	</c:forEach>
         </div>
 

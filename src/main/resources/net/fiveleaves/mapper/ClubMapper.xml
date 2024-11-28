@@ -43,7 +43,7 @@
 		where rn > 0
 		]]>
 		<if test="categoryNo != null">
-			and c.category_no = #{categoryNo}
+			and category_no = #{categoryNo}
 		</if>
  	</select>
  	
