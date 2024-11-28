@@ -11,153 +11,166 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
-    /* 숲 테마 스타일 */
     body {
         font-family: "Nanum Pen Script", cursive;
-        font-weight: 400;
-        font-style: normal;
         background: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
         color: #4d774e;
     }
 
-    .forest-container {
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background-color: #8d6e63;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .header .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .header .logo img {
+        height: 40px;
+    }
+
+    .sidebar {
         background: #f3f9f1;
-        border-radius: 20px;
+        border-radius: 10px;
         padding: 20px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .forest-header {
-        background: linear-gradient(to right, #81c784, #66bb6a);
-        border-radius: 15px;
-        color: white;
-        padding: 15px;
-        text-align: center;
-    }
-
-    .forest-header h1 {
-        font-size: 2.5rem;
-        font-weight: bold;
-        text-shadow: 2px 2px #2e7d32;
-    }
-
-    .btn-forest {
-        background: #a5d6a7;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 30px;
-        transition: transform 0.3s, background 0.3s;
-    }
-
-    .btn-forest:hover {
-        background: #81c784;
-        transform: scale(1.1);
-    }
-
-    .forest-icon {
-        color: #4caf50;
-        margin-right: 10px;
-    }
-
-    .cute-border {
-        border: 2px dashed #81c784;
-        padding: 10px;
+    .main-content {
+        padding: 20px;
+        background: #f9fbe7;
         border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .form-label {
-        color: #84540f;
+    .btn-join {
+        background: #81c784;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-join:hover {
+        background: #66bb6a;
+        transform: scale(1.05);
     }
 
     .comment-box {
-        border: 1px solid #a5d6a7;
-        border-radius: 8px;
-        padding: 10px;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
     .comment-box input {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 10px;
-        border-radius: 5px;
-        border: 1px solid #81c784;
+        flex-grow: 1;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #a5d6a7;
     }
 
     .comment-list {
-        margin-top: 20px;
+        margin-top: 10px;
+        padding: 10px 0;
+        border-top: 1px solid #81c784;
     }
 
     .comment-item {
-        padding: 10px;
+        padding: 10px 0;
         border-bottom: 1px dashed #81c784;
     }
 
-    .comment-item .author {
-        font-weight: bold;
+    .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .profile img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #c8e6c9;
     }
     
-    .content-title {
-    	height: 80px;
-    }
-    
-    .content-content {
+     .content-content {
     	height: 370px;
     }
+    
 </style>
 
-<!-- <div class="container mt-5">
-    숲 테마 헤더
-    <div class="forest-header mb-4">
-        <h1>🌲 Forest Board 🌳</h1>
-        <p>숲 속 친구들과 함께하는 동호회</p>
-    </div> -->
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <img src="/path/to/logo.png" alt="Logo">
+            <h3>FOREST</h3>
+        </div>
+        <div>
+            <a href="#" class="btn btn-light">로그아웃</a>
+            <span>닉네임</span>
+            <a href="#" class="btn btn-light">프로필</a>
+        </div>
+    </div>
 
-    <!-- 게시글 영역 -->
-    <div class="forest-container">
-        <div class="content-title">
-            <h5 class="form-label fw-bold">게시물 제목</h5>
-            <p class="form-control-static"><c:out value="${boardDto.boardTitle}"/></p>
+    <!-- Layout -->
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 sidebar">
+            <div class="profile">
+                <img src="/path/to/profile.jpg" alt="Profile">
+                <p>동호회명</p>
+            </div>
+            <button class="btn btn-join w-100">동호회 가입</button>
+            <p>멤버 수: 10명</p>
+            <p>리더: 홍길동</p>
         </div>
 
-        <div class="mb-3 cute-border content-content">
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="main-content">
+                <h5>게시물 제목</h5>
+
+                
+                 <div class="mb-3 cute-border content-content">
             <h5 class="form-label fw-bold">게시물 상세 내용</h5>
             <p class="form-control-static"><c:out value="${boardDto.boardContent}"/></p>
         </div>
+        
+                <a href="/board/modify" class="btn btn-secondary btn-sm">
+                    <i class="fa fa-pencil"></i> 수정
+                </a>
 
-        <!-- 댓글 작성 영역 -->
-        <div class="comment-box">
-            <label for="comment-input" class="form-label">댓글을 작성하세요</label>
-            <form action="/board/addComment" method="post">
-                <input type="text" id="comment-input" name="comment" placeholder="댓글을 작성하세요" required>
-                <button class="btn btn-forest" type="submit">
-                    <i class="fa fa-comment forest-icon"></i> 보내기
-                </button>
-            </form>
-        </div>
-
-        <!-- 댓글 목록 -->
-        <div class="comment-list">
-            <!-- <c:forEach var="comment" items="${board.comments}">
-                <div class="comment-item">
-                    <p class="author"><c:out value="${comment.author}"/></p>
-                    <p class="content"><c:out value="${comment.content}"/></p>
+                <!-- 댓글 -->
+                <div class="comment-box">
+                    <input type="text" placeholder="댓글을 작성하세요">
+                    <button class="btn btn-forest">보내기</button>
                 </div>
-            </c:forEach> -->
-        </div>
 
-        <!-- 버튼들 -->
-        <div class="d-flex justify-content-between mt-4">
-            <a href="/board/modify?boardNo=<c:out value='${boardDto.boardNo}'/>" class="btn btn-forest">
-                <i class="fa fa-pencil forest-icon"></i> 수정
-            </a>
-            <a href="/board/delete?boardNo=<c:out value='${boardDto.boardNo}'/>" class="btn btn-danger">
-                <i class="fa fa-trash"></i> 삭제
-            </a>
-            <a href="/board/list" class="btn btn-info">
-                <i class="fa fa-list"></i> 목록
-            </a>
+                <div class="comment-list">
+                    <div class="comment-item">댓글 작성자1: 댓글 내용</div>
+                    <div class="comment-item">댓글 작성자2: 댓글 내용</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
