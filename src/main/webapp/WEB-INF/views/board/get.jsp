@@ -117,12 +117,12 @@
     <div class="forest-container">
         <div class="content-title">
             <h5 class="form-label fw-bold">게시물 제목</h5>
-            <p class="form-control-static"><c:out value="${board.title}"/></p>
+            <p class="form-control-static"><c:out value="${boardDto.boardTitle}"/></p>
         </div>
 
         <div class="mb-3 cute-border content-content">
             <h5 class="form-label fw-bold">게시물 상세 내용</h5>
-            <p class="form-control-static"><c:out value="${board.content}"/></p>
+            <p class="form-control-static"><c:out value="${boardDto.boardContent}"/></p>
         </div>
 
         <!-- 댓글 작성 영역 -->
@@ -138,20 +138,20 @@
 
         <!-- 댓글 목록 -->
         <div class="comment-list">
-            <c:forEach var="comment" items="${board.comments}">
+            <!-- <c:forEach var="comment" items="${board.comments}">
                 <div class="comment-item">
                     <p class="author"><c:out value="${comment.author}"/></p>
                     <p class="content"><c:out value="${comment.content}"/></p>
                 </div>
-            </c:forEach>
+            </c:forEach> -->
         </div>
 
         <!-- 버튼들 -->
         <div class="d-flex justify-content-between mt-4">
-            <a href="/board/modify?boardNo=<c:out value='${board.boardNo}'/>" class="btn btn-forest">
+            <a href="/board/modify?boardNo=<c:out value='${boardDto.boardNo}'/>" class="btn btn-forest">
                 <i class="fa fa-pencil forest-icon"></i> 수정
             </a>
-            <a href="/board/delete?boardNo=<c:out value='${board.boardNo}'/>" class="btn btn-danger">
+            <a href="/board/delete?boardNo=<c:out value='${boardDto.boardNo}'/>" class="btn btn-danger">
                 <i class="fa fa-trash"></i> 삭제
             </a>
             <a href="/board/list" class="btn btn-info">
