@@ -56,6 +56,7 @@ public class ClubServiceTests {
 	public void testGetMyClubList() throws Exception {
 		Long userNo = 1L;
 		service.getMyClubList(userNo).forEach(club -> log.info(club));
+	}
 		
 	// 동호회 검색
 	@Test
