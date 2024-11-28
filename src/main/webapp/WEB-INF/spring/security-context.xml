@@ -17,10 +17,10 @@
 	
 		<security:access-denied-handler ref="fiveleavesAccessDenied"/>
 		
-		<security:form-login login-page="/user/fiveleavesLogin" default-target-url="/"/>
+		<security:form-login login-page="/user/fiveleavesLogin" default-target-url="/club/list"/>
 		
 		<security:logout logout-url="/user/fiveleavesLogout" invalidate-session="true"
-			delete-cookies="remember-me,JSESSION_ID"/>
+			delete-cookies="remember-me,JSESSION_ID" logout-success-url="/club/list"/>
 		
 		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" /> <!-- 7일 -->
 	

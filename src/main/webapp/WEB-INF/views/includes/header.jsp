@@ -15,7 +15,7 @@
         <div class="d-flex align-items-center ms-4">
             <img src="/resources/img/profile_placeholder.png" alt="프로필 이미지" class="rounded-circle me-2" style="width: 40px; height: 40px;">
             <span class="me-3">닉네임</span>
-            <a href="logout.jsp" class="btn btn-forest ms-3">로그아웃</a>
+	        <a href="/user/fiveleavesLogout" class="btn btn-forest ms-3">로그아웃</a>
         </div>
     </div>
 </header>

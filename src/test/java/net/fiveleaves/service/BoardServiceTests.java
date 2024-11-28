@@ -47,7 +47,7 @@ public class BoardServiceTests {
 	@Test
 	public void testGetList() {
 		 // Service에서 데이터 가져오기
-	    List<BoardDTO> boardList = boardService.getList();
+	    List<BoardDTO> boardList = boardService.getList(1L);
 
 	    // 가져온 데이터가 null이 아니고 비어 있지 않은지 확인
 	    assertNotNull(boardList);

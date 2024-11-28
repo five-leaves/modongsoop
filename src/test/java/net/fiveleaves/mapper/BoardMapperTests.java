@@ -21,7 +21,7 @@ public class BoardMapperTests {
 	
 	@Test
 	public void testGetList() {
-		boardMapper.getList().forEach(boardDto -> log.info(boardDto));
+		boardMapper.getList(1L).forEach(boardDto -> log.info(boardDto));
 	}
 	
 	@Test
