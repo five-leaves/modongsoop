@@ -61,7 +61,7 @@ public class BoardControllerTests {
 	public void testGet() throws Exception {
 		log.info(mockMvc.perform(MockMvcRequestBuilders
 				.get("/board/get")
-				.param("boardNo", "3"))
+				.param("boardNo", "5"))
 				.andReturn()
 				.getModelAndView().getModelMap());
 	}

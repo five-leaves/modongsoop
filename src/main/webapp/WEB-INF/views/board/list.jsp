@@ -2,7 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<%@ include file="../includes/header.jsp" %>	
+<%@ include file="../includes/head.jsp" %>
+<body>
+<%@ include file="../includes/header.jsp" %>
 
             <div class="row">
                 <div class="col-lg-12">
@@ -31,13 +33,15 @@
                                     </tr>
                                 </thead>
                                 
-                                <c:forEach items="${list}" var="boardDTO">
+                                <c:forEach items="${list}" var="boardDto">
                                 <tr>
-                                	<td><c:out value="${boardDTO.boardNo}" /></td>
-                                	<td><c:out value="${boardDTO.boardTitle}" /></td>
-                                	<td><c:out value="${boardDTO.userNo}" /></td>
-                                	<td><fmt:formatDate pattern="yyyy-MM-dd" value="${boardDTO.regdate}" /></td>
-                                	<td><fmt:formatDate pattern="yyyy-MM-dd" value="${boardDTO.updateDate}" /></td>
+                                	<td><c:out value="${boardDto.boardNo}" /></td>
+                                	<td><a href='/board/get?boardNo=<c:out value="${boardDto.boardNo}"/>'>
+                                		<c:out value="${boardDto.boardTitle}" />
+                                	</a></td>
+                                	<td><c:out value="${boardDto.userNo}" /></td>
+                                	<td><fmt:formatDate pattern="yyyy-MM-dd" value="${boardDto.regdate}" /></td>
+                                	<td><fmt:formatDate pattern="yyyy-MM-dd" value="${boardDto.updateDate}" /></td>
                                 </tr>
                                 </c:forEach>
                             </table>
@@ -89,6 +93,7 @@ $(document).ready(function(){
 $(document).ready(function() {
 	var result = '<c:out value="${result}"/>';
 	checkModal(result);
+	history.replaceState({},null,null);
 	function checkModal(result) {
 		if (result === '' || history.state) {
 			return;
@@ -103,5 +108,6 @@ $(document).ready(function() {
 		self.location="/board/register";
 	});
 });
-</script>     
-<%@ include file="../includes/footer.jsp" %>
+</script>
+</body>     
+<%@ include file="../includes/foot.jsp" %>

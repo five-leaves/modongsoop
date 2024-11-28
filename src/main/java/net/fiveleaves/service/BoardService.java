@@ -6,7 +6,7 @@ import net.fiveleaves.domain.BoardDTO;
 
 public interface BoardService {
 
-	public void register(BoardDTO board);
+	public void register(BoardDTO boardDto);
 	public BoardDTO get(Long boardNo);
 	public boolean modify(BoardDTO boardDto);
 	public boolean remove(Long boardDto);
