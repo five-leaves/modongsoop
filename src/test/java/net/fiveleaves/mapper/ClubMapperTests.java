@@ -108,4 +108,10 @@ public class ClubMapperTests {
 		assertNotEquals(0, mapper.deleteAllMember(2L));
 	}
 	
+	// 동호회 검색
+	@Test
+	public void testSearchClub () {
+		log.info(mapper.searchClub(0L));
+	}
+	
 }
