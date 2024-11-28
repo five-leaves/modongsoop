@@ -41,7 +41,7 @@ public class BoardController {
 	@GetMapping({"/get","/modify"})
 	public void get(@RequestParam("boardNo") Long boardNo, Model model) {
 		log.info("/get or /modify");
-		model.addAttribute("boardNo", boardService.get(boardNo));
+		model.addAttribute("boardDto", boardService.get(boardNo));
 	}
 	
 	@PostMapping("/modify")

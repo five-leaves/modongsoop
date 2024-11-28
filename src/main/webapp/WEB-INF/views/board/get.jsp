@@ -2,20 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
-<!-- Bootstrap & Custom Fonts -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Nanum+Pen+Script&display=swap"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<%@ include file="../includes/head.jsp"%>
 
 <style>
 body {
@@ -123,7 +110,7 @@ body {
 	height: 370px;
 }
 </style>
-
+<body>
 <div class="container">
 	<!-- Header -->
 	<div class="header">
@@ -143,7 +130,7 @@ body {
 		<div class="content-title">
 			<h5 class="form-label fw-bold">게시물 제목</h5>
 			<p class="form-control-static">
-				<c:out value="${board.boardTitle}" />
+				<c:out value="${boardDto.boardTitle}" />
 			</p>
 			<!-- Layout -->
 			<div class="row">
@@ -151,7 +138,7 @@ body {
 				<div class="col-md-3 sidebar">
 					<div class="profile">
 						<img src="/path/to/profile.jpg" alt="Profile">
-						<p>동호회명</p>
+						<p>동호회명 <c:out value="${boardDto.clubNo}"/></p>
 					</div>
 					<button class="btn btn-join w-100">동호회 가입</button>
 					<p>멤버 수: 10명</p>
@@ -159,20 +146,27 @@ body {
 				</div>
 
 				<!-- Main Content -->
+				 <input type='hidden' value="<c:out value="${boardDto.boardNo}"/>" />
 				<div class="col-md-9">
 					<div class="main-content">
-						<h5>게시물 제목</h5>
+						<h5><c:out value="${boardDto.boardTitle}"/></h5>
 
-
+						<div>작성자 번호: <c:out value="${boardDto.userNo}"/></div>
 						<div class="mb-3 cute-border content-content">
-							<h5 class="form-label fw-bold">게시물 상세 내용</h5>
 							<p class="form-control-static">
 								<c:out value="${boardDto.boardContent}" />
 							</p>
 
-							<a href="/board/modify" class="btn btn-secondary btn-sm"> <i
-								class="fa fa-pencil"></i> 수정
-							</a>
+							<button data-oper='modify'
+							class="btn btn-default"
+							onclick="location.href='/board/modify?boardNo=<c:out value="${boardDto.boardNo}"/>'">수정</button>
+							<button data-oper='list'
+							class="btn btn-info"
+							onclick="location.href='/board/list'">목록</button>
+
+							<form id='operForm' action="/board/modify" method="get">
+								<input type='hidden' id='boardNo' name='boardNo' value='<c:out value="${boardDto.boardNo}"/>'>
+							</form>
 
 							<!-- 댓글 -->
 							<div class="comment-box">
@@ -191,3 +185,19 @@ body {
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var operForm=$("#opperForm");
+		$("button[data-oper='modify']").on("click",function(e) {
+			operForm.attr("action","/board/modify").submit();
+		});
+		$("button[data-oper='list']").on("click",function(e){
+			operForm.find('#boardNo').remove();
+			operForm.attr("action","/board/list")
+			operForm.submit();
+		});
+	});
+	</script>
+</body>
+<%@include file="../includes/foot.jsp"%>

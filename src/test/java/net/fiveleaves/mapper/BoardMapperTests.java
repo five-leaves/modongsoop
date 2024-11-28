@@ -53,7 +53,7 @@ public class BoardMapperTests {
 	
 	@Test
 	public void testRead() {
-		BoardDTO boardDto = boardMapper.read(3L);
+		BoardDTO boardDto = boardMapper.read(5L);
 		log.info(boardDto);
 		
 	}
