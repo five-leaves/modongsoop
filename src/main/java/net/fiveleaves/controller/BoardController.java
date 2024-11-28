@@ -19,49 +19,46 @@ import net.fiveleaves.service.BoardService;
 @AllArgsConstructor
 public class BoardController {
 	
-	private BoardService service;
+	private BoardService boardService;
 	
 	@GetMapping("/list")
 	public void list(Model model) {
 		log.info("list");
-		model.addAttribute("list", service.getList());
+		model.addAttribute("list", boardService.getList());
 	}
 	
 	@GetMapping("/register")
-	public void register() {
-		
-	}
+	public void register() {}
 	
 	@PostMapping("/register")
-	public String register(BoardDTO board, RedirectAttributes rttr) {
-		log.info("register: " + board);
-		service.register(board);
-		rttr.addFlashAttribute("result", board.getBoardNo());
+	public String register(BoardDTO boardDto, RedirectAttributes rttr) {
+		log.info("register: "+boardDto);
+		boardService.register(boardDto);
+		rttr.addFlashAttribute("result", boardDto.getBoardNo());
 		return "redirect:/board/list";
 	}
 	
 	@GetMapping({"/get","/modify"})
-	public void get(@RequestParam("boardNo")Long boardNo, Model model) {
+	public void get(@RequestParam("boardNo") Long boardNo, Model model) {
 		log.info("/get or /modify");
-		model.addAttribute("board", service.get(boardNo));
+		model.addAttribute("boardNo", boardService.get(boardNo));
 	}
 	
 	@PostMapping("/modify")
-	public String modify(BoardDTO board, RedirectAttributes rttr) {
-		log.info("modify: " + board);
-		if (service.modify(board)) {
+	public String modify(BoardDTO boardDto, RedirectAttributes rttr) {
+		log.info("modify: "+boardDto);
+		if (boardService.modify(boardDto)){
 			rttr.addFlashAttribute("result", "success");
 		}
 		return "redirect:/board/list";
 	}
 	
 	@PostMapping("/remove")
-	public String remove(@RequestParam("boardNo")Long boardNo, RedirectAttributes rttr) {
-		log.info("remove..." + boardNo);
-		if (service.remove(boardNo)) {
-			rttr.addAttribute("result", "success");
+	public String remove(@RequestParam("boardNo") Long boardNo, RedirectAttributes rttr) {
+		log.info("remove: "+boardNo);
+		if(boardService.remove(boardNo)){
+			rttr.addFlashAttribute("result", "success");
 		}
 		return "redirect:/board/list";
 	}
-
 }

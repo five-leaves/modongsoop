@@ -20,7 +20,7 @@
 	
 	<!-- ****springsecurity보안규칙적용******* -->
 	<!-- spring security filter chain -->
-	<filter>
+	<!-- <filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
 		</filter-class>
@@ -28,7 +28,7 @@
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 
 	<!-- ****spring의 전역설정파일을 로드하는 매개변수 지정******-->
 	<!-- root-context.xml: 애플리케이션의 공통 빈 정의 파일 -->
@@ -38,7 +38,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 		/WEB-INF/spring/root-context.xml
-		/WEB-INF/spring/security-context.xml
+		<!-- /WEB-INF/spring/security-context.xml -->
 		</param-value>
 	</context-param>
 	
