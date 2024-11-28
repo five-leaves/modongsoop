@@ -4,7 +4,7 @@
  <mapper namespace="net.fiveleaves.mapper.ClubMapper">
  	
  	<!-- 동호회 전체 목록 -->
- 	<select id="getAllClubList" resultType="ClubDTO">
+ 	<select id="getAllClubList" parameterType="Long" resultType="ClubDTO">
  		<![CDATA[
  		select 
 		       club_no,
@@ -41,7 +41,10 @@
 		    order by c.club_no
 		)
 		where rn > 0
- 		]]>
+		]]>
+		<if test="categoryNo != null">
+			and c.category_no = #{categoryNo}
+		</if>
  	</select>
  	
  	<!-- 동호회 전체 목록 페이징 -->
