@@ -151,9 +151,8 @@ body {
 					<div class="main-content">
 						<h5><c:out value="${boardDto.boardTitle}"/></h5>
 
-						<div><c:out value="${boardDto.userNo}"/></div>
+						<div>작성자 번호: <c:out value="${boardDto.userNo}"/></div>
 						<div class="mb-3 cute-border content-content">
-							<h5 class="form-label fw-bold"><c:out value="${boardDto.boardContent}"/></h5>
 							<p class="form-control-static">
 								<c:out value="${boardDto.boardContent}" />
 							</p>
@@ -167,7 +166,7 @@ body {
 
 							<form id='operForm' action="/board/modify" method="get">
 								<input type='hidden' id='boardNo' name='boardNo' value='<c:out value="${boardDto.boardNo}"/>'>
-							</form>ß
+							</form>
 
 							<!-- 댓글 -->
 							<div class="comment-box">
