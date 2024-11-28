@@ -44,8 +44,8 @@ public class BoardControllerTests {
 				.param("boardTitle", "테스트 새 글 제목")
 				.param("boardContent", "테스트 새 글 내용")
 				.param("clubNo", "1")
-				.param("userNo", "1"))
-				.andReturn().getModelAndView().getViewName();
+			).andReturn().getModelAndView().getViewName();
+		
 		log.info(resultPage);
 	}
 	
@@ -53,31 +53,41 @@ public class BoardControllerTests {
 	public void testGet() throws Exception {
 		log.info(mockMvc.perform(MockMvcRequestBuilders
 				.get("/board/get")
-				.param("boardNo", "2"))
+				.param("boardNo", "3"))
 				.andReturn()
 				.getModelAndView().getModelMap());
 	}
 	
 	@Test
 	public void testModify() throws Exception {
-		String resultPage = mockMvc
+		//String resultPage = mockMvc
+		//		.perform(MockMvcRequestBuilders.post("/board/modify")
+		//				.param("boardNo", "1")
+		//				.param("boardTitle", "수정된 테스트 새 글 제목")
+		//				.param("boardContent", "수정된 테스트 새 글 내용")
+		//				.param("nickname", "user00")
+		//				.param("clubNo", "1")
+		//				.param("userNo", "1"))
+		//		.andReturn().getModelAndView().getViewName();
+
+		String resultPage=mockMvc
 				.perform(MockMvcRequestBuilders.post("/board/modify")
-						.param("boardNo", "1")
-						.param("boardTitle", "수정된 테스트 새 글 제목")
-						.param("boardContent", "수정된 테스트 새 글 내용")
-						.param("nickname", "user00")
-						.param("clubNo", "1")
-						.param("userNo", "1"))
+						.param("boardNo", "3")
+						.param("boardTitle","수정된 테스트제목")
+						.param("boardContent","수정된 테스트내용")
+						.param("userNo","1")
+						.param("clubNo","1"))
 				.andReturn().getModelAndView().getViewName();
+		
 		log.info(resultPage);
 	}
 	
 	@Test
-	public void testRemove() throws Exception {
-		//삭제 전 데이터베이스에 게시물 번호 확인할 것
-		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
-				.param("boardNo", "25")).andReturn().getModelAndView().getViewName();
+	public void testRemove() throws Exception{
+		//삭제전 데이터베이스에 게시물 번호 확인할 것
+		String resultPage=mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
+				.param("boardNo", "3")
+				).andReturn().getModelAndView().getViewName();
 		log.info(resultPage);
 	}
-
 }

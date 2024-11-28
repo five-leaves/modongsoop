@@ -71,13 +71,15 @@
     }
 </style>
 
-<div class="container mt-5">
-    <!-- 숲 테마 헤더 -->
+<!-- <div class="container mt-5">
+    숲 테마 헤더
     <div class="forest-header mb-4">
         <h1>🌲 Forest Board 🌳</h1>
         <p>숲 속 친구들과 함께하는 동호회 </p>
+    </div> -->
+    <div class="forest-header mb-4">
+    	<h1>수정하기</h1>
     </div>
-
     <!-- 메인 카드 -->
     <div class="forest-container">
         <form role="form" action="/board/modify" method="post">

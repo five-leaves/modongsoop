@@ -13,39 +13,40 @@ import net.fiveleaves.mapper.BoardMapper;
 @Log4j
 @Service
 @AllArgsConstructor
-public class BoardServiceImpl implements BoardService {
+public class BoardServiceImpl implements BoardService{
 	
-	@Autowired
-	private BoardMapper mapper;
+	private BoardMapper boardMapper;
 	
-	@Override
-	public void register(BoardDTO board) {
-		log.info("register......." + board);
-		mapper.insertSelectKey(board);
+	public void register(BoardDTO boardDto) {
+		log.info("register:"+boardDto);
+		
+		boardMapper.insertSelectKey(boardDto);
+		
 	}
 
 	@Override
-	public BoardDTO get(Long board_no) {
-		log.info("get........." + board_no);
-		return mapper.read(board_no);
+	public BoardDTO get(Long boardNo) {
+		log.info("get: "+boardNo);
+		return boardMapper.read(boardNo);
 	}
 
 	@Override
-	public boolean modify(BoardDTO board) {
-		log.info("modify....." + board);
-		return mapper.update(board) == 1;
+	public boolean modify(BoardDTO boardDto) {
+		log.info("modify: "+boardDto);
+		return boardMapper.update(boardDto)==1;
 	}
 
 	@Override
-	public boolean remove(Long board_no) {
-		log.info("remove....." + board_no);
-		return mapper.delete(board_no) == 1;
+	public boolean remove(Long boardNo) {
+		log.info("remove: "+boardNo);
+		return boardMapper.delete(boardNo)==1;
 	}
 
 	@Override
 	public List<BoardDTO> getList() {
-		log.info("getList.........");
-		return mapper.getList();
+		
+		log.info("getList...");
+		return boardMapper.getList();
 	}
-	
+
 }
