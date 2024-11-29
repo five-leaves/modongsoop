@@ -1,5 +1,6 @@
 package net.fiveleaves.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import lombok.extern.log4j.Log4j;
 import net.fiveleaves.domain.BoardDTO;
 import net.fiveleaves.domain.Criteria;
 import net.fiveleaves.domain.PageDTO;
+import net.fiveleaves.domain.UserDTO;
 import net.fiveleaves.service.BoardService;
 
 @Controller
@@ -45,9 +47,13 @@ public class BoardController {
 	public void register() {}
 	
 	@PostMapping("/register")
-	public String register(BoardDTO boardDto, RedirectAttributes rttr) {
+	public String register(BoardDTO boardDto, RedirectAttributes rttr, Authentication auth) {
 		log.info("register: "+boardDto);
 		boardService.register(boardDto);
+		
+		UserDTO user = (UserDTO) auth.getPrincipal();	
+		user.getUserNo();
+		
 		rttr.addFlashAttribute("result", boardDto.getBoardNo());
 		return "redirect:/board/list";
 	}
