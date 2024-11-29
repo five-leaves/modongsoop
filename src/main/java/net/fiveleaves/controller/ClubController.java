@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -21,21 +22,22 @@ public class ClubController {
 	private CategoryService categoryService;
 	
 	@GetMapping("/list")
-	public String list(UserDTO userDto, Model model) {
+	public String list(@RequestParam(value = "categoryNo", required = false) Long categoryNo, UserDTO userDto, Model model) {
 		try {
 			model.addAttribute("myClubList", clubService.getMyClubList(userDto.getUserNo()));
-			model.addAttribute("allClubList", clubService.getAllClubList());
+			model.addAttribute("allClubList", clubService.getAllClubList(categoryNo));
 			model.addAttribute("categoryList", categoryService.getCategoryList());
 			return "club/list";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
 
 	@GetMapping("/search")
 	public void search(Model model) throws Exception {
 
 			log.info("search");
-			model.addAttribute("search", service.search(3L));			
+			model.addAttribute("search", clubService.search(3L));			
 	}
 }

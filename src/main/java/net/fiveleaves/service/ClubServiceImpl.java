@@ -39,8 +39,8 @@ public class ClubServiceImpl implements ClubService{
 
 	// 동호회 전체 목록
 	@Override
-	public List<ClubDTO> getAllClubList() throws Exception {
-		List<ClubDTO> allClubList = mapper.getAllClubList();
+	public List<ClubDTO> getAllClubList(Long categoryNo) throws Exception {
+		List<ClubDTO> allClubList = mapper.getAllClubList(categoryNo);
 		return allClubList;
 	}
 	

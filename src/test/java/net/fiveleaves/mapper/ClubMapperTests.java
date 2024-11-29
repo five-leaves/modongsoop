@@ -26,7 +26,7 @@ public class ClubMapperTests {
 	// 동호회 전체 목록
 	@Test
 	public void testGetAllClubList() {
-		mapper.getAllClubList().forEach(club -> log.info(club));
+		mapper.getAllClubList(null).forEach(club -> log.info(club));
 	}
 	
 	// 가입한 동호회 목록

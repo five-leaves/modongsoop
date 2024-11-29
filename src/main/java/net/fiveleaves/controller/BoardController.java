@@ -22,9 +22,9 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@GetMapping("/list")
-	public void list(Model model) {
+	public void list(@RequestParam(value = "clubNo") Long clubNo, Model model) {
 		log.info("list");
-		model.addAttribute("list", boardService.getList());
+		model.addAttribute("list", boardService.getList(clubNo));
 	}
 	
 	@GetMapping("/register")
@@ -41,7 +41,7 @@ public class BoardController {
 	@GetMapping({"/get","/modify"})
 	public void get(@RequestParam("boardNo") Long boardNo, Model model) {
 		log.info("/get or /modify");
-		model.addAttribute("boardNo", boardService.get(boardNo));
+		model.addAttribute("boardDto", boardService.get(boardNo));
 	}
 	
 	@PostMapping("/modify")
