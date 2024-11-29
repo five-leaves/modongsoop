@@ -1,6 +1,7 @@
 package net.fiveleaves.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,8 +18,10 @@ public class UserDTO {
 	private String profile;
 	private String nickname;
 	private Integer birth;
-	private Character enabled;
+	private boolean enabled;
 	private Date regdate;
 	private Date updateDate;
 
+	private List<AuthorityDTO> authList;
+	
 }

@@ -1,32 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.fiveleaves.mapper.ReplyMapper">
-
+	
 	<insert id="insert">
-		insert into replies (reply_no, board_no, reply_content, user_no)
-		values (replies_seq.nextval, #{boardNo}, #{replyContent}, #{userNo})
+		INSERT INTO replies(reply_no, board_no, reply_content, user_no)
+		VALUES (replies_seq.NEXTVAL, #{boardNo}, #{replyContent}, #{userNo})
 	</insert>
 	
-	<select id="read" resultType="ReplyDTO">
-		select * from replies where reply_no = #{replyNo}
+	<select id="read" resultType="replyDTO">
+		SELECT reply_no, reply_content, user_no, board_no, updateDate, replyDate FROM replies WHERE reply_no=#{replyNo}
 	</select>
 	
 	<delete id="delete">
-		delete from replies where reply_no = #{replyNo}
+		DELETE FROM replies WHERE reply_no=#{replyNo}
 	</delete>
 	
 	<update id="update">
-		update replies set reply_content = #{replyContent}, updateDate = sysdate where reply_no = #{replyNo}
+		UPDATE replies SET reply_content=#{replyContent}, updateDate= SYSDATE WHERE reply_no=#{replyNo}
 	</update>
 	
-	<select id="getListWithPaging"
-		resultType="ReplyDTO">
-		select reply_no, board_no, content, user, replyDate, updateDate
-		from replies
-		where board_no = #{boardNo}
-		order by reply_no asc
-		</select>
-	
-</mapper>  
+	<select id="getListWithPaging" resultType="net.fiveleaves.domain.ReplyDTO">
+		SELECT reply_no, board_no, reply_content, user_no, replyDate, updateDate FROM replies
+		WHERE board_no=#{boardNo}
+		ORDER BY reply_no ASC
+	</select>
+</mapper>

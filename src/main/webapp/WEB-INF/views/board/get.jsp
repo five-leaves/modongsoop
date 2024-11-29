@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../includes/head.jsp"%>
 
+
 <style>
 body {
 	font-family: "Nanum Pen Script", cursive;
@@ -188,51 +189,60 @@ body {
 			</div>
 		</div>
 	</div>
+	<form id='operForm' action="/board/modify" method="get">
+		<input type='hidden' id='boardNo' name='boardNo' value='<c:out value="${board.boardNo}"/>'>
+		<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+		<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+	</form>
 
 	<script src="/resources/js/reply.js"></script>
 	<script>
-$(document).ready(function() {
-	let boardNo = '<c:out value="${boardDto.boardNo}"/>';
-	let commentList = $("#commentList");
+	$(document).ready(function() {
+		let boardNo = '<c:out value="${boardDto.boardNo}"/>';
+		let commentList = $("#commentList");
 
-	// 댓글 리스트 보여주기
-	function loadComments() {
-		replyService.getList({ boardNo: boardNo, page: 1 }, function(list) {
-			let html = "";
-			if (list && list.length > 0) {
-				list.forEach(reply => {
-					html += `
-						<div class="comment-item" data-rno="${reply.reply_no}">
-							<strong>${reply.replyer}</strong> <small>${reply.replyDate}</small>
-							<p>${reply.reply}</p>
-						</div>
-					`;
-				});
-			} else {
-				html = "<p>댓글이 없습니다.</p>";
-			}
-			commentList.html(html);
-		});
-	}
-
-	// 댓글 작성
-	$("#replySubmit").click(function() {
-		let reply = $("#replyInput").val();
-		if (!reply.trim()) {
-			alert("댓글을 입력하세요!"); // ...안해...퉤!
-			return;
+		// 댓글 리스트 보여주기
+		function loadComments() {
+			replyService.getList({ boardNo: boardNo, page: 1 }, function(list) {
+				let html = "";
+				if (list && list.length > 0) {
+					list.forEach(reply => {
+						html += `
+							<div class="comment-item" data-rno="${reply.reply_no}">
+								<strong>${reply.replyer}</strong> <small>${reply.replyDate}</small>
+								<p>${reply.reply}</p>
+							</div>
+						`;
+					});
+				} else {
+					html = "<p>댓글이 없습니다.</p>";
+				}
+				commentList.html(html);
+			})
 		}
-		replyService.add({ reply: reply, replyer: "익명", boardNo: boardNo }, function(result) {
-			if (result === "success") {
-				$("#replyInput").val("");
-				loadComments();
-			} else {
-				alert("댓글 등록에 실패했습니다.");
-			}
-		});
-	});
 
-	loadComments();
-});
-</script>
-	<%@ include file="../includes/footer.jsp"%>
+
+			let operForm=$("#opperForm");
+			$("button[data-oper='modify']").on("click",function(e) {
+				operForm.attr("action","/board/modify").submit();
+			});
+
+			// 댓글 작성
+			$("#replySubmit").click(function() {
+				let reply = $("#replyInput").val();
+				if (!reply.trim()) {
+					alert("댓글을 입력하세요!"); // ...안해...퉤!
+					return;
+				}
+				replyService.add({ reply: reply, replyer: "익명", boardNo: boardNo }, function(result) {
+					if (result === "success") {
+						$("#replyInput").val("");
+						loadComments();
+					} else {
+						alert("댓글 등록에 실패했습니다.");
+					}
+				});
+			});
+	})
+	</script>
+<%@include file="../includes/foot.jsp"%>

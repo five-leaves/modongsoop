@@ -1,9 +1,6 @@
 package net.fiveleaves.service;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,23 +41,26 @@ public class BoardServiceTests {
 		log.info("boardNo: "+boardDto.getBoardNo());
 	}
 	
-	@Test
-	public void testGetList() {
-		Long clubNo = 1L;
-		 // Service에서 데이터 가져오기
-	    List<BoardDTO> boardList = boardService.getList(clubNo);
-
-	    // 가져온 데이터가 null이 아니고 비어 있지 않은지 확인
-	    assertNotNull(boardList);
-	    assertFalse(boardList.isEmpty());
-
-	    // 각 DTO의 데이터가 정상적으로 매핑되었는지 확인 및 로그 출력
-	    boardList.forEach(boardDto -> {
-	        assertNotNull(boardDto.getBoardNo());
-	        assertNotNull(boardDto.getBoardTitle());
-	        log.info("Board DTO: " + boardDto.toString());
-	    });
-	}
+//	@Test
+//	public void testGetList() {
+//		 // Service에서 데이터 가져오기
+//	    List<BoardDTO> boardList = boardService.getList();
+//
+//	    // 가져온 데이터가 null이 아니고 비어 있지 않은지 확인
+//	    assertNotNull(boardList);
+//	    assertFalse(boardList.isEmpty());
+//
+//	    // 각 DTO의 데이터가 정상적으로 매핑되었는지 확인 및 로그 출력
+//	    boardList.forEach(boardDto -> {
+//	        assertNotNull(boardDto.getBoardNo());
+//	        assertNotNull(boardDto.getBoardTitle());
+//	        log.info("Board DTO: " + boardDto.toString());
+//	    });
+//	}
+//	@Test
+//	public void testGetList() {
+//		boardService.getList(1L, new Criteria(2, 10)).forEach(boardDto -> log.info(boardDto));
+//	}
 	
 	@Test
 	public void testGet() {

@@ -134,6 +134,35 @@ body {
 	border-radius: 50%;
 	background-color: #c8e6c9;
 }
+
+.pagnation {
+	display: flex; /* 가로로 나열*/
+	list-style:none; /*기본 목록 스타일 제거*/
+	padding: 0; /* 기본 여백 제거 */
+	margin: 0; /* 기본 여백 제거 */
+}
+
+.pagnation li {
+	margin: 0 5px; /* 각 페이지 번호 간격 조정*/
+}
+
+.pagnation a {
+	text-decoration: none; /* 밑줄 제거 */
+	color: #4d774e; /* 페이지 번호 색상 */
+	padding: 5px 10px;
+	border: 1px solid #4d774e; /* 테두리 추가 */
+	border-radius: 5px;
+	transition: background-color 0.3s ease; /* 호버 효과 추가 */
+}
+
+.pagnation a:hover {
+	background-color: #c8e6c9; /* 호버 시 배경색*/
+}
+
+.pagnation .active a {
+	background-color: #81c784; /* 현재 페이지 배경색 */
+	color: white; /* 글자 색상 */
+}
 </style>
 <body>
 	<%@ include file="../includes/header.jsp" %>
@@ -159,6 +188,7 @@ body {
 				<p>동호회명</p>
 			</div>
 			<button class="btn btn-join w-100">동호회 가입</button>
+			<button id='regBtn' type="button" class="btn btn-join w-100">새글작성</button>
 			<p>멤버 수: 10명</p>
 			<p>리더: 홍길동</p>
 		</div>
@@ -175,9 +205,10 @@ body {
 			<!-- Post Cards -->
 			<div class="row">
 				<c:forEach items="${list}" var="boardDto">
-					<a href='/board/get?boardNo=<c:out value="${boardDto.boardNo}"/>'>
+					<a class='move' href='<c:out value="${boardDto.boardNo}"/>'>
 						<div class="post-card">
 							<input type="hidden" value='<c:out value="${boardDto.boardNo}" />'/>
+							<input type="hidden" value='<c:out value="${boardDto.clubNo}" />'/>
 							<h5><c:out value="${boardDto.boardTitle}" /></h5>
 							<div><c:out value="${boardDto.userNo}" /></div>
 							<p><c:out value="${boardDto.boardContent}" /></p>
@@ -190,13 +221,30 @@ body {
 							</div>
 						</div>
 					</a>
-			</c:forEach>
+				</c:forEach>
+				
+				<div class='pull-right'>
+					<ul class="pagnation">
+						<c:if test="${pageMaker.prev}">
+							<li class="paginate_button previous"><a href="${pageMaker.startPage -1}">Previous</a></li>
+						</c:if>
+						
+						<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+							<li class="paginate_button ${pageMaker.cri.pageNum==num ? "active":""}"><a href="${num}">${num}</a></li>
+						</c:forEach>
+						
+						<c:if test="${pageMaker.next}">
+							<li class="paginate_button next"><a href="${pageMaker.endPage+1}">Next</a></li>
+						</c:if>
+					</ul>
+				</div>
+				<!-- end Pagination -->
 
 			</div>
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 								aria-labelledby="myModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
@@ -213,14 +261,39 @@ body {
 												changes</button>
 										</div>
 									</div>
-									<!-- /.modal-content -->
+									/.modal-content
 								</div>
-								<!-- /.modal-dialog -->
+								/.modal-dialog
 							</div>
-							<!-- /.modal -->
+							/.modal -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">알림</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        처리가 완료되었습니다.
+      </div>
+      <div class="modal-footer">
+<!--          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>-->
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id='actionForm' action="/board/list" method='get'>
+					<input type="hidden" name="clubNo" value="${param.clubNo}" />
+					<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}' />
+					<input type='hidden' name='amount' value='${pageMaker.cri.amount}' />
+</form>
+
 <script type="text/javascript">
 	$(document).ready(function() {
-		var result = '<c:out value="${result}"/>';
+	    let result = '<c:out value="${result}"/>';
 		checkModal(result);
 		history.replaceState({},null,null);
 		function checkModal(result) {
@@ -236,7 +309,20 @@ body {
 		$('#regBtn').on("click", function() {
 			self.location="/board/register";
 		});
+		let actionForm=$("#actionForm");
+		$(".paginate_button a").on("click", function(e) {
+			e.preventDefault();
+			console.log('click');
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+		});
+		
+		$(".move").on("click", function(e){
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='boardNo' value='"+$(this).attr("href")+"'>");
+			actionForm.attr("action","/board/get");
+			actionForm.submit();
+		});
 	});
-	</script>
-	</body>     
+	</script> 
 	<%@ include file="../includes/foot.jsp" %>

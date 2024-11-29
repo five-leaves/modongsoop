@@ -6,11 +6,10 @@ import net.fiveleaves.domain.Criteria;
 import net.fiveleaves.domain.ReplyDTO;
 
 public interface ReplyService {
-	
-	public int register(ReplyDTO dto);
-	public ReplyDTO get(Long reply_no);
-	public int modify(ReplyDTO dto);
-	public int remove(Long reply_no);
-	public List<ReplyDTO> getList(Criteria cri, Long board_no);
+	public int register(ReplyDTO replyDto);
+	public ReplyDTO get(Long replyNo);
+	public int modify(ReplyDTO replyDto);
+	public int remove(Long replyNo);
+	public List<ReplyDTO> getList(Criteria cri, Long boardNo);
 
 }

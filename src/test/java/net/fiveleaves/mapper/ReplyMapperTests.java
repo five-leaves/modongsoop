@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import lombok.extern.log4j.Log4j;
@@ -54,7 +54,7 @@ public class ReplyMapperTests {
 	}
 	
 	@Test
-	public void testUpdate() { //오류!
+	public void testUpdate() {
 		
 		Long targetreplyNo = 5L;
 		ReplyDTO dto = mapper.read(targetreplyNo);

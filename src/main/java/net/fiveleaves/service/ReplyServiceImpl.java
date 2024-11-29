@@ -12,39 +12,39 @@ import net.fiveleaves.mapper.ReplyMapper;
 
 @Service
 @Log4j
-public class ReplyServiceImpl implements ReplyService {
+public class ReplyServiceImpl implements ReplyService{
 	
 	@Autowired
-	private ReplyMapper mapper;
+	private ReplyMapper replyMapper;
 	
 	@Override
-	public int register(ReplyDTO dto) {
-		log.info("register....." + dto);
-		return mapper.insert(dto);
+	public int register(ReplyDTO replyDto) {
+		log.info("register: "+replyDto);
+		return replyMapper.insert(replyDto);
 	}
-	
+
 	@Override
-	public ReplyDTO get(Long reply_no) {
-		log.info("get.........." + reply_no);
-		return mapper.read(reply_no);
+	public ReplyDTO get(Long replyNo) {
+		log.info("get: "+replyNo);
+		return null;
 	}
-	
+
 	@Override
-	public int modify(ReplyDTO dto) {
-		log.info("modify........." + dto);
-		return mapper.update(dto);
+	public int modify(ReplyDTO replyDto) {
+		log.info("modify: "+replyDto);
+		return replyMapper.update(replyDto);
 	}
-	
+
 	@Override
-	public int remove(Long reply_no) {
-		log.info("remove......." + reply_no);
-		return mapper.delete(reply_no);
+	public int remove(Long replyNo) {
+		log.info("remove: "+replyNo);
+		return replyMapper.delete(replyNo);
 	}
-	
+
 	@Override
-	public List<ReplyDTO> getList(Criteria cri, Long board_no) {
-		log.info("get Reply List of a Board" + board_no);
-		return mapper.getListWithPaging(cri, board_no);
+	public List<ReplyDTO> getList(Criteria cri, Long boardNo) {
+		log.info("get Reply List of a Board: "+boardNo);
+		return replyMapper.getListWithPaging(cri, boardNo);
 	}
 
 }

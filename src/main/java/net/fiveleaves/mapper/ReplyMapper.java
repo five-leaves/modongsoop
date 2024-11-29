@@ -8,12 +8,12 @@ import net.fiveleaves.domain.Criteria;
 import net.fiveleaves.domain.ReplyDTO;
 
 public interface ReplyMapper {
-	
-	public int insert(ReplyDTO dto);
-	public ReplyDTO read(Long reply_no);
-	public int delete(Long reply_no);
-	public int update(ReplyDTO reply);
+
+	public int insert(ReplyDTO replyDto);
+	public ReplyDTO read(Long replyNo); //특정 댓글 읽기
+	public int delete(Long replyNo);
+	public int update(ReplyDTO replyDto);
 	public List<ReplyDTO> getListWithPaging(
 			@Param("cri") Criteria cri,
-			@Param("boardNo")Long boardNo);
+			@Param("boardNo") Long boardNo);
 }
