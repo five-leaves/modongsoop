@@ -208,6 +208,7 @@ body {
 					<a class='move' href='<c:out value="${boardDto.boardNo}"/>'>
 						<div class="post-card">
 							<input type="hidden" value='<c:out value="${boardDto.boardNo}" />'/>
+							<input type="hidden" value='<c:out value="${boardDto.clubNo}" />'/>
 							<h5><c:out value="${boardDto.boardTitle}" /></h5>
 							<div><c:out value="${boardDto.userNo}" /></div>
 							<p><c:out value="${boardDto.boardContent}" /></p>
@@ -285,6 +286,7 @@ body {
 </div>
 
 <form id='actionForm' action="/board/list" method='get'>
+					<input type="hidden" name="clubNo" value="${param.clubNo}" />
 					<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}' />
 					<input type='hidden' name='amount' value='${pageMaker.cri.amount}' />
 </form>

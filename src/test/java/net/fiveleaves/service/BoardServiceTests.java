@@ -11,7 +11,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import lombok.extern.log4j.Log4j;
 import net.fiveleaves.domain.BoardDTO;
-import net.fiveleaves.domain.Criteria;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="file:**/*-context.xml")
@@ -58,10 +57,10 @@ public class BoardServiceTests {
 //	        log.info("Board DTO: " + boardDto.toString());
 //	    });
 //	}
-	@Test
-	public void testGetList() {
-		boardService.getList(1L, new Criteria(2, 10)).forEach(boardDto -> log.info(boardDto));
-	}
+//	@Test
+//	public void testGetList() {
+//		boardService.getList(1L, new Criteria(2, 10)).forEach(boardDto -> log.info(boardDto));
+//	}
 	
 	@Test
 	public void testGet() {

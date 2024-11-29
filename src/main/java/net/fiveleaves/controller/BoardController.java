@@ -32,9 +32,10 @@ public class BoardController {
 	@GetMapping("/list")
 	public void list(@RequestParam(value = "clubNo") Long clubNo, Criteria cri, Model model) {
 		log.info("list: "+cri);
-		model.addAttribute("list", boardService.getList(clubNo, cri));
+		cri.setClubNo(clubNo);
+		model.addAttribute("list", boardService.getList(cri));
 //		model.addAttribute("pageMaker",new PageDTO(cri, 123));
-		int total=boardService.getTotal(clubNo, cri);
+		int total=boardService.getTotal(cri);
 		log.info("total: "+total);
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	}

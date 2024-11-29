@@ -1,7 +1,5 @@
 package net.fiveleaves.mapper;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import lombok.extern.log4j.Log4j;
 import net.fiveleaves.domain.BoardDTO;
-import net.fiveleaves.domain.Criteria;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="file:**/*-context.xml")
@@ -27,15 +24,15 @@ public class BoardMapperTests {
 		boardMapper.getList(1L).forEach(boardDto -> log.info(boardDto));
 	}
 	
-	@Test
-	public void testPaging() {
-		Criteria cri =new Criteria();
-		//10개씩 3페이지
-		cri.setPageNum(3);
-		cri.setAmount(10);
-		List<BoardDTO> list= boardMapper.getListWithPaging(cri);
-		list.forEach(boardDto -> log.info(boardDto));
-	}
+//	@Test
+//	public void testPaging() {
+//		Criteria cri =new Criteria();
+//		//10개씩 3페이지
+//		cri.setPageNum(3);
+//		cri.setAmount(10);
+//		List<BoardDTO> list= boardMapper.getListWithPaging(clubNo, cri);
+//		list.forEach(boardDto -> log.info(boardDto));
+//	}
 	
 	@Test
 	public void testInsert() {

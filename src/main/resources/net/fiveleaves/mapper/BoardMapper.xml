@@ -20,6 +20,7 @@
 			  FROM boards
 			  WHERE ROWNUM <= #{pageNum} * #{amount})
 		WHERE rn > (#{pageNum} -1) * #{amount}
+		AND club_no=#{clubNo}
 	]]>
 </select>
 
