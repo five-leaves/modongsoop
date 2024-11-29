@@ -19,8 +19,8 @@
 		
 		<security:form-login login-page="/user/fiveleavesLogin" default-target-url="/club/list"/>
 		
-		<security:logout logout-url="/user/fiveleavesLogout" invalidate-session="true"
-			delete-cookies="remember-me,JSESSION_ID" logout-success-url="/club/list"/>
+		<security:logout logout-url="/includes/header" invalidate-session="true"
+			delete-cookies="remember-me,JSESSION_ID" logout-success-url="/user/main"/>
 		
 		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" /> <!-- 7일 -->
 	

@@ -15,7 +15,10 @@
         <div class="d-flex align-items-center ms-4">
             <img src="/resources/img/profile_placeholder.png" alt="프로필 이미지" class="rounded-circle me-2" style="width: 40px; height: 40px;">
             <span class="me-3">닉네임</span>
-	        <a href="/user/fiveleavesLogout" class="btn btn-forest ms-3">로그아웃</a>
+            <form role="form" method='post' action="/includes/header">
+	        	<a href="/user/main" class="btn btn-forest ms-3">로그아웃</a>
+	        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	        </form>
         </div>
     </div>
 </header>
