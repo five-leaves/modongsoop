@@ -62,4 +62,19 @@ public class ClubController {
 		rttr.addFlashAttribute("result", clubDto.getClubNo());
 		return "redirect:/board/list?clubNo="+clubDto.getClubNo();
 	}
+	
+	@GetMapping("/modify")
+	public void get(@RequestParam("clubNo") Long clubNo, Model model) throws Exception {
+		log.info("modify");
+		model.addAttribute("clubDto", clubService.get(clubNo));
+	}
+	
+	@PostMapping("/modify")
+	public String modify(ClubDTO clubDto, RedirectAttributes rttr) throws Exception {
+		log.info("modify: "+ clubDto);
+		if (clubService.modify(clubDto)){
+			rttr.addFlashAttribute("result", "success");
+		}
+		return "redirect:/board/list?clubNo=" + clubDto.getClubNo();
+	}
 }
