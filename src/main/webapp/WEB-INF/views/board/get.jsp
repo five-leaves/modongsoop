@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../includes/head.jsp"%>
 
+
 <style>
 body {
 	font-family: "Nanum Pen Script", cursive;
@@ -112,6 +113,7 @@ body {
 </style>
 <body>
 <div class="container">
+	<%@ include file="../includes/header.jsp" %>
 	<!-- Header -->
 	<div class="header">
 		<div class="logo">
@@ -186,6 +188,12 @@ body {
 	</div>
 </div>
 
+<form id='operForm' action="/board/modify" method="get">
+	<input type='hidden' id='boardNo' name='boardNo' value='<c:out value="${board.boardNo}"/>'>
+	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+	<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+</form>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		var operForm=$("#opperForm");
@@ -199,5 +207,4 @@ body {
 		});
 	});
 	</script>
-</body>
 <%@include file="../includes/foot.jsp"%>
