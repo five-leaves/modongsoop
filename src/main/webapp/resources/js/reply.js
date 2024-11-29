@@ -13,6 +13,10 @@
          url: '/replies/new',
          data: JSON.stringify(reply),
          contentType: "application/json; charset=utf-8",
+         beforeSend: function(xhr) {
+            // CSRF 토큰 추가
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+         },
          success: function(result, status, xhr){
             if(callback){
                callback(result);
@@ -29,7 +33,7 @@
     let board_no = param.board_no;
     let page = param.page || 1;
     
-    $.getJSON("/replies/pages/" + bno + "/" + page + ".json",
+    $.getJSON("/replies/pages/" + boardNo + "/" + page + ".json",
     	function(data) {
     	  if (callback) {
     	    callback(data);
@@ -40,10 +44,10 @@
       }
     });
   }
-  function remove(reply_no, callback, error) {
+  function remove(replyNo, callback, error) {
     $.ajax({
       type : 'delete',
-      url  : '/replies/' + reply_no,
+      url  : '/replies/' + replyNo,
       success : function(deleteResult, status, xhr) {
         if (callback) {
           callback(deleteResult);
@@ -57,10 +61,10 @@
     });
   }
   function update(reply, callback, error) {
-    console.log("replyNo: " + reply.reply_no);
+    console.log("replyNo: " + reply.replyNo);
     $.ajax({
      type : 'put',
-     url  : '/replies/' + reply.rno,
+     url  : '/replies/' + reply.replyNo,
      data : JSON.stringify(reply),
      contentType : "application/json; charset=utf-8",
      success : function(result, status, xhr) {
@@ -76,8 +80,8 @@
    });
  }
  
- function get(reply_no, callback, error) {
- $.get("/replies/" + reply_no + ".json", function(result) {
+ function get(replyNo, callback, error) {
+ $.get("/replies/" + replyNo + ".json", function(result) {
    if (callback) {
      callback(result);
    }

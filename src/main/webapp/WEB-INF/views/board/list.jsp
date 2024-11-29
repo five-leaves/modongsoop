@@ -306,8 +306,10 @@ body {
 			}
 			$("#myModal").modal("show");
 		}
+		
+		let params = new URLSearchParams(window.location.search);
 		$('#regBtn').on("click", function() {
-			self.location="/board/register";
+			self.location="/board/register?clubNo="+params.get('clubNo');
 		});
 		let actionForm=$("#actionForm");
 		$(".paginate_button a").on("click", function(e) {

@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import net.fiveleaves.domain.Criteria;
 import net.fiveleaves.domain.ReplyDTO;
+import net.fiveleaves.domain.ReplyPageDTO;
 import net.fiveleaves.service.ReplyService;
 
 @RequestMapping("/replies/")
@@ -42,18 +43,18 @@ public class ReplyController {
 				
 	}
 	
-	@GetMapping (value = "/pages/{boardNo}/{page}",
-			produces = {
-					MediaType.APPLICATION_XML_VALUE,
-					MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<List<ReplyDTO>> getList(
-			@PathVariable("Page")int page,
-			@PathVariable("board_no")Long boardNo) {
-		log.info("getList.........");
-		Criteria cri = new Criteria(page,10);
-		log.info(cri);
-		return new ResponseEntity<>(service.getList(cri, boardNo), HttpStatus.OK);
-	}
+	//@GetMapping (value = "/pages/{boardNo}/{page}",
+	//		produces = {
+	//				MediaType.APPLICATION_XML_VALUE,
+	//				MediaType.APPLICATION_JSON_UTF8_VALUE })
+	//public ResponseEntity<List<ReplyDTO>> getList(
+	//		@PathVariable("Page")int page,
+	//		@PathVariable("board_no")Long boardNo) {
+	//	log.info("getList.........");
+	//	Criteria cri = new Criteria(page,10);
+	//	log.info(cri);
+	//	return new ResponseEntity<>(service.getList(cri, boardNo), HttpStatus.OK);
+	//}
 	
 	@GetMapping (value = "/{replyNo}",
 			produces = {MediaType.APPLICATION_XML_VALUE,
@@ -84,6 +85,20 @@ public class ReplyController {
 		return service.modify(replyDto) == 1
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);		
+	}
+	
+	@GetMapping(value = "/pages/{boardNo}/{page}", 
+			produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("boardNo") Long boardNo) {
+
+		Criteria cri = new Criteria(page, 10);
+		
+		log.info("get Reply List boardNo: " + boardNo);
+
+		log.info("cri:" + cri);
+
+		return new ResponseEntity<>(service.getListPage(cri, boardNo), HttpStatus.OK);
 	}
 
 }

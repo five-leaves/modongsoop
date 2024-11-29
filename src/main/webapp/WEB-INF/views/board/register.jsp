@@ -22,7 +22,7 @@
       <div class="panel-heading">Board Register</div>
       <!-- /.panel-heading -->
       <div class="panel-body">
-
+		
         <form role="form" action="/board/register" method="post">
           <div class="form-group">
             <label>제목</label> <input class="form-control" name='boardTitle'>
@@ -40,6 +40,8 @@
           <div class="form-group">
             <label>동호회</label> <input class="form-control" name='clubNo'>
           </div>
+          
+          <input type="hidden" id="csrfToken" name="_csrf" value="${_csrf.token}" />
           <button type="submit" class="btn btn-default">등록</button>
           <button type="reset" class="btn btn-default">취소</button>
         </form>

@@ -69,6 +69,13 @@ public class ReplyMapperTests {
 		List<ReplyDTO> replies = mapper.getListWithPaging(cri, 1L);
 		replies.forEach(reply -> log.info(replies));
 	}
+	
+	@Test
+	public void testList2() {
+		Criteria cri = new Criteria(2, 10);
+		List<ReplyDTO> replies = mapper.getListWithPaging(cri, 1L);
+		replies.forEach(reply -> log.info(replies));
+	}
 		
 }
 

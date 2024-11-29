@@ -16,4 +16,5 @@ public interface ReplyMapper {
 	public List<ReplyDTO> getListWithPaging(
 			@Param("cri") Criteria cri,
 			@Param("boardNo") Long boardNo);
+	public int getCountByBoardNo(Long boardNo);
 }

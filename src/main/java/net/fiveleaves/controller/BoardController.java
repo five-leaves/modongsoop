@@ -42,14 +42,16 @@ public class BoardController {
 	
 	
 	@GetMapping("/register")
-	public void register() {}
+	public void register(@RequestParam(value = "clubNo") Long clubNo) {
+		
+	}
 	
 	@PostMapping("/register")
 	public String register(BoardDTO boardDto, RedirectAttributes rttr) {
 		log.info("register: "+boardDto);
 		boardService.register(boardDto);
 		rttr.addFlashAttribute("result", boardDto.getBoardNo());
-		return "redirect:/board/list";
+		return "redirect:/board/list?clubNo="+boardDto.getClubNo();
 	}
 	
 	@GetMapping({"/get","/modify"})
