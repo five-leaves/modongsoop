@@ -124,3 +124,11 @@ a.club-link * {
 .forest-border {
 	border: 0.0625rem solid #775D43;
 }
+
+.category-select {
+    margin-top: 1rem;
+}
+
+.hide {
+    display: none;
+}
