@@ -1,5 +1,7 @@
 package net.fiveleaves.domain;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +15,7 @@ public class ReplyDTO {
 	private String replyContent;
 	private Long userNo;
 	private Long boardNo;
+	private Date replyDate;
+	private Date updateDate;
 	
 }
