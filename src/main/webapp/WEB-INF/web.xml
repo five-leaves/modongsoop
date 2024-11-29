@@ -60,9 +60,9 @@
 		<!-- ********파일을 서버에 업로드하고 처리할 수 있도록 구성******** -->
 		<multipart-config>
 			<location>/Users/jeonghuijun/dev/upload/temp</location>
-			<max-file-size>20971520</max-file-size>
-			<max-request-size>41943040</max-request-size>
-			<file-size-threshold>20971520</file-size-threshold>
+			<max-file-size>20971520</max-file-size> <!--1MB * 20 -->
+			<max-request-size>41943040</max-request-size> <!-- 40MB -->
+			<file-size-threshold>20971520</file-size-threshold> <!-- 20MB -->
 		</multipart-config>
 	</servlet>
 		

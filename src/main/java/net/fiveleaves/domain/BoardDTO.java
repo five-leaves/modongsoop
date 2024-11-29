@@ -19,4 +19,5 @@ public class BoardDTO {
 	private Date updateDate;
 	private Long clubNo;
 	private Long userNo;
+	
 }
