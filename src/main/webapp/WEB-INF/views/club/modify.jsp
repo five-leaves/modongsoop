@@ -69,7 +69,11 @@
 			    </div>
 			</div>
             <button type="submit" class="btn-forest">동호회 수정</button>
-            <button type="submit" data-oper='remove' class="btn-forest">동호회 삭제</button>
+        </form>
+        <!-- 동호회 삭제 -->
+        <form action="/club/remove" method="POST">
+            <input type="hidden" name="clubNo" value="${clubNo}" />
+            <button type="submit" id="deleteButton" class="btn-forest">동호회 삭제</button>
         </form>
     </div>
     
@@ -92,9 +96,23 @@
         $('#profileImage').click(); // 파일 입력 클릭 이벤트 트리거
     });
     
-    if(operation === 'remove') {
-    	$('form').attr('action', '/club/remove');
-    }
+
+ 	// 삭제 버튼 클릭 이벤트
+    $('#deleteButton').on('click', function() {
+		if (confirm('정말로 동호회를 삭제하시겠습니까?')) {
+			const form = $('<form>', {
+				method : 'POST',
+				action : '/club/remove'
+			});
+			form.append($('<input>', {
+				type : 'hidden',
+				name : 'clubNo',
+				value : $('input[name="clubNo"]').val()
+			}));
+			$('body').append(form);
+			form.submit();
+		}
+	});
 </script>
 </body>
 <%@include file="../includes/foot.jsp" %>
