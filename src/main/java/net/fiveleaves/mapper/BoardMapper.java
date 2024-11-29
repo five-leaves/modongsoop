@@ -7,12 +7,12 @@ import net.fiveleaves.domain.Criteria;
 
 public interface BoardMapper {
 	
-	public List<BoardDTO> getList();
-	public List<BoardDTO> getListWithPaging(Criteria cri);
+	public List<BoardDTO> getList(Long clubNo);
+	public List<BoardDTO> getListWithPaging(Long clubNo, Criteria cri);
 	public void insert(BoardDTO boardDto);
 	public void insertSelectKey(BoardDTO boardDto);
 	public BoardDTO read(Long board_no);
 	public int delete(Long board_no);
 	public int update(BoardDTO boardDto);
-	public int getTotalCount(Criteria cri);
+	public int getTotalCount(Long clubNo, Criteria cri);
 }

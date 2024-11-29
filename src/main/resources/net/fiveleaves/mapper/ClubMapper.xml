@@ -175,8 +175,7 @@
 				c.regdate,
 				c.updatedate
 		from clubs c
-		where <!-- club_name like '%' || #{clubName} || '%'
-		and club_content like '%' || #{clubContent} || '%'
-		and  -->category_no = #{categoryNo}
+		where c.club_name like '%' || #{clubName} || '%'
+		or c.club_content like '%' || #{clubContent} || '%'
 	</select>
  </mapper>

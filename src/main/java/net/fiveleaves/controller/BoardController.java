@@ -30,11 +30,11 @@ public class BoardController {
 //		model.addAttribute("list", boardService.getList());
 //	}
 	@GetMapping("/list")
-	public void list(Criteria cri, Model model) {
+	public void list(@RequestParam(value = "clubNo") Long clubNo, Criteria cri, Model model) {
 		log.info("list: "+cri);
-		model.addAttribute("list", boardService.getList(cri));
+		model.addAttribute("list", boardService.getList(clubNo, cri));
 //		model.addAttribute("pageMaker",new PageDTO(cri, 123));
-		int total=boardService.getTotal(cri);
+		int total=boardService.getTotal(clubNo, cri);
 		log.info("total: "+total);
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	}

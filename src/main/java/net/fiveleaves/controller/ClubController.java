@@ -3,11 +3,14 @@ package net.fiveleaves.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
+import net.fiveleaves.domain.ClubDTO;
 import net.fiveleaves.domain.UserDTO;
 import net.fiveleaves.service.CategoryService;
 import net.fiveleaves.service.ClubService;
@@ -35,9 +38,43 @@ public class ClubController {
 	}
 
 	@GetMapping("/search")
-	public void search(Model model) throws Exception {
-
+	public String search(@RequestParam("clubName") String clubName, Model model) {
+		try {
 			log.info("search");
-			model.addAttribute("search", clubService.search(3L));			
+			model.addAttribute("searchedClub", clubService.search(clubName));
+			return "club/search";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@GetMapping("/register")
+	public void register(Model model) throws Exception {
+		model.addAttribute("categoryList", categoryService.getCategoryList());
+	}
+	
+	@PostMapping("/register")
+	public String register(ClubDTO clubDto, RedirectAttributes rttr) throws Exception {
+		log.info("register: " + clubDto);
+		
+		clubService.register(clubDto);
+		rttr.addFlashAttribute("result", clubDto.getClubNo());
+		return "redirect:/board/list?clubNo="+clubDto.getClubNo();
+	}
+	
+	@GetMapping("/modify")
+	public void get(@RequestParam("clubNo") Long clubNo, Model model) throws Exception {
+		log.info("modify");
+		model.addAttribute("clubDto", clubService.get(clubNo));
+	}
+	
+	@PostMapping("/modify")
+	public String modify(ClubDTO clubDto, RedirectAttributes rttr) throws Exception {
+		log.info("modify: "+ clubDto);
+		if (clubService.modify(clubDto)){
+			rttr.addFlashAttribute("result", "success");
+		}
+		return "redirect:/board/list?clubNo=" + clubDto.getClubNo();
 	}
 }

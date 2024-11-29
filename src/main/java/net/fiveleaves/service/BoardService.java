@@ -12,6 +12,6 @@ public interface BoardService {
 	public boolean modify(BoardDTO boardDto);
 	public boolean remove(Long boardDto);
 //	public List<BoardDTO> getList();
-	public List<BoardDTO> getList(Criteria cri);
-	public int getTotal(Criteria cri);
+	public List<BoardDTO> getList(Long clubNo, Criteria cri);
+	public int getTotal(Long clubNo, Criteria cri);
 }
