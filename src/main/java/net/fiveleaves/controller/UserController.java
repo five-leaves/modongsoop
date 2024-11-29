@@ -1,10 +1,18 @@
 package net.fiveleaves.controller;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.log4j.Log4j;
 
@@ -68,5 +76,25 @@ public class UserController {
 		
 		log.info("signup");
 	}
+	
+	@PostMapping("/uploadProfileImage")
+	@ResponseBody
+	public Map<String, Object> uploadProfileImage(MultipartFile profileImage) {
+	    Map<String, Object> result = new HashMap<>();
+	    try {
+	        String uploadPath = "/Users/jinwon/dev/upload";
+	        String uuid = UUID.randomUUID().toString();
+	        String fileName = uuid + "_" + profileImage.getOriginalFilename();
+	        File saveFile = new File(uploadPath, fileName);
+
+	        profileImage.transferTo(saveFile);
+	        result.put("success", true);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result.put("success", false);
+	    }
+	    return result;
+	}
+
 	
 }
