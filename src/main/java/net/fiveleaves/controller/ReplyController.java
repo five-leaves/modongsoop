@@ -28,8 +28,9 @@ public class ReplyController {
 	
 	private ReplyService service;
 	
-			consumes = "application/json",
-			produces = {MediaType.TEXT_PLAIN_VALUE})
+	@PostMapping(value="/new",
+			 consumes="application/json",
+			 produces= {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> create(@RequestBody ReplyDTO replyDto) {
 		log.info("ReplyDTO: " + replyDto);
 		int insertCount = service.register(replyDto);
@@ -77,7 +78,7 @@ public class ReplyController {
 	public ResponseEntity<String> modify(
 			@RequestBody ReplyDTO replyDto,
 			@PathVariable("reply_no")Long replyNo) {
-		dto.setReplyNo(replyNo);
+		replyDto.setReplyNo(replyNo);
 		log.info("reply_no: " + replyNo);
 		log.info("modify: " + replyDto);
 		return service.modify(replyDto) == 1
