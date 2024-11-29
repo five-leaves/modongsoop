@@ -12,11 +12,13 @@
         <div class="row row-cols-2 row-cols-md-4 g-4">
         	<!-- 동호회 등록 -->
         	<div class="col">
+	        	<a class="club-link" href='/club/register'>
 		            <div class="club-card mb-2">
 		                <p>+</p>
 		                <p>동호회 만들기</p>
 		            </div>
-	            </div>
+		        </a>
+	        </div>
             <!-- 동호회 카드 목록-->
             <c:forEach items="${myClubList}" var="club">
             	<div class="col">

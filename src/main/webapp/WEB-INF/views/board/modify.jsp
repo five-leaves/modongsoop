@@ -23,6 +23,10 @@
 				<div class="panel-body">
 
 					<form role="form" action="/board/modify" method="post">
+					
+					<!-- 추가 -->
+					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+					<input type='hideen' name='amount' value='<c:out value="${cri.amount}"/>'>
 						<div class="form-group">
 							<label>게시판번호</label> <input class="form-control" name='boardNo'
 								value='<c:out value="${boardDto.boardNo}"/>' readonly="readonly">
@@ -87,7 +91,12 @@ $(document).ready(function() {
 		}else if(operation==='list'){
 			//move to list
 			formObj.attr("action","/board/list").attr("method","get");
+			let pageNumTag=$("input[name='pageNum']").clone();
+			let amountTag=$("input[name='amount']").clone();
+			
 			formObj.empty();
+			formObj.append(pageNumTag);
+			formObj.append(amountTag);
 		}
 		formObj.submit();
 	});

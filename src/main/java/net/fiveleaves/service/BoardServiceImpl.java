@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import net.fiveleaves.domain.BoardDTO;
+import net.fiveleaves.domain.Criteria;
 import net.fiveleaves.mapper.BoardMapper;
 
 @Log4j
@@ -42,10 +43,15 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardDTO> getList(Long clubNo) {
-		
-		log.info("getList...");
-		return boardMapper.getList(clubNo);
+	public List<BoardDTO> getList(Criteria cri) {
+		log.info("getList with criteria: "+ cri);
+		return boardMapper.getListWithPaging(cri);
+	}
+	
+	@Override
+	public int getTotal(Criteria cri) {
+		log.info("get total count");
+		return boardMapper.getTotalCount(cri);
 	}
 
 }

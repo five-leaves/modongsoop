@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.fiveleaves.mapper.ReplyMapper">
+	
+	<insert id="insert">
+		INSERT INTO replies(reply_no, board_no, reply_content, user_no)
+		VALUES (replies_seq.NEXTVAL, #{boardNo}, #{replyContent}, #{userNo})
+	</insert>
+	
+	<select id="read" resultType="replyDTO">
+		SELECT reply_no, reply_content, user_no, board_no, updateDate, replyDate FROM replies WHERE reply_no=#{replyNo}
+	</select>
+	
+	<delete id="delete">
+		DELETE FROM replies WHERE reply_no=#{replyNo}
+	</delete>
+	
+	<update id="update">
+		UPDATE replies SET reply_content=#{replyContent}, updateDate= SYSDATE WHERE reply_no=#{replyNo}
+	</update>
+	
+	<select id="getListWithPaging" resultType="net.fiveleaves.domain.ReplyDTO">
+		SELECT reply_no, board_no, reply_content, user_no, replyDate, updateDate FROM replies
+		WHERE board_no=#{boardNo}
+		ORDER BY reply_no ASC
+	</select>
+</mapper>

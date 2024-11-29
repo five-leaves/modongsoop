@@ -12,6 +12,18 @@
 ]]>
 </select>
 
+<select id="getListWithPaging" resultType="net.fiveleaves.domain.BoardDTO">
+	<![CDATA[
+		SELECT board_no, board_title, board_content, user_no, club_no, regdate, updateDate
+		FROM (SELECT /*+INDEX_DESC(boards pk_boards) */
+			  ROWNUM rn, board_no, board_title, board_content, user_no, club_no, regdate, updateDate
+			  FROM boards
+			  WHERE ROWNUM <= #{pageNum} * #{amount})
+		WHERE rn > (#{pageNum} -1) * #{amount}
+		AND club_no=#{clubNo}
+	]]>
+</select>
+
 <select id="read" resultType="net.fiveleaves.domain.BoardDTO">
     select board_no, board_title, board_content, view_count, regdate, updateDate, club_no, user_no from boards where board_no = #{boardNo}
 </select>
@@ -45,4 +57,9 @@
 	updateDate = sysdate
 	where board_no = #{boardNo}
 </update>
+
+<select id="getTotalCount" resultType="int">
+	SELECT COUNT(*) FROM boards WHERE board_no >0
+</select>
+
 </mapper>

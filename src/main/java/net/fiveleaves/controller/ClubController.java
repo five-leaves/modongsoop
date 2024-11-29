@@ -1,5 +1,6 @@
 package net.fiveleaves.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,8 +56,10 @@ public class ClubController {
 	}
 	
 	@PostMapping("/register")
-	public String register(ClubDTO clubDto, RedirectAttributes rttr) throws Exception {
+	public String register(ClubDTO clubDto, RedirectAttributes rttr, Authentication auth) throws Exception {
 		log.info("register: " + clubDto);
+		
+		clubDto.setUserNo(1L);
 		
 		clubService.register(clubDto);
 		rttr.addFlashAttribute("result", clubDto.getClubNo());
