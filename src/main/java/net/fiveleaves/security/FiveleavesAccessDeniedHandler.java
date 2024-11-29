@@ -17,7 +17,7 @@ public class FiveleavesAccessDeniedHandler implements AccessDeniedHandler {
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
-		
+		log.error(accessDeniedException.getMessage());
 		log.error("Access Denied Handler");
 		
 		log.error("Redirect....");

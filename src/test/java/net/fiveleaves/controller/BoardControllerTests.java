@@ -39,6 +39,15 @@ public class BoardControllerTests {
 	}
 	
 	@Test
+	public void testListPaging() throws Exception{
+		log.info(mockMvc.perform(
+				MockMvcRequestBuilders.get("/board/list")
+				.param("pageNum","2")
+				.param("amount", "50"))
+				.andReturn().getModelAndView().getModelMap());
+	}
+	
+	@Test
 	public void testRegister() throws Exception {
 		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/board/register")
 				.param("boardTitle", "테스트 새 글 제목")
