@@ -35,9 +35,14 @@ public class ClubController {
 	}
 
 	@GetMapping("/search")
-	public void search(Model model) throws Exception {
-
+	public String search(@RequestParam("clubName") String clubName, Model model) {
+		try {
 			log.info("search");
-			model.addAttribute("search", clubService.search(3L));			
+			model.addAttribute("searchedClub", clubService.search(clubName));
+			return "club/search";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
