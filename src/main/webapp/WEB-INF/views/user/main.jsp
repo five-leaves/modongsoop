@@ -4,93 +4,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>모동숲 페이지</title>
+    <title>모동숲 로그인</title>
     <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Nanum+Pen+Script&display=swap');
+
+        /* Global styles */
         body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Nanum Pen Script', cursive, sans-serif;
+            background-color: #E3F2E4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #ffffff;
+            margin: 0;
         }
 
         .container {
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            width: 100%;
         }
 
+        /* Logo Section */
         .logo {
-            width: 100px;
-            height: auto;
-            margin-bottom: 20px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 150px;
+        }
+
+        /* Content Section */
+        .content {
+            flex: 2;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
         }
 
         .title {
+            font-size: 75px;
             color: #1D743B;
-            font-size: 24px;
-            font-weight: bold;
             margin: 0;
         }
 
         .subtitle {
+            font-size: 50px;
             color: #00962A;
-            font-size: 20px;
-            font-weight: bold;
-            margin: 10px 0;
+            margin: 5px 0 20px;
         }
 
+        /* Buttons */
         .btn {
-            width: 200px;
-            height: 50px;
-            font-size: 16px;
-            font-weight: bold;
+            width: 330px;
+            padding: 12px;
+            margin: 8px 0;
+            font-size: 18px;
             border-radius: 5px;
-            margin: 10px 0;
             cursor: pointer;
             border: none;
+            font-family: 'Nanum Pen Script', cursive, sans-serif;
         }
 
-        .btn.login {
-            background-color: #00962A;
+        .btn-login {
+            background-color: #6EBE71;
             color: #FFFFFF;
         }
 
-        .btn.signup {
+        .btn-signup {
             background-color: #FFFFFF;
-            color: #00962A;
-            border: 2px solid #DFEAF2;
+            color: #000000;
+            border: 1px solid #D8D8D8;
         }
 
-        .btn:hover {
-            opacity: 0.9;
+        .btn-login:hover {
+            background-color: #5AA860;
+        }
+
+        .btn-signup:hover {
+            background-color: #F5F5F5;
         }
     </style>
-    <script>
-        function navigateToLogin() {
-            window.location.href = "/user/fiveleavesLogin";
-        }
-
-        function navigateToSignup() {
-            window.location.href = "/user/signup";
-        }
-    </script>
 </head>
 <body>
     <div class="container">
-        <!-- 로고 -->
-        <img src="/resources/img/logo.png" alt="로고" class="logo">
-        
-        <!-- 제목 -->
-        <h1 class="title">모여라 동호회 숲</h1>
-        <h2 class="subtitle">모동숲</h2>
-        
-        <!-- 로그인 버튼 -->
-        <button class="btn login" onclick="navigateToLogin()">로그인</button>
-        
-        <!-- 회원가입 버튼 -->
-        <button class="btn signup" onclick="navigateToSignup()">회원가입</button>
+        <!-- Logo Section -->
+        <div class="logo">
+            <img src="<%= request.getContextPath() %>/resources/img/logo.png" alt="로고">
+        </div>
+
+        <!-- Content Section -->
+        <div class="content">
+            <h1 class="title">모여라 동호회 숲</h1>
+            <p class="subtitle">모동숲</p>
+            <button class="btn btn-login" onclick="location.href='/user/fiveleavesLogin'">로그인</button>
+            <button class="btn btn-signup" onclick="location.href='/user/signup'">회원가입</button>
+        </div>
     </div>
 </body>
 </html>
