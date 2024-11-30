@@ -1,6 +1,7 @@
 package net.fiveleaves.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,11 @@ public class BoardServiceImpl implements BoardService{
 	public int getTotal(Criteria cri) {
 		log.info("get total count");
 		return boardMapper.getTotalCount(cri);
+	}
+	
+	@Override
+	public Map<String, Object> getUserAndClubInfo(String username) {
+		return boardMapper.getUserAndClubInfo(username);
 	}
 
 }
