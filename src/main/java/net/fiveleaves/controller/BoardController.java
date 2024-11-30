@@ -15,6 +15,7 @@ import net.fiveleaves.domain.BoardDTO;
 import net.fiveleaves.domain.Criteria;
 import net.fiveleaves.domain.PageDTO;
 import net.fiveleaves.service.BoardService;
+import net.fiveleaves.service.ReplyService;
 
 @Controller
 @Log4j
@@ -23,6 +24,7 @@ import net.fiveleaves.service.BoardService;
 public class BoardController {
 	
 	private BoardService boardService;
+	private ReplyService replyService;
 	
 //	@GetMapping("/list")
 //	public void list(Model model) {
@@ -58,6 +60,7 @@ public class BoardController {
 	public void get(@RequestParam("boardNo") Long boardNo, @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("/get or /modify");
 		model.addAttribute("boardDto", boardService.get(boardNo));
+		model.addAttribute("replyDto", replyService.getList(boardNo));
 	}
 	
 	@PostMapping("/modify")
@@ -80,5 +83,15 @@ public class BoardController {
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 		return "redirect:/board/list";
+	}
+	
+	@GetMapping("/replyDel")
+	public String replyDel(@RequestParam("replyNo") Long replyNo, @RequestParam("boardNo") Long boardNo,  RedirectAttributes rttr) {
+		log.info("delete replyNo: "+replyNo);
+		if(replyService.remove(replyNo)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		rttr.addAttribute("boardNo", boardNo);
+		return "redirect:/board/get";
 	}
 }

@@ -5,10 +5,8 @@
 <mapper namespace="net.fiveleaves.mapper.ReplyMapper">
 
 	<insert id="insert">
-		INSERT INTO replies(reply_no, board_no,
-		reply_content, user_no)
-		VALUES (replies_seq.NEXTVAL, #{boardNo},
-		#{replyContent}, #{userNo})
+		INSERT INTO replies (reply_no, reply_content, user_no, board_no, updateDate, replyDate )
+		VALUES (replies_seq.NEXTVAL, #{replyContent}, #{userNo}, #{boardNo}, SYSDATE, SYSDATE )
 	</insert>
 
 	<select id="read" resultType="replyDTO">
@@ -25,23 +23,18 @@
 		UPDATE replies SET reply_content=#{replyContent},
 		updateDate= SYSDATE WHERE reply_no=#{replyNo}
 	</update>
-
-	<select id="getListWithPaging"
-		resultType="net.fiveleaves.domain.ReplyDTO">
-		 <![CDATA[
-   select  reply_no, board_no, reply_content, user_no, replydate, updatedate
-   from 
-     (
-      select /*+INDEX(replies idx_reply) */ 
-        rownum rn, reply_no, board_no, reply_content, user_no, replydate, updatedate
-      from replies
-      where board_no =  #{boardNo}
-      and reply_no > 0
-      and rownum <= #{cri.pageNum} * #{cri.amount}
-     ) where rn > (#{cri.pageNum} -1) * #{cri.amount}
-  ]]>
-	</select>
 	
+	<select id="getBoardReplyList" resultType="net.fiveleaves.domain.ReplyDTO">
+	<![CDATA[
+		SELECT  a.reply_no, a.board_no, a.reply_content, a.user_no, a.replydate, TO_CHAR(a.updatedate,'YYYY-MM-DD HH24:MI:SS') AS wr_date, b.nickname
+		FROM    replies a
+		       ,users b
+		WHERE   a.board_no =  #{boardNo}
+		AND   a.user_no = b.user_no
+		ORDER BY a.reply_no
+	]]>
+	</select>
+
 	<select id="getCountByBoardNo" resultType="int">
 	<![CDATA[
 	select count(replyNo) from replies where boardNo = #{boardNo}

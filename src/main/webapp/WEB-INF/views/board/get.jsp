@@ -156,8 +156,9 @@ body {
 								<c:out value="${boardDto.boardTitle}" />
 							</h5>
 							<div>
-								작성자 번호:
-								<c:out value="${boardDto.userNo}" />
+								작성자 닉네임:
+								<c:out value="${boardDto.nickname}" /><br>
+								로그인한 사람 : <c:out value="${userDto.userNo}" />
 							</div>
 							<div class="mb-3 cute-border content-content">
 								<p class="form-control-static">
@@ -166,22 +167,36 @@ body {
 								<button data-oper='modify' class="btn btn-default"
 									onclick="location.href='/board/modify?boardNo=<c:out value="${boardDto.boardNo}"/>'">수정</button>
 								<button data-oper='list' class="btn btn-info"
-									onclick="location.href='/board/list'">목록</button>
+									onclick="location.href='/board/list?clubNo=${boardDto.clubNo}'">목록</button>
 
 								<form id='operForm' action="/board/modify" method="get">
 									<input type='hidden' id='boardNo' name='boardNo'
 										value='<c:out value="${boardDto.boardNo}"/>'>
+										
 								</form>
 
 								<!-- 댓글 -->
 								<div class="comment-box">
-									<input type="text" id="replyInput" placeholder="댓글을 작성하세요">
-									<button class="btn btn-forest" id="replySubmit">보내기</button>
+									<!--input type="text" id="replyInput" placeholder="댓글을 작성하세요"-->
+									<button class="btn btn-forest" id="replySubmit">댓글달기</button>
 								</div>
+
 
 								<div class="comment-list" id="commentList">
 									<!-- 댓글 아이템 -->
+										<c:forEach var="item" items="${replyDto}">
+										    [<c:out value="${item.nickname}" />] <c:out value="${item.replyContent}" /> (<c:out value="${item.wrDate}" />)
+										    
+										    
+										    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										    <button data-oper='replyDel' class="btn btn-default" onclick="location.href='/board/replyDel?replyNo=<c:out value="${item.replyNo}"/>&boardNo=<c:out value="${item.boardNo}"/>'">삭제</button>
+										    
+										    
+										    <br>
+										</c:forEach>
 								</div>
+								
+								
 							</div>
 						</div>
 					</div>
@@ -214,10 +229,10 @@ body {
 						<label>Reply</label> <input class="form-control" name='reply'
 							value='New Reply!!!!'>
 					</div>
-					<div class="form-group">
-						<label>userNo</label> <input class="form-control" name='replyer'
-							value='replyer'>
-					</div>
+					<!-- div class="form-group">
+						<label>userNo</label> <input class="form-control" name='user'
+							value='<c:out value="${boardDto.userNo}"/>' readOnly>
+					</div-->
 					<div class="form-group">
 						<label>Reply Date</label> <input class="form-control"
 							name='replyDate' value='2018-01-01 13:13'>
@@ -252,7 +267,7 @@ body {
 	})
 	
 	function showList(page){
-	
+		console.log("여기여기 " + page);
 	  console.log("show list " + page);
     
     replyService.getList({boardNo:boardNoValue,page: page|| 1 }, function(replyCnt, list) {
@@ -410,6 +425,8 @@ body {
 	let modal = $(".modal");
 	let modalInputReply = modal.find("input[name='reply']");
 	let modalInputuser = modal.find("input[name='user']");
+	
+	
 	let modalInputReplyDate = modal.find("input[name='replyDate']");
     
 	let modalModBtn = $("#modalModBtn");
@@ -434,20 +451,21 @@ body {
     });
     
     modalRegisterBtn.on("click",function(e){
-        console.log("여기");
+        //console.log("여기 " + modalInputuser.val());
         let boardNoValue = '<c:out value="${boardDto.boardNo}"/>';
+        let userNoValue = '<c:out value="${boardDto.userNo}"/>';
         let reply = {
-              reply: modalInputReply.val(),
-              user:modalInputuser.val(),
+        	  replyContent: modalInputReply.val(),
+              userNo:userNoValue,
               boardNo:boardNoValue
             };
         replyService.add(reply, function(result){
           
-          alert(result);
+          alert("어라?"+result);
           
           modal.find("input").val("");
           modal.modal("hide");
-          console.log("여기2");
+          //console.log("여기2");
           
         });
         

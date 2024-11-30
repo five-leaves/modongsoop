@@ -29,7 +29,7 @@ public class ReplyServiceImpl implements ReplyService{
 		log.info("get: "+replyNo);
 		return null;
 	}
-
+	
 	@Override
 	public int modify(ReplyDTO replyDto) {
 		log.info("modify: "+replyDto);
@@ -37,15 +37,15 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 
 	@Override
-	public int remove(Long replyNo) {
+	public boolean remove(Long replyNo) {
 		log.info("remove: "+replyNo);
-		return replyMapper.delete(replyNo);
+		return replyMapper.delete(replyNo)==1;
 	}
 
 	@Override
-	public List<ReplyDTO> getList(Criteria cri, Long boardNo) {
+	public List<ReplyDTO> getList(Long boardNo) {
 		log.info("get Reply List of a Board: "+boardNo);
-		return replyMapper.getListWithPaging(cri, boardNo);
+		return replyMapper.getBoardReplyList(boardNo);
 	}
 	
 	@Override

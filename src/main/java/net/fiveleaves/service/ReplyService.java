@@ -10,8 +10,7 @@ public interface ReplyService {
 	public int register(ReplyDTO replyDto);
 	public ReplyDTO get(Long replyNo);
 	public int modify(ReplyDTO replyDto);
-	public int remove(Long replyNo);
-	public List<ReplyDTO> getList(Criteria cri, Long boardNo);
+	public boolean remove(Long replyNo);
+	public List<ReplyDTO> getList(Long boardNo);
 	public ReplyPageDTO getListPage(Criteria cri, Long boardNo);
-
 }
