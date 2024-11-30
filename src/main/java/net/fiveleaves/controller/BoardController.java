@@ -1,5 +1,6 @@
 package net.fiveleaves.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,14 +64,19 @@ public class BoardController {
 		}
 	}
 	
-	
 	@GetMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public void register() {}
 	
 	@PostMapping("/register")
-	public String register(BoardDTO boardDto, RedirectAttributes rttr) {
+	@PreAuthorize("isAuthenticated()")
+	public String register(BoardDTO boardDto, RedirectAttributes rttr, Authentication auth) {
 		log.info("register: "+boardDto);
 		boardService.register(boardDto);
+		
+		UserDTO user = (UserDTO) auth.getPrincipal();	
+		user.getUserNo();
+		
 		rttr.addFlashAttribute("result", boardDto.getBoardNo());
 		return "redirect:/board/list";
 	}

@@ -1,5 +1,6 @@
 package net.fiveleaves.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,17 +59,15 @@ public class ClubController {
 	
 	// 동호회 등록 페이지
 	@GetMapping("/register")
-	public void register(Model model) {
-		try {
-			model.addAttribute("categoryList", categoryService.getCategoryList());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	@PreAuthorize("isAuthenticated()")
+	public void register(Model model) throws Exception {
+		model.addAttribute("categoryList", categoryService.getCategoryList());
 	}
 	
 	// 동호회 등록
 	@PostMapping("/register")
-	public String register(ClubDTO clubDto, RedirectAttributes rttr, Authentication auth) {
+	@PreAuthorize("isAuthenticated()")
+	public String register(ClubDTO clubDto, RedirectAttributes rttr, Authentication auth) throws Exception {
 		log.info("register: " + clubDto);
 		
 		try {
@@ -76,7 +75,7 @@ public class ClubController {
 			clubDto.setUserNo(userDto.getUserNo());
 			clubService.register(clubDto);
 			rttr.addFlashAttribute("result", clubDto.getClubNo());
-			rttr.addFlashAttribute("isClub", 'success');
+			rttr.addFlashAttribute("isClub", "success");
 			return "redirect:/board/list?clubNo="+clubDto.getClubNo();
 		} catch (Exception e) {
 			e.printStackTrace();

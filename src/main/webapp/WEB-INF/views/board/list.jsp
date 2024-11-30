@@ -351,5 +351,6 @@ body {
 		})
 			
 	});
-	</script> 
+	</script>
+	 
 	<%@ include file="../includes/foot.jsp" %>
