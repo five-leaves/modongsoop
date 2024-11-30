@@ -1,6 +1,7 @@
 package net.fiveleaves.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import net.fiveleaves.domain.BoardDTO;
 import net.fiveleaves.domain.Criteria;
@@ -15,4 +16,5 @@ public interface BoardMapper {
 	public int delete(Long board_no);
 	public int update(BoardDTO boardDto);
 	public int getTotalCount(Criteria cri);
+	public Map<String, Object> getUserAndClubInfo(String username);
 }

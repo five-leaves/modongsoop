@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../includes/head.jsp"%>
 
 
@@ -14,8 +15,10 @@ body {
 
 .container {
 	max-width: 1200px;
-	margin: auto;
+	margin: auto;	
 	padding: 20px;
+	max-height: none; /* 댓글 목록의 최대 높이를 설정하지 않음*/
+	overflow-y: auto; /* 댓글이 많아지면 스크롤바가 생기도록 함*/
 }
 
 .header {
@@ -51,6 +54,7 @@ body {
 	background: #f9fbe7;
 	border-radius: 10px;
 	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+	max-height: none; /* 댓글 목록의 최대 높이를 설정하지 않음*/
 }
 
 .btn-join {
@@ -79,12 +83,15 @@ body {
 	padding: 10px;
 	border-radius: 10px;
 	border: 1px solid #a5d6a7;
+	resize: vertical; /*사용자가 입력창을 늘릴수 있게함*/
 }
 
 .comment-list {
 	margin-top: 10px;
 	padding: 10px 0;
 	border-top: 1px solid #81c784;
+	max-height: none; /* 댓글 목록의 최대 높이를 설정하지 않음*/
+	overflow-y: auto; /* 댓글이 많아지면 스크롤바가 생기도록 함*/
 }
 
 .comment-item {
@@ -108,7 +115,7 @@ body {
 }
 
 .content-content {
-	height: 370px;
+	max-height: none; /* 댓글 목록의 최대 높이를 설정하지 않음*/
 }
 </style>
 
@@ -195,6 +202,7 @@ body {
 			</div>
 		</div>
 	</div>
+
 	<form id='operForm' action="/board/modify" method="get">
 		<input type='hidden' id='boardNo' name='boardNo' value='<c:out value="${board.boardNo}"/>'>
 		<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
