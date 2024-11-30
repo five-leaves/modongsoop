@@ -324,5 +324,6 @@ body {
 			actionForm.submit();
 		});
 	});
-	</script> 
+	</script>
+	 
 	<%@ include file="../includes/foot.jsp" %>

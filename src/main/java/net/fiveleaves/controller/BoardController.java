@@ -1,5 +1,6 @@
 package net.fiveleaves.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,11 +43,12 @@ public class BoardController {
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	}
 	
-	
 	@GetMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public void register() {}
 	
 	@PostMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public String register(BoardDTO boardDto, RedirectAttributes rttr, Authentication auth) {
 		log.info("register: "+boardDto);
 		boardService.register(boardDto);
