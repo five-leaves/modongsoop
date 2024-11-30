@@ -19,7 +19,7 @@
 		       updatedate,
 		       count_member
 		from (
-		    select /*+ INDEX_ASC(c pk_clubs) */
+		    select /*+ INDEX_DESC(c pk_clubs) */
 		           rownum rn,
 		           c.club_no,
 		           c.club_name,
@@ -37,10 +37,8 @@
 		    inner join (select club_no, count(*) count_member
 		                from club_logs
 		                group by club_no) cl on c.club_no = cl.club_no
-		    where rownum < 10
-		    order by c.club_no
+		    order by c.club_no desc
 		)
-		where rn > 0
 		]]>
 		<if test="categoryNo != null">
 			and category_no = #{categoryNo}
@@ -112,7 +110,7 @@
  	</select>
  	
  	<!-- 회원 수 -->
- 	<select id="countMember" resultType="long">
+ 	<select id="countMember">
  		select count(*) from club_logs
  		where club_no = #{clubNo}
  	</select>
@@ -129,7 +127,7 @@
  	<!-- 동호회 가입 -->
  	<insert id="joinClub">
  		insert into club_logs(club_no, user_no)
- 		values(#{clubNo}, #{userNo})
+ 		values(#{clubNo}, (select user_no from users where username = #{username}))
  	</insert>
  	
  	<!-- 동호회 정보 수정 -->
@@ -177,5 +175,12 @@
 		from clubs c
 		where c.club_name like '%' || #{clubName} || '%'
 		or c.club_content like '%' || #{clubContent} || '%'
+	</select>
+	
+	<!-- 동호회 회원 확인 -->
+	<select id="isMember">
+		select count(*)
+		from club_logs
+		where club_no = #{clubNo} and user_no = #{userNo}
 	</select>
  </mapper>
