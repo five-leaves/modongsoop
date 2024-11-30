@@ -184,8 +184,15 @@ body {
 		<!-- Sidebar -->
 		<div class="col-md-3 sidebar">
 			<div class="profile">
-				<img src="/path/to/profile.jpg" alt="Profile">
-				<p>동호회명</p>
+				<c:choose>
+				    <c:when test="${empty clubDto.clubProfile}">
+				        <img src="/resources/img/club_placeholder.png" alt="동호회 이미지" />
+				    </c:when>
+				    <c:otherwise>
+				        <img src="/display?fileName=${clubDto.clubProfile}" alt="동호회 이미지" />
+				    </c:otherwise>
+				</c:choose>
+				<p><c:out value="${clubDto.clubName}" /></p>
 			</div>
 			<!-- 동호회 멤버이면 버튼 숨기기 -->
 			<c:choose> 
@@ -206,7 +213,7 @@ body {
 			</c:choose>
 			<button id='regBtn' type="button" class="btn btn-join w-100">새글작성</button>
 			<p>멤버 수: <c:out value="${clubMemberCount}"/></p>
-			<p>리더: <c:out value="${clubDto.nickname}" /></p>
+			<p>리더: <c:out value="$clubDto" /></p>
 		</div>
 
 		<!-- Main Content -->

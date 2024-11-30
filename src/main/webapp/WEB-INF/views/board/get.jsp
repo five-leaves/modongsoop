@@ -138,15 +138,21 @@ body {
 					<!-- Sidebar -->
 					<div class="col-md-3 sidebar">
 						<div class="profile">
-							<img src="/path/to/profile.jpg" alt="Profile">
+							<c:choose>
+							    <c:when test="${empty clubDto.clubProfile}">
+							        <img src="/resources/img/club_placeholder.png" alt="동호회 이미지" />
+							    </c:when>
+							    <c:otherwise>
+							        <img src="/display?fileName=${clubDto.clubProfile}" alt="동호회 이미지" />
+							    </c:otherwise>
+							</c:choose>
 							<p>
-								동호회명
-								<c:out value="${boardDto.clubNo}" />
+								<c:out value="${clubDto.clubName}" />
 							</p>
 						</div>
 						<button class="btn btn-join w-100">동호회 가입</button>
-						<p>멤버 수: 10명</p>
-						<p>리더: 홍길동</p>
+						<p>멤버 수: <c:out value="${clubMemberCount}" /></p>
+						<p>리더: <c:out value="${clubDto.nickname}" /></p>
 					</div>
 
 					<!-- Main Content -->

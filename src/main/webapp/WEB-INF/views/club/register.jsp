@@ -16,20 +16,22 @@
             <h1>동호회 등록</h1>
         </div>
         <form action="/club/register" method="POST" enctype="multipart/form-data">
-        
-        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>  
+        	<sec:csrfInput/>
+        	<input id="csrfInput" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>  
         
         	<div class="form-group">
 			    <label for="profileImage" class="form-label">프로필 이미지</label>
 			    <div class="profile-upload">
 			        <!-- 이미지 미리보기 -->
-			        <div id="previewWrapper" class="mb-3">
+			        <a id="previewWrapper" class="mb-3">
 			            <img id="previewImage" src="/resources/img/club_placeholder.png" alt="미리보기 이미지" class="img-thumbnail" style="max-width: 150px; ">
-			        </div>
+			        </a>
 			        
 			        <!-- 파일 입력 -->
 			        <input type="file" id="uploadFile" name="uploadFile" class="form-control hide" accept="image/*" />
+			        <input type="hidden" id="clubProfile" name="clubProfile" value=""/>
 			    </div>
+			    <button id="defaultProfileBtn" type="button" class="btn-forest">기본 이미지 등록</button>
 			</div>
             <div class="form-group">
                 <label for="clubName" class="form-label">동호회 이름 *</label>
@@ -117,9 +119,85 @@
             }
     	})
         
+    	// 기본 이미지 등록
+		$('#defaultProfileBtn').click(function (e) {
+			e.preventDefault();
+			$('#clubProfile').val('');
+			$('#previewImage').attr('src', "/resources/img/club_placeholder.png");
+		});
+    	
+    	// 파일 입력 클릭 이벤트 트리거
 		$('#previewImage').click(function () {
-	     	$('#uploadFile').click(); // 파일 입력 클릭 이벤트 트리거
+	     	$('#uploadFile').click(); 
 	    });
+    	
+    	// 파일 선택 후 업로드, 미리보기
+    	$('#uploadFile').change(function(e){
+	
+			let formData = new FormData();
+			
+			let inputFile = $("input[name='uploadFile']");
+			
+			let files = inputFile[0].files;
+			
+			console.log(files);
+			
+			//add filedate to formdata
+			for(let i = 0; i < files.length; i++){
+				formData.append("uploadFile", files[i]);
+			}
+			
+			const csrfHeaderName ="${_csrf.headerName}"; 
+			const csrfTokenValue="${_csrf.token}";
+			$.ajax({
+				url: '/uploadAjaxAction',
+				processData: false,
+				contentType: false,
+				data: formData,
+				type: 'POST',
+				beforeSend: function (xhr) {
+                    // CSRF 토큰을 헤더에 추가
+                    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+                },
+				success: function(result){
+					console.log("success: ", result);
+					showUploadedFile(result);
+				}
+			});
+    		
+    	})
+    	
+    	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		let maxSize = 5242880; //5MB
+
+		function checkExtension(fileName, fileSize) {
+
+			if (fileSize >= maxSize) {
+				alert("파일 사이즈 초과");
+				return false;
+			}
+
+			if (regex.test(fileName)) {
+				alert("해당 종류의 파일은 업로드할 수 없습니다.");
+				return false;
+			}
+			return true;
+		}
+		
+		// 파일 미리보기
+		function showUploadedFile(uploadResultArr) {	 
+			let fileCallPath = "";
+		    $(uploadResultArr).each(function(i, obj){
+		    	console.log(obj);
+			    if(obj.image){
+			        fileCallPath = encodeURIComponent(obj.thumbnailPath);
+			    }
+		   });
+		   
+		   console.log("fileCallPath: " + fileCallPath);
+		   $('#previewImage').attr('src', '/display?fileName=' + fileCallPath);
+		   $('#clubProfile').val(fileCallPath);
+		 }
     });
 </script>
 </body>
