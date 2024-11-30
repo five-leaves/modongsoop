@@ -32,5 +32,27 @@
 		WHERE	username = #{username}
 	
 	</select>
+	
+	<insert id="insertUser">
+	
+		insert into users (user_no, username, password, profile, nickname, birth)
+		values (users_seq.nextval, #{username}, #{password}, #{profile}, #{nickname}, #{birth})
+		
+	</insert>
+	
+	<insert id="insertAuthority">
+	
+		insert into authorities (user_no, authority)
+		values (authorities_seq.nextval, #{authority})
+		
+	</insert>
+	
+	<update id="update">
+	
+	</update>
+	
+	<delete id="delete">
+	
+	</delete>
 
 </mapper>

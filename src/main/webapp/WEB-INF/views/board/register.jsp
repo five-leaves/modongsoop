@@ -2,6 +2,7 @@
   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@include file="../includes/head.jsp"%>
 
 <body>
@@ -24,6 +25,9 @@
       <div class="panel-body">
 
         <form role="form" action="/board/register" method="post">
+        
+    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        
           <div class="form-group">
             <label>제목</label> <input class="form-control" name='boardTitle'>
           </div>
