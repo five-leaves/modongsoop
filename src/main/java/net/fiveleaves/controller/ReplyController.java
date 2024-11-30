@@ -24,55 +24,54 @@ import net.fiveleaves.service.ReplyService;
 @AllArgsConstructor
 public class ReplyController {
 	
-	private ReplyService service;
+	private ReplyService replyService;
 	
-	@PreAuthorize("isAuthenticated()")
-	@PostMapping(value="/new",
-			 consumes="application/json",
-			 produces= {MediaType.TEXT_PLAIN_VALUE})
+	@PostMapping(value ="/new",
+			consumes="application/json",
+			produces = {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> create(@RequestBody ReplyDTO replyDto) {
-		log.info("ReplyDTO: " + replyDto);
-		int insertCount = service.register(replyDto);
-		log.info("Reply INSERT COUNT: " + insertCount);
+		log.info("replyDto: "+replyDto);
+		int insertCount= replyService.register(replyDto);
+		log.info("Reply INSERT COUNT: "+insertCount);
 		
-		return insertCount == 1 
+		return insertCount==1
 				? new ResponseEntity<>("success", HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 				
 	}
 	
-	@GetMapping (value = "/{replyNo}",
-			produces = {MediaType.APPLICATION_XML_VALUE,
-			            MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<ReplyDTO> get(@PathVariable("reply_no")Long replyNo) {
-		log.info("get: " + replyNo);
-		return new ResponseEntity<>(service.get(replyNo),HttpStatus.OK);
-	}
-	
-	@DeleteMapping(value= "/{replyNo}", produces = {MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> remove(@PathVariable("reply_no")Long replyNo) {
-		log.info("remove: " + replyNo);
-		return service.remove(replyNo)
-			    ? new ResponseEntity<>("success", HttpStatus.OK)
-			    : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);		
-	}
-	
-	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH },
-			value = "/{replyNo}",
-			consumes = "application/json",
-			produces = {MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> modify(
-			@RequestBody ReplyDTO replyDto,
-			@PathVariable("reply_no")Long replyNo) {
-		replyDto.setReplyNo(replyNo);
-		log.info("reply_no: " + replyNo);
-		log.info("modify: " + replyDto);
-		return service.modify(replyDto) == 1
-				? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);		
-	}
+//	@GetMapping (value = "/{replyNo}",
+//			produces = {MediaType.APPLICATION_XML_VALUE,
+//			            MediaType.APPLICATION_JSON_UTF8_VALUE })
+//	public ResponseEntity<ReplyDTO> get(@PathVariable("reply_no")Long replyNo) {
+//		log.info("get: " + replyNo);
+//		return new ResponseEntity<>(service.get(replyNo),HttpStatus.OK);
+//	}
+//	
+//	@DeleteMapping(value= "/{replyNo}", produces = {MediaType.TEXT_PLAIN_VALUE })
+//	public ResponseEntity<String> remove(@PathVariable("reply_no")Long replyNo) {
+//		log.info("remove: " + replyNo);
+//		return service.remove(replyNo)
+//			    ? new ResponseEntity<>("success", HttpStatus.OK)
+//			    : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);		
+//	}
+//	
+//	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH },
+//			value = "/{replyNo}",
+//			consumes = "application/json",
+//			produces = {MediaType.TEXT_PLAIN_VALUE })
+//	public ResponseEntity<String> modify(
+//			@RequestBody ReplyDTO replyDto,
+//			@PathVariable("reply_no")Long replyNo) {
+//		replyDto.setReplyNo(replyNo);
+//		log.info("reply_no: " + replyNo);
+//		log.info("modify: " + replyDto);
+//		return service.modify(replyDto) == 1
+//				? new ResponseEntity<>("success", HttpStatus.OK)
+//				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);		
+//	}
 
-//	// replyService - 희준님
+
 //	@GetMapping(value="/pages/{boardNo}/{page}",
 //				produces= {MediaType.APPLICATION_XML_VALUE,
 //						   MediaType.APPLICATION_JSON_UTF8_VALUE})
@@ -84,40 +83,40 @@ public class ReplyController {
 //		log.info(cri);
 //		return new ResponseEntity<>(replyService.getList(cri,boardNo),HttpStatus.OK);
 //	}
-//	
-//	@GetMapping(value="/{replyNo}",
-//				produces= {MediaType.APPLICATION_XML_VALUE,
-//						   MediaType.APPLICATION_JSON_UTF8_VALUE})
-//	public ResponseEntity<ReplyDTO> get(@PathVariable("replyNo") Long replyNo) {
-//		   log.info("get: "+replyNo);
-//		   return new ResponseEntity<>(replyService.get(replyNo), HttpStatus.OK);
-//	}
-//	
-//	@PreAuthorize("isAuthenticated()")
-//	@DeleteMapping(value="/{replyNo}", produces= {MediaType.TEXT_PLAIN_VALUE})
-//	public ResponseEntity<String> remove(@PathVariable("replyNo") Long replyNo) {
-//		log.info("remove: "+replyNo);
-//		
-//		return replyService.remove(replyNo)==1
-//				? new ResponseEntity<>("success", HttpStatus.OK)
-//						: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
-//	
-//	@PreAuthorize("isAuthenticated()")
-//	@RequestMapping(method= {RequestMethod.PUT, RequestMethod.PATCH},
-//					value="/{replyNo}",
-//					consumes="application/json",
-//					produces= {MediaType.TEXT_PLAIN_VALUE})
-//	public ResponseEntity<String> modify(
-//			@RequestBody ReplyDTO replyDto,
-//			@PathVariable("replyNo") Long replyNo) {
-//		replyDto.setReplyNo(replyNo);
-//		log.info("replyNo: "+replyNo);
-//		log.info("modify: "+replyNo);
-//		return replyService.modify(replyDto)==1
-//				? new ResponseEntity<>("success",HttpStatus.OK)
-//						: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
+	
+	@GetMapping(value="/{replyNo}",
+				produces= {MediaType.APPLICATION_XML_VALUE,
+						   MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<ReplyDTO> get(@PathVariable("replyNo") Long replyNo) {
+		   log.info("get: "+replyNo);
+		   return new ResponseEntity<>(replyService.get(replyNo), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@DeleteMapping(value="/{replyNo}", produces= {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> remove(@PathVariable("replyNo") Long replyNo) {
+		log.info("remove: "+replyNo);
+		
+		return replyService.remove(replyNo) == true
+				? new ResponseEntity<>("success", HttpStatus.OK)
+						: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(method= {RequestMethod.PUT, RequestMethod.PATCH},
+					value="/{replyNo}",
+					consumes="application/json",
+					produces= {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> modify(
+			@RequestBody ReplyDTO replyDto,
+			@PathVariable("replyNo") Long replyNo) {
+		replyDto.setReplyNo(replyNo);
+		log.info("replyNo: "+replyNo);
+		log.info("modify: "+replyNo);
+		return replyService.modify(replyDto)==1
+				? new ResponseEntity<>("success",HttpStatus.OK)
+						: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	/*
 	@GetMapping(value = "/pages/{boardNo}/{page}", 
 			produces = { 
