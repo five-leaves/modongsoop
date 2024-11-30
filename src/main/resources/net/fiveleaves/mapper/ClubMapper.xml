@@ -41,7 +41,7 @@
 		)
 		]]>
 		<if test="categoryNo != null">
-			and category_no = #{categoryNo}
+			where category_no = #{categoryNo}
 		</if>
  	</select>
  	
