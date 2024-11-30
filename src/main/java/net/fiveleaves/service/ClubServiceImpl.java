@@ -94,5 +94,17 @@ public class ClubServiceImpl implements ClubService{
 		List<ClubDTO> searchedClubList = mapper.searchClub(clubName);
 		return searchedClubList;
 	}
+
+	// 동호회 회원수
+	@Override
+	public int countMember(Long clubNo) throws Exception {
+		return mapper.countMember(clubNo);
+	}
+
+	// 동호회 회원 확인
+	@Override
+	public int isMember(ClubLogDTO clubLog) throws Exception {
+		return mapper.isMember(clubLog);
+	}
 	
 }
