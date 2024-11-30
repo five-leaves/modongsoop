@@ -102,7 +102,7 @@ public class BoardController {
 			model.addAttribute("boardDto", boardService.get(boardNo));
 			model.addAttribute("userNo", userDto.getUserNo());
 			model.addAttribute("userNickname", userDto.getNickname());
-			model.addAttribute("replyDto", replyService.getList(boardNo));
+			model.addAttribute("replyDto", replyService.getList(cri, boardNo));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

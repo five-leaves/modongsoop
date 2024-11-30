@@ -11,6 +11,6 @@ public interface ReplyService {
 	public ReplyDTO get(Long replyNo);
 	public int modify(ReplyDTO replyDto);
 	public boolean remove(Long replyNo);
-	public List<ReplyDTO> getList(Long boardNo);
+	public List<ReplyDTO> getList(Criteria cri, Long boardNo);
 	public ReplyPageDTO getListPage(Criteria cri, Long boardNo);
 }
