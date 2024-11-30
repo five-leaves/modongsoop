@@ -7,36 +7,54 @@ body {
 
 .forest-container {
     background: #f3f9f1;
-    border-radius: 1.25rem;
     padding: 1.25rem;
     box-shadow: 0rem 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
 }
 
 .forest-header {
-    background: linear-gradient(to right, #81c784, #66bb6a);
+    display: flex;
+    background: #6EBF72;
     border-radius: 0.9375rem;
     color: white;
     padding: 0.9375rem;
-    text-align: center;
+    align-items: center;
 }
 
-.forest-header h1 {
+.forest-header .title {
     font-size: 2.5rem;
     font-weight: bold;
-    text-shadow: 0.125rem 0.125rem #2e7d32;
+    text-shadow: 0.125rem 0.125rem #1D743B;
+}
+
+.forest-header .logo {
+	width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+.forest-header .form-control {
+	border-radius: 0.375rem;
+	border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.search-bar {
+    margin-right: auto; /* 검색창을 왼쪽 끝으로 정렬 */
+}
+
+.user-info {
+	display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.profile-img {
+    width: 50px; /* 프로필 이미지 너비 */
+    height: 50px; /* 프로필 이미지 높이 */
+    object-fit: cover; /* 이미지를 정사각형으로 유지 */
 }
 
 .btn-forest {
-    background: #a5d6a7;
-    border: none;
-    color: white;
-    padding: 0.625rem 1.25rem;
-    border-radius: 0.375rem;
-    transition: transform 0.3s, background 0.3s;
-}
-
-.btn-logout {
-	background: #a5d6a7;
+    background: #A5D6A7;
     border: none;
     color: white;
     padding: 0.625rem 1.25rem;
@@ -45,8 +63,7 @@ body {
 }
 
 .btn-forest:hover {
-    background: #81c784;
-    transform: scale(1.1);
+    background: #977963;
 }
 
 .category-button {
@@ -117,10 +134,6 @@ a.club-link * {
 	width: 6.25rem;
     height: auto; 
     margin-right: 1.25rem;
-}
-
-.user-info img {
-	width: 1.25rem;
 }
 
 .forest-search-group {
