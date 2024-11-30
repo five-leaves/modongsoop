@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import net.fiveleaves.domain.BoardDTO;
+import net.fiveleaves.domain.ClubDTO;
 import net.fiveleaves.domain.ClubLogDTO;
 import net.fiveleaves.domain.Criteria;
 import net.fiveleaves.domain.PageDTO;
@@ -44,17 +45,27 @@ public class BoardController {
 		
 		try {
 			cri.setClubNo(clubNo);
+			
+			// 회원 정보 가져오기
 			UserDTO userDto = userSevice.read(auth.getName());
 			
+			// 멤버인지 확인
 			ClubLogDTO clubLogDto = new ClubLogDTO();
 			clubLogDto.setClubNo(clubNo);
 			clubLogDto.setUserNo(userDto.getUserNo());
 			int isMember = clubService.isMember(clubLogDto);
 			
+			// 동호회 정보 가져오기
+			ClubDTO clubDto = clubService.get(clubNo);
+			
+			// 리더인지 확인
+			boolean isLeader = clubDto.getUserNo() == userDto.getUserNo();
+			
 			model.addAttribute("isMember", isMember);
+			model.addAttribute("isLeader", isLeader);
 			model.addAttribute("userAge", userDto.getBirth());
 			model.addAttribute("list", boardService.getList(cri));
-			model.addAttribute("clubDto", clubService.get(clubNo));
+			model.addAttribute("clubDto", clubDto);
 			model.addAttribute("clubMemberCount", clubService.countMember(clubNo));
 			int total=boardService.getTotal(cri);
 			log.info("total: "+total);

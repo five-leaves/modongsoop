@@ -124,6 +124,7 @@ public class ClubController {
 	
 	// 동호회 가입
 	@PostMapping("/join")
+	@PreAuthorize("isAuthenticated()")
 	public String join(ClubLogDTO clubLogDto, RedirectAttributes rttr, Authentication auth) {
 		log.info("join: " + clubLogDto);
 		try {
@@ -140,10 +141,12 @@ public class ClubController {
 	
 	//동호회 탈퇴
 	@PostMapping("/withdraw")
+	@PreAuthorize("isAuthenticated()")
 	public String withdraw(ClubLogDTO clubLogDto, Authentication auth) {
 		log.info("withdraw: " + clubLogDto);
-		clubLogDto.setUsername(auth.getName());
 		try {
+			UserDTO userDto = userService.read(auth.getName());
+			clubLogDto.setUserNo(userDto.getUserNo());
 			clubService.withdraw(clubLogDto);
 			return "redirect:/club/list";
 		} catch (Exception e) {

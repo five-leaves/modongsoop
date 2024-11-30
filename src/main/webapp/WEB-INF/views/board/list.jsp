@@ -207,10 +207,17 @@ body {
 					<form id="withdrawForm" action="/club/withdraw" method="post">
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 						<input type="hidden" name="clubNo" value="${param.clubNo}" />
-						<button id="joinBtn" class="btn btn-join w-100">동호회 탈퇴</button>
+						<button id="withdrawBtn" class="btn btn-join w-100">동호회 탈퇴</button>
 					</form>
 				</c:otherwise>
 			</c:choose>
+			<!-- 동호회 관리 버튼 -->
+			<c:if test="${isLeader}">
+				<form id="settingForm" action="/club/modify" method="get">
+					<input type="hidden" name="clubNo" value="${param.clubNo}" />
+					<button id="settingBtn" class="btn btn-join w-100">동호회 관리</button>
+				</form>
+			</c:if>
 			<button id='regBtn' type="button" class="btn btn-join w-100">새글작성</button>
 			<p>멤버 수: <c:out value="${clubMemberCount}"/></p>
 			<p>리더: <c:out value="${clubDto.nickname}" /></p>
@@ -352,14 +359,24 @@ body {
 		let userAge = '<c:out value="${userAge}"/>';
 		userAge = userAge.slice(0, 4);
 		$("#joinBtn").click(function (e) {
-			if ($('#ageMin').val() <= userAge || userAge >= $('#ageMax').val()) {
+			if (($('#ageMin').val() <= userAge && $('#ageMin').val() != '') && (userAge >= $('#ageMax').val() && $('#ageMax').val() != '')) {
 				e.preventDefault(); // 폼 전송 중지
                 alert("가입할 수 없습니다.");
 				return;
 			}
 		})
+		
+		// 리더 동호회 탈퇴 방지
+		$('#withdrawBtn').click(function (e) {
+			e.preventDefault();
+			if (confirm('정말로 동호회를 탈퇴하시겠습니까?')) {
+				if ('<c:out value="${isLeader}"/>') {
+					alert("회장은 탈퇴할 수 없습니다. 동호회를 삭제해주세요.");
+					return;
+				}
+			}
+		})
 			
 	});
 	</script>
-	 
-	<%@ include file="../includes/foot.jsp" %>
+<%@ include file="../includes/foot.jsp" %>
