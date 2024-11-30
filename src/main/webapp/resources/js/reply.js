@@ -15,6 +15,7 @@
          contentType: "application/json; charset=utf-8",
          beforeSend: function(xhr) {
             // CSRF 토큰 추가
+            
             xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
          },
          success: function(result, status, xhr){

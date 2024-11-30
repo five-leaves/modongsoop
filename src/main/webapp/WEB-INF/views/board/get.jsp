@@ -434,7 +434,8 @@ body {
     });
     
     modalRegisterBtn.on("click",function(e){
-        
+        console.log("여기");
+        let boardNoValue = '<c:out value="${boardDto.boardNo}"/>';
         let reply = {
               reply: modalInputReply.val(),
               user:modalInputuser.val(),
@@ -446,6 +447,7 @@ body {
           
           modal.find("input").val("");
           modal.modal("hide");
+          console.log("여기2");
           
         });
         
