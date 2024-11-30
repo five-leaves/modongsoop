@@ -28,26 +28,21 @@
         
     		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         
-          <div class="form-group">
-            <label>제목</label> <input class="form-control" name='boardTitle'>
-          </div>
-
-          <div class="form-group">
-            <label>내용</label>
-            <textarea class="form-control" rows="3" name='boardContent'></textarea>
-          </div>
-
-          <div class="form-group">
-            <label>작성자</label> <input class="form-control" name='userNo'>
-          </div>
+            <div class="form-group">
+              <label>제목</label> <input class="form-control" name='boardTitle' />
+            </div>
           
-          <div class="form-group">
-            <label>동호회</label> <input class="form-control" name='clubNo'>
-          </div>
+            <div class="form-group">
+              <label>내용</label>
+              <textarea class="form-control" rows="3" name='boardContent'></textarea>
+            </div>
+		    <input type="hidden" class="form-control" name='userNo' value=<c:out value="${userNo}" /> readonly />
+            
+            <input type="hidden" class="form-control" name='clubNo' value="${param.clubNo}" />
           
-          <input type="hidden" id="csrfToken" name="_csrf" value="${_csrf.token}" />
-          <button type="submit" class="btn btn-default">등록</button>
-          <button type="reset" class="btn btn-default">취소</button>
+	        <input type="hidden" id="csrfToken" name="_csrf" value="${_csrf.token}" />
+	        <button type="submit" class="btn btn-default">등록</button>
+	        <button type="reset" class="btn btn-default">취소</button>
         </form>
 
       </div>
