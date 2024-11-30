@@ -16,8 +16,8 @@
             <h1>동호회 등록</h1>
         </div>
         <form action="/club/register" method="POST" enctype="multipart/form-data">
-        	<sec:csrfInput/>
-        	<input id="csrfInput" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>  
+        
+        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>  
         
         	<div class="form-group">
 			    <label for="profileImage" class="form-label">프로필 이미지</label>

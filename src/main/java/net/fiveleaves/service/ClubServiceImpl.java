@@ -65,11 +65,7 @@ clubMapper.createClub(clubDto);
 	// 동호회 삭제
 	@Override
 	public boolean removeClub(Long clubNo) throws Exception {
-		clubMapper.deleteAllMember(clubNo);
 		clubMapper.deleteClub(clubNo);
-		if (clubMapper.deleteAllMember(clubNo) == 0) {
-			throw new RuntimeException(clubNo + "번 동호회의 회원이 없습니다.");
-		}
 		if (clubMapper.deleteClub(clubNo) == 0) {
 			throw new RuntimeException(clubNo + "번 동호회가 없습니다.");
 		}

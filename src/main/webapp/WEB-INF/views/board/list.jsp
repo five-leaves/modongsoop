@@ -213,7 +213,7 @@ body {
 			</c:choose>
 			<button id='regBtn' type="button" class="btn btn-join w-100">새글작성</button>
 			<p>멤버 수: <c:out value="${clubMemberCount}"/></p>
-			<p>리더: <c:out value="$clubDto" /></p>
+			<p>리더: <c:out value="${clubDto.nickname}" /></p>
 		</div>
 
 		<!-- Main Content -->
