@@ -34,6 +34,7 @@ public class ClubController {
 	public String list(@RequestParam(value = "categoryNo", required = false) Long categoryNo, Model model, Authentication auth) {
 		try {
 			UserDTO userDto = userService.read(auth.getName());
+			model.addAttribute("nickname", userDto.getNickname());
 			model.addAttribute("myClubList", clubService.getMyClubList(userDto.getUserNo()));
 			model.addAttribute("allClubList", clubService.getAllClubList(categoryNo));
 			model.addAttribute("categoryList", categoryService.getCategoryList());

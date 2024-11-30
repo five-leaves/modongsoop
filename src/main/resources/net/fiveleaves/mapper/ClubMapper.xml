@@ -17,7 +17,7 @@
 		       category_name,
 		       regdate,
 		       updatedate,
-		       count_member
+		       member_count
 		from (
 		    select /*+ INDEX_DESC(c pk_clubs) */
 		           rownum rn,
@@ -31,10 +31,10 @@
 		           ca.category_name,
 		           c.regdate,
 		           c.updatedate,
-		           cl.count_member
+		           cl.member_count
 		    from clubs c
 		    inner join categories ca on c.category_no = ca.category_no 
-		    inner join (select club_no, count(*) count_member
+		    inner join (select club_no, count(*) member_count
 		                from club_logs
 		                group by club_no) cl on c.club_no = cl.club_no
 		    order by c.club_no desc
