@@ -13,6 +13,7 @@ public class ClubLogDTO {
 
 	private Long userNo;
 	private Long clubNo;
+	private String username;
 	
 	private Date regdate;
 }
