@@ -1,4 +1,6 @@
-console.log("Reply Module......");
+/**
+ * reply module
+ */
 
 let replyService=(function() {
 	function add(reply, callback, error){

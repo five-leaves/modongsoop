@@ -27,7 +27,13 @@
 </select>
 
 <select id="read" resultType="net.fiveleaves.domain.BoardDTO">
-    select board_no, board_title, board_content, view_count, regdate, updateDate, club_no, user_no from boards where board_no = #{boardNo}
+	SELECT a.board_no, a.board_title, a.board_content, a.view_count
+		  ,a.regDate, a.updateDate, a.club_no, a.user_no
+		  ,b.nickname
+	FROM  boards a
+		 ,users b
+	WHERE a.board_no = #{boardNo}
+	AND   a.user_no = b.user_no
 </select>
 
 <insert id="insert">
