@@ -25,13 +25,13 @@
             		<a class="club-link" href='/board/list?clubNo=<c:out value="${club.clubNo}" />'>
 			            <div class="club-card mb-2">
 			                <c:choose>
-													<c:when test="${empty club.clubProfile}">
-															<img src="/resources/img/club_placeholder.png" alt="동호회 이미지" />
-													</c:when>
-													<c:otherwise>
-															<img src="/display?fileName=${club.clubProfile}" alt="동호회 이미지" />
-													</c:otherwise>
-											</c:choose>
+							    <c:when test="${empty club.clubProfile}">
+							        <img src="/resources/img/club_placeholder.png" alt="동호회 이미지" />
+							    </c:when>
+							    <c:otherwise>
+							        <img src="/display?fileName=${club.clubProfile}" alt="동호회 이미지" />
+							    </c:otherwise>
+							</c:choose>
 			                <p><c:out value="${club.clubName}" /></p>
 			                <p class="badge bg-primary"><c:out value="${club.categoryName}" /></p>
 			                <p>회원 수: <c:out value="${club.memberCount}"/></p>
