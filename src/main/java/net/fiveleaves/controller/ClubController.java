@@ -1,5 +1,6 @@
 package net.fiveleaves.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,11 +52,13 @@ public class ClubController {
 	}
 	
 	@GetMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public void register(Model model) throws Exception {
 		model.addAttribute("categoryList", categoryService.getCategoryList());
 	}
 	
 	@PostMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public String register(ClubDTO clubDto, RedirectAttributes rttr, Authentication auth) throws Exception {
 		log.info("register: " + clubDto);
 		

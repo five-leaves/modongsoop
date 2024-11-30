@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@include file="../includes/head.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -15,6 +16,9 @@
             <h1>동호회 등록</h1>
         </div>
         <form action="/club/register" method="POST" enctype="multipart/form-data">
+        
+        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>  
+        
         	<div class="form-group">
 			    <label for="profileImage" class="form-label">프로필 이미지</label>
 			    <div class="profile-upload">

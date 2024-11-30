@@ -17,7 +17,7 @@
             <img src="/resources/img/profile_placeholder.png" alt="프로필 이미지" class="rounded-circle me-2" style="width: 40px; height: 40px;">
             <span class="me-3">닉네임</span>
             <form role="form" method='post' action="/includes/header">
-	        	<a href="/user/main" class="btn btn-forest ms-3">로그아웃</a>
+	        	<a href="/user/main" class="btn btn-forest ms-3" id="logoutButton">로그아웃</a>
 	        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	        </form>
         </div>
