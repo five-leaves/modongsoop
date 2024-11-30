@@ -14,10 +14,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import net.fiveleaves.domain.BoardDTO;
+import net.fiveleaves.domain.ClubLogDTO;
 import net.fiveleaves.domain.Criteria;
 import net.fiveleaves.domain.PageDTO;
 import net.fiveleaves.domain.UserDTO;
 import net.fiveleaves.service.BoardService;
+import net.fiveleaves.service.ClubService;
+import net.fiveleaves.service.UserService;
 
 @Controller
 @Log4j
@@ -26,6 +29,8 @@ import net.fiveleaves.service.BoardService;
 public class BoardController {
 	
 	private BoardService boardService;
+	private ClubService clubService;
+	private UserService userSevice;
 	
 //	@GetMapping("/list")
 //	public void list(Model model) {
@@ -33,14 +38,30 @@ public class BoardController {
 //		model.addAttribute("list", boardService.getList());
 //	}
 	@GetMapping("/list")
-	public void list(@RequestParam(value = "clubNo") Long clubNo, Criteria cri, Model model) {
+	public void list(@RequestParam(value = "clubNo") Long clubNo, Criteria cri, Model model, Authentication auth) {
 		log.info("list: "+cri);
-		cri.setClubNo(clubNo);
-		model.addAttribute("list", boardService.getList(cri));
-//		model.addAttribute("pageMaker",new PageDTO(cri, 123));
-		int total=boardService.getTotal(cri);
-		log.info("total: "+total);
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		try {
+			cri.setClubNo(clubNo);
+			UserDTO userDto = userSevice.read(auth.getName());
+			
+			ClubLogDTO clubLogDto = new ClubLogDTO();
+			clubLogDto.setClubNo(clubNo);
+			clubLogDto.setUserNo(userDto.getUserNo());
+			int isMember = clubService.isMember(clubLogDto);
+			
+			model.addAttribute("isMember", isMember);
+			model.addAttribute("userAge", userDto.getBirth());
+			model.addAttribute("list", boardService.getList(cri));
+			model.addAttribute("clubDto", clubService.get(clubNo));
+			model.addAttribute("clubMemberCount", clubService.countMember(clubNo));
+//			model.addAttribute("pageMaker",new PageDTO(cri, 123));
+			int total=boardService.getTotal(cri);
+			log.info("total: "+total);
+			model.addAttribute("pageMaker", new PageDTO(cri, total));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@GetMapping("/register")
