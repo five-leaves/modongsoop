@@ -35,6 +35,15 @@ body {
     transition: transform 0.3s, background 0.3s;
 }
 
+.btn-logout {
+	background: #a5d6a7;
+    border: none;
+    color: white;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.375rem;
+    transition: transform 0.3s, background 0.3s;
+}
+
 .btn-forest:hover {
     background: #81c784;
     transform: scale(1.1);

@@ -4,7 +4,7 @@
 
 	<script>
 	
-	  $(".btn-forest").on("click", function(e){
+ 	  $(".btn-logout").on("click", function(e){
 	
 	    e.preventDefault();
 	    $("form").submit();
