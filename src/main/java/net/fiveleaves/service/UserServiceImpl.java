@@ -1,20 +1,38 @@
 package net.fiveleaves.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
 import net.fiveleaves.domain.UserDTO;
 import net.fiveleaves.mapper.UserMapper;
 
+@Log4j
 @Service
-public class UserServiceImpl implements UserService{
+@AllArgsConstructor
+public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserMapper userMapper;
+	private UserMapper mapper;
 	
-	@Override
+	private PasswordEncoder pwencoder;
+
+  @Override
 	public UserDTO read(String username) throws Exception {
-		return userMapper.read(username);
+		return mapper.read(username);
+	}
+  
+	@Override
+	public void register(UserDTO user) {
+		
+		log.info("register......" + user);
+		
+		// password encoding 처리
+		user.setPassword(pwencoder.encode(user.getPassword()));
+		
+		mapper.insertUser(user);
+		mapper.insertAuthority("ROLE_USER");
+		
 	}
 	
 }

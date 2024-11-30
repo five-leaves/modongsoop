@@ -38,7 +38,7 @@
         .profile-circle {
             width: 120px;
             height: 120px;
-            background-color: #D9D9D9;
+            background-color: #FFFFFF;
             border-radius: 50%;
             overflow: hidden;
             display: flex;
@@ -128,12 +128,15 @@
         <input type="file" id="profileImageInput" accept="image/*" onchange="previewProfileImage(event)">
 
         <!-- 회원가입 폼 -->
-        <form id="signupForm" method="POST" action="/user/signup">
+        <form role="form" id="signupForm" action="/user/signup" method="post">
+        
+        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>  
+        
             <label for="username">아이디</label>
-            <input type="text" id="username" name="username" placeholder="아이디">
+            <input type="text" id="username" name="username" placeholder="아이디" required>
 
             <label for="password">비밀번호</label>
-            <input type="password" id="password" name="password" placeholder="비밀번호">
+            <input type="password" id="password" name="password" placeholder="비밀번호" required>
 
             <label for="birthdate">생년월일</label>
             <div class="birthdate-container">
@@ -154,14 +157,16 @@
                 </select>
             </div>
 
-            <label for="nickname">닉네임</label>
-            <input type="text" id="nickname" name="nickname" placeholder="닉네임">
+			<input type="hidden" id="birth" name="birth">
 
-            <button type="button" onclick="submitForm()">회원가입</button>
+            <label for="nickname">닉네임</label>
+            <input type="text" id="nickname" name="nickname" placeholder="닉네임" required>
+
+            <button type="submit">회원가입</button>
         </form>
     </div>
 
-    <script>
+     <script>
         function previewProfileImage(event) {
             const file = event.target.files[0];
             if (file) {
@@ -175,7 +180,7 @@
             }
         }
 
-        function validateForm() {
+ /*        function validateForm() {
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
             const nickname = document.getElementById('nickname').value.trim();
@@ -199,9 +204,9 @@
             }
 
             return true;
-        }
+        } */
 
-        function submitForm() {
+        /* function submitForm() {
             if (!validateForm()) {
                 return;
             }
@@ -209,21 +214,59 @@
             const form = document.getElementById('signupForm');
             const formData = new FormData(form);
 
-            fetch('/uploadProfileImage', {
+            fetch('/user/signup', {
                 method: 'POST',
-                body: formData,
+                body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('서버 오류 발생');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     alert('회원가입이 완료되었습니다.');
                     window.location.href = '/user/fiveleavesLogin';
                 } else {
-                    alert('회원가입 중 오류가 발생했습니다.');
+                    alert('회원가입 중 오류가 발생했습니다: ' + data.message);
                 }
             })
-            .catch(err => console.error(err));
-        }
+            .catch(err => {
+                console.error(err);
+                alert('서버와의 연결에 실패했습니다.');
+            });
+        } */
+
+
     </script>
+    
+    <script>
+	    // Function to combine the selected values into a single string (YYYYMMDD)
+	    function combineBirthDate() {
+	        var year = document.getElementById('birthYear').value;
+	        var month = document.getElementById('birthMonth').value;
+	        var day = document.getElementById('birthDay').value;
+	
+	        // Ensure month and day have two digits (e.g., 01, 02, ..., 09)
+	        if (month.length == 1) month = '0' + month;
+	        if (day.length == 1) day = '0' + day;
+	
+	        // Combine into YYYYMMDD format
+	        var birthDate = year + month + day;
+	
+	        // Set the value of the hidden input field
+	        document.getElementById('birth').value = birthDate;
+	    }
+	
+	    // Attach event listeners to update the hidden input when the user selects a date
+	    document.getElementById('birthYear').addEventListener('change', combineBirthDate);
+	    document.getElementById('birthMonth').addEventListener('change', combineBirthDate);
+	    document.getElementById('birthDay').addEventListener('change', combineBirthDate);
+	
+	    // Initialize the hidden input on page load
+	    window.onload = combineBirthDate;
+	</script>
+
 </body>
 </html>
