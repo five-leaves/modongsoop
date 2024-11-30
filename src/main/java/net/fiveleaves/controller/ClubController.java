@@ -81,10 +81,8 @@ public class ClubController {
 		return "redirect:/board/list?clubNo=" + clubDto.getClubNo();
 	}
 	
-	@PostMapping(value = "/modify", params = "operation=remove")
-	public String remove(
-	        @RequestParam("clubNo") Long clubNo,
-	        RedirectAttributes rttr) throws Exception {
+	@PostMapping(value = "/remove")
+	public String remove(@RequestParam("clubNo") Long clubNo, RedirectAttributes rttr) throws Exception {
 	    log.info("remove: " + clubNo);
 	    clubService.removeClub(clubNo);
 	    rttr.addFlashAttribute("result", "success");
