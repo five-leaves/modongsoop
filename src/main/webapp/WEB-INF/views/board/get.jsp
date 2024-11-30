@@ -76,6 +76,7 @@ body {
 	display: flex;
 	align-items: center;
 	gap: 10px;
+	justify-content: flex-end; /*오른쪽 정렬*/
 }
 
 .comment-box input {
@@ -117,6 +118,7 @@ body {
 .content-content {
 	max-height: none; /* 댓글 목록의 최대 높이를 설정하지 않음*/
 }
+
 </style>
 <body>
 <div class="container">
@@ -190,8 +192,9 @@ body {
 
 							<!-- 댓글 -->
 							<div class="comment-box">
-								<input type="text" id="commentInput" placeholder="댓글을 작성하세요">
-								<button id="commentSubmit" class="btn btn-forest">보내기</button>
+								<!-- <input type="text" id="commentInput" placeholder="댓글을 작성하세요"> -->
+								<!-- <button id="commentSubmit" class="btn btn-forest">보내기</button> -->
+								<button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>댓글작성</button>
 							</div>
 							<!-- 댓글출력 영역 -->
 							<div class="comment-list">
