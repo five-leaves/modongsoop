@@ -184,8 +184,15 @@ body {
 		<!-- Sidebar -->
 		<div class="col-md-3 sidebar">
 			<div class="profile">
-				<img src="/path/to/profile.jpg" alt="Profile">
-				<p>동호회명</p>
+				<c:choose>
+				    <c:when test="${empty clubDto.clubProfile}">
+				        <img src="/resources/img/club_placeholder.png" alt="동호회 이미지" />
+				    </c:when>
+				    <c:otherwise>
+				        <img src="/display?fileName=${clubDto.clubProfile}" alt="동호회 이미지" />
+				    </c:otherwise>
+				</c:choose>
+				<p><c:out value="${clubDto.clubName}" /></p>
 			</div>
 			<!-- 동호회 멤버이면 버튼 숨기기 -->
 			<c:choose> 

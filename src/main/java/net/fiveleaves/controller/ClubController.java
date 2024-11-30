@@ -110,10 +110,8 @@ public class ClubController {
 		return null;
 	}
 	
-	@PostMapping(value = "/modify", params = "operation=remove")
-	public String remove(
-	        @RequestParam("clubNo") Long clubNo,
-	        RedirectAttributes rttr) {
+	@PostMapping(value = "/remove")
+	public String remove(@RequestParam("clubNo") Long clubNo, RedirectAttributes rttr) throws Exception {
 	    log.info("remove: " + clubNo);
 	    try {
 			clubService.removeClub(clubNo);

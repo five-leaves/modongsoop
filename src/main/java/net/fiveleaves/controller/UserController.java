@@ -1,8 +1,5 @@
 package net.fiveleaves.controller;
 
-import java.io.File;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.Authentication;
@@ -49,13 +46,6 @@ public class UserController {
 		if (logout != null) {
 			model.addAttribute("logout", "Logout!!");
 		}
-		
-	}
-	
-	@GetMapping("/fiveleavesLogout")
-	public void logoutGET() {
-		
-		log.info("fiveleaves logout");
 		
 	}
 	
