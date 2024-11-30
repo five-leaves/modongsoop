@@ -187,10 +187,26 @@ body {
 				<img src="/path/to/profile.jpg" alt="Profile">
 				<p>동호회명</p>
 			</div>
-			<button class="btn btn-join w-100">동호회 가입</button>
+			<!-- 동호회 멤버이면 버튼 숨기기 -->
+			<c:choose> 
+				<c:when test="${isMember == 0}">
+					<form id="joinForm" action="/club/join" method="post">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						<input type="hidden" name="clubNo" value="${param.clubNo}" />
+						<button id="joinBtn" class="btn btn-join w-100">동호회 가입</button>
+					</form>
+				</c:when>
+				<c:otherwise>
+					<form id="withdrawForm" action="/club/withdraw" method="post">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						<input type="hidden" name="clubNo" value="${param.clubNo}" />
+						<button id="joinBtn" class="btn btn-join w-100">동호회 탈퇴</button>
+					</form>
+				</c:otherwise>
+			</c:choose>
 			<button id='regBtn' type="button" class="btn btn-join w-100">새글작성</button>
-			<p>멤버 수: 10명</p>
-			<p>리더: 홍길동</p>
+			<p>멤버 수: <c:out value="${clubMemberCount}"/></p>
+			<p>리더: <c:out value="${clubDto.nickname}" /></p>
 		</div>
 
 		<!-- Main Content -->
@@ -198,7 +214,15 @@ body {
 			<div>
 				<input type="text" class="form-control mb-3" placeholder="글 내용 검색">
 				<div class="mb-3">
-					<div class="form-control" >동호회 소개 및 정보</div>
+					<div class="form-control" >
+						동호회 소개 및 정보
+							<div>나이제한: <span id="ageMin"><c:if test="${clubDto.ageMin != 0}"><c:out value="${clubDto.ageMin}"/></c:if></span> 
+							~ <span id="ageMax"><c:if test="${clubDto.ageMax != 0}"><c:out value="${clubDto.ageMax}"/></c:if></span>
+							
+							</div>
+						<div><c:out value="${clubDto.clubContent}"/></div>
+					</div>
+					
 				</div>
 			</div>
 
@@ -244,28 +268,7 @@ body {
 		</div>
 	</div>
 </div>
-<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-								aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">&times;</button>
-											<h4 class="modal-title" id="myModalLabel">Modal title</h4>
-										</div>
-										<div class="modal-body">처리가 완료되었습니다.</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-default"
-												data-dismiss="modal">Close</button>
-											<button type="button" class="btn btn-primary">Save
-												changes</button>
-										</div>
-									</div>
-									/.modal-content
-								</div>
-								/.modal-dialog
-							</div>
-							/.modal -->
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -286,9 +289,9 @@ body {
 </div>
 
 <form id='actionForm' action="/board/list" method='get'>
-					<input type="hidden" name="clubNo" value="${param.clubNo}" />
-					<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}' />
-					<input type='hidden' name='amount' value='${pageMaker.cri.amount}' />
+	<input type="hidden" name="clubNo" value="${param.clubNo}" />
+	<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}' />
+	<input type='hidden' name='amount' value='${pageMaker.cri.amount}' />
 </form>
 
 <script type="text/javascript">
@@ -323,6 +326,18 @@ body {
 			actionForm.attr("action","/board/get");
 			actionForm.submit();
 		});
+		
+		// 가입시 나이제한 확인
+		let userAge = '<c:out value="${userAge}"/>';
+		userAge = userAge.slice(0, 4);
+		$("#joinBtn").click(function (e) {
+			if ($('#ageMin').val() <= userAge && userAge >= $('#ageMax').val()) {
+				e.preventDefault(); // 폼 전송 중지
+                alert("가입할 수 없습니다.");
+				return;
+			}
+		})
+			
 	});
 	</script> 
 	<%@ include file="../includes/foot.jsp" %>
