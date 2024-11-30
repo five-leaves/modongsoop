@@ -169,8 +169,9 @@ body {
 								<c:out value="${boardDto.boardTitle}" />
 							</h5>
 							<div>
-								작성자 번호:
-								<c:out value="${boardDto.userNo}" />
+								작성자 닉네임:
+								<c:out value="${boardDto.nickname}" /><br>
+								로그인한 사람 : <c:out value="${userDto.userNo}" />
 							</div>
 							<div class="mb-3 cute-border content-content">
 								<p class="form-control-static">
@@ -179,22 +180,36 @@ body {
 								<button data-oper='modify' class="btn btn-default"
 									onclick="location.href='/board/modify?boardNo=<c:out value="${boardDto.boardNo}"/>'">수정</button>
 								<button data-oper='list' class="btn btn-info"
-									onclick="location.href='/board/list'">목록</button>
+									onclick="location.href='/board/list?clubNo=${boardDto.clubNo}'">목록</button>
 
 								<form id='operForm' action="/board/modify" method="get">
 									<input type='hidden' id='boardNo' name='boardNo'
 										value='<c:out value="${boardDto.boardNo}"/>'>
+										
 								</form>
 
 								<!-- 댓글 -->
 								<div class="comment-box">
-									<input type="text" id="replyInput" placeholder="댓글을 작성하세요">
-									<button class="btn btn-forest" id="replySubmit">보내기</button>
+									<!--input type="text" id="replyInput" placeholder="댓글을 작성하세요"-->
+									<button class="btn btn-forest" id="replySubmit">댓글달기</button>
 								</div>
+
 
 								<div class="comment-list" id="commentList">
 									<!-- 댓글 아이템 -->
+										<c:forEach var="item" items="${replyDto}">
+										    [<c:out value="${item.nickname}" />] <c:out value="${item.replyContent}" /> (<c:out value="${item.wrDate}" />)
+										    
+										    
+										    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										    <button data-oper='replyDel' class="btn btn-default" onclick="location.href='/board/replyDel?replyNo=<c:out value="${item.replyNo}"/>&boardNo=<c:out value="${item.boardNo}"/>'">삭제</button>
+										    
+										    
+										    <br>
+										</c:forEach>
 								</div>
+								
+								
 							</div>
 						</div>
 					</div>
@@ -202,61 +217,321 @@ body {
 			</div>
 		</div>
 	</div>
-
+	<input type="hidden" id="csrfToken" name="_csrf" value="${_csrf.token}" />
+	
 	<form id='operForm' action="/board/modify" method="get">
-		<input type='hidden' id='boardNo' name='boardNo' value='<c:out value="${board.boardNo}"/>'>
-		<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
-		<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+		<input type='hidden' id='boardNo' name='boardNo'
+			value='<c:out value="${board.boardNo}"/>'> <input
+			type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+		<input type='hidden' name='amount'
+			value='<c:out value="${cri.amount}"/>'>
 	</form>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">REPLY MODAL</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Reply</label> <input class="form-control" name='reply'
+							value='New Reply!!!!'>
+					</div>
+					<!-- div class="form-group">
+						<label>userNo</label> <input class="form-control" name='user'
+							value='<c:out value="${boardDto.userNo}"/>' readOnly>
+					</div-->
+					<div class="form-group">
+						<label>Reply Date</label> <input class="form-control"
+							name='replyDate' value='2018-01-01 13:13'>
+					</div>
 
+				</div>
+				<div class="modal-footer">
+					<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
+					<button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
+					<button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
+					<button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	
 	<script src="/resources/js/reply.js"></script>
 	<script>
 	$(document).ready(function() {
 		let boardNo = '<c:out value="${boardDto.boardNo}"/>';
 		let commentList = $("#commentList");
 
-		// 댓글 리스트 보여주기
-		function loadComments() {
-			replyService.getList({ boardNo: boardNo, page: 1 }, function(list) {
-				let html = "";
-				if (list && list.length > 0) {
-					list.forEach(reply => {
-						html += `
-							<div class="comment-item" data-rno="${reply.reply_no}">
-								<strong>${reply.replyer}</strong> <small>${reply.replyDate}</small>
-								<p>${reply.reply}</p>
-							</div>
-						`;
-					});
-				} else {
-					html = "<p>댓글이 없습니다.</p>";
-				}
-				commentList.html(html);
-			})
-		}
-
-
-			let operForm=$("#opperForm");
-			$("button[data-oper='modify']").on("click",function(e) {
-				operForm.attr("action","/board/modify").submit();
-			});
-
-			// 댓글 작성
-			$("#replySubmit").click(function() {
-				let reply = $("#replyInput").val();
-				if (!reply.trim()) {
-					alert("댓글을 입력하세요!"); // ...안해...퉤!
-					return;
-				}
-				replyService.add({ reply: reply, replyer: "익명", boardNo: boardNo }, function(result) {
-					if (result === "success") {
-						$("#replyInput").val("");
-						loadComments();
-					} else {
-						alert("댓글 등록에 실패했습니다.");
-					}
-				});
-			});
+		let operForm=$("#opperForm");
+		$("button[data-oper='modify']").on("click",function(e) {
+			operForm.attr("action","/board/modify").submit();
+		});
+		
+		let csrfToken = $('#csrfToken').val();
 	})
+	
+	function showList(page){
+		console.log("여기여기 " + page);
+	  console.log("show list " + page);
+    
+    replyService.getList({boardNo:boardNoValue,page: page|| 1 }, function(replyCnt, list) {
+      
+    console.log("replyCnt: "+ replyCnt );
+    console.log("list: " + list);
+    console.log(list);
+    
+    if(page == -1){
+      pageNum = Math.ceil(replyCnt/10.0);
+      showList(pageNum);
+      return;
+    }
+      
+     let str="";
+     
+     if(list == null || list.length == 0){
+       return;
+     }
+     
+     for (let i = 0, len = list.length || 0; i < len; i++) {
+       str +="<li class='left clearfix' data-replyNo='"+list[i].replyNo+"'>";
+       str +="  <div><div class='header'><strong class='primary-font'>["
+    	   +list[i].replyNo+"] "+list[i].user+"</strong>"; 
+       str +="    <small class='pull-right text-muted'>"
+           +replyService.displayTime(list[i].replyDate)+"</small></div>";
+       str +="    <p>"+list[i].replyContent+"</p></div></li>";
+     }
+     
+     replyUL.html(str);
+     
+     showReplyPage(replyCnt);
+
+ 
+   });
+     
+ }
+	
+	let pageNum = 1;
+	let replyPageFooter = $(".panel-footer");
+    
+    function showReplyPage(replyCnt){
+      
+      let endNum = Math.ceil(pageNum / 10.0) * 10;  
+      let startNum = endNum - 9; 
+      
+      let prev = startNum != 1;
+      let next = false;
+      
+      if(endNum * 10 >= replyCnt){
+        endNum = Math.ceil(replyCnt/10.0);
+      }
+      
+      if(endNum * 10 < replyCnt){
+        next = true;
+      }
+      
+      let str = "<ul class='pagination pull-right'>";
+      
+      if(prev){
+        str+= "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+      }
+      
+      for(let i = startNum ; i <= endNum; i++){
+        
+        let active = pageNum == i? "active":"";
+        
+        str+= "<li class='page-item "+active+" '><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+      }
+      
+      if(next){
+        str+= "<li class='page-item'><a class='page-link' href='"+(endNum + 1)+"'>Next</a></li>";
+      }
+      
+      str += "</ul></div>";
+      
+      console.log(str);
+      
+      replyPageFooter.html(str);
+    }
+     
+    replyPageFooter.on("click","li a", function(e){
+       e.preventDefault();
+       console.log("page click");
+       
+       let targetPageNum = $(this).attr("href");
+       
+       console.log("targetPageNum: " + targetPageNum);
+       
+       pageNum = targetPageNum;
+       
+       showList(pageNum);
+     });
+	
+	console.log("==========");
+	console.log("JS TEST");
+	
+	/*
+	let boardNoValue = '<c:out value="${boardDto.boardNo}"/>';
+	replyService.add(
+			{replyContent:"JS Test", userNo:"tester", boardNo:boardNoValue},
+			function(result){
+				alert("RESULT: " + result);
+			});
+	
+	replyService.getList({boardNo:boardNoValue, page:1}, function(list){
+		for(let i = 0, len = list.length||0; i < len; i++) {
+			console.log(list[i]);
+		}
+	});
+	
+	replyService.remove(23, function(count){
+		console.log(count);
+		if (count === "success") {
+			alert("REMOVED");
+		}
+	}, function(err) {
+		alert('ERROR...');
+	});
+	
+	replyService.update({
+		replyNo : 22,
+		boardNo : boardNoValue,
+		reply : "Modified Reply..."
+	}, function(result){
+		alert("수정완료...");
+	});
+	
+	replyService.get(10, function(data){
+		console.log(data);
+	});
+	
+	$(document).ready(function (){
+		let boardNoValue = '<c:out value="${boardDto.boardNo}"/>';
+		let replyUL = $(".chat");
+		showList(1);
+		function showList(page){
+			replyService.getList({boardNo:boardNoValue,page: page||1}, function(list){
+				let str="";
+			    if(list == null || list.length == 0){
+			    	replyUL.html("");
+			    	return;
+			    }
+			    for (let i = 0, len = list.length || 0; i < len; i++){
+			    	str +="<li class='left clearfix' data-replyNo='"+list[i].replyNo+"'>";
+			    	str +="  <div><div class='header'><strong class='primary-font'>"+list[i].userNo+"</strong>";
+			    	str +="  <small class='pull-right text-muted'>"+list[i].replyDate+"</small></div>";
+			    	str +="  <p>"+list[i].reply+"</p></div></li>";
+			    }
+			    replyUL.html(str);
+			});
+		}
+	});*/
+	
+	let modal = $(".modal");
+	let modalInputReply = modal.find("input[name='reply']");
+	let modalInputuser = modal.find("input[name='user']");
+	
+	
+	let modalInputReplyDate = modal.find("input[name='replyDate']");
+    
+	let modalModBtn = $("#modalModBtn");
+	let modalRemoveBtn = $("#modalRemoveBtn");
+	let modalRegisterBtn = $("#modalRegisterBtn");
+    
+    $("#modalCloseBtn").on("click", function(e){
+    	
+    	modal.modal('hide');
+    });
+    
+    $("#replySubmit").on("click", function(e){
+      
+      modal.find("input").val("");
+      modalInputReplyDate.closest("div").hide();
+      modal.find("button[id !='modalCloseBtn']").hide();
+      
+      modalRegisterBtn.show();
+      
+      $(".modal").modal("show");
+      
+    });
+    
+    modalRegisterBtn.on("click",function(e){
+        //console.log("여기 " + modalInputuser.val());
+        let boardNoValue = '<c:out value="${boardDto.boardNo}"/>';
+        let userNoValue = '<c:out value="${boardDto.userNo}"/>';
+        let reply = {
+        	  replyContent: modalInputReply.val(),
+              userNo:userNoValue,
+              boardNo:boardNoValue
+            };
+        replyService.add(reply, function(result){
+          
+          alert("어라?"+result);
+          
+          modal.find("input").val("");
+          modal.modal("hide");
+          //console.log("여기2");
+          
+        });
+        
+      });
+    
+    //댓글 조회 클릭 이벤트 처리 
+    $(".chat").on("click", "li", function(e){
+      
+      let replyNo = $(this).data("replyNo");
+      
+      replyService.get(replyNo, function(replyContent){
+      
+        modalInputReply.val(replyContent.replyContent);
+        modalInputuser.val(replyContent.user);
+        modalInputReplyDate.val(replyService.displayTime( replyContent.replyDate))
+        .attr("readonly","readonly");
+        modal.data("replyNo", replyContent.replyNo);
+        
+        modal.find("button[id !='modalCloseBtn']").hide();
+        modalModBtn.show();
+        modalRemoveBtn.show();
+        
+        $(".modal").modal("show");
+            
+      });
+    });
+    
+    modalModBtn.on("click", function(e){
+  	  
+     	  let replyContent = {replyNo:modal.data("replyNo"), replyContent: modalInputReply.val()};
+     	  
+     	  replyService.update(replyContent, function(result){
+     	        
+     	    alert(result);
+     	    modal.modal("hide");
+     	    showList(pageNum);
+     	    
+     	  });
+     	  
+     	});
+    
+    modalRemoveBtn.on("click", function (e){
+     	  
+     	  let replyNo = modal.data("replyNo");
+     	  
+     	  replyService.remove(replyNo, function(result){
+     	        
+     	      alert(result);
+     	      modal.modal("hide");
+     	      showList(1);
+     	      
+     	  });
+     	  
+     	});
 	</script>
-<%@include file="../includes/foot.jsp"%>
+	<%@include file="../includes/foot.jsp"%>

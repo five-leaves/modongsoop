@@ -23,6 +23,7 @@ import net.fiveleaves.domain.UserDTO;
 import net.fiveleaves.service.BoardService;
 import net.fiveleaves.service.ClubService;
 import net.fiveleaves.service.UserService;
+import net.fiveleaves.service.ReplyService;
 
 @Controller
 @Log4j
@@ -33,6 +34,7 @@ public class BoardController {
 	private BoardService boardService;
 	private ClubService clubService;
 	private UserService userSevice;
+	private ReplyService replyService;
 	
 //	@GetMapping("/list")
 //	public void list(Model model) {
@@ -101,7 +103,7 @@ public class BoardController {
 		user.getUserNo();
 		
 		rttr.addFlashAttribute("result", boardDto.getBoardNo());
-		return "redirect:/board/list";
+		return "redirect:/board/list?clubNo="+boardDto.getClubNo();
 	}
 	
 	@GetMapping({"/get","/modify"})
@@ -123,6 +125,7 @@ public class BoardController {
 		model.addAttribute("boardDto", boardService.get(boardNo));
 		model.addAttribute("userNo", userNo);
 		model.addAttribute("userNickname", nickname);
+		model.addAttribute("replyDto", replyService.getList(boardNo));
 	}
 	
 	@PostMapping("/modify")
@@ -145,5 +148,15 @@ public class BoardController {
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 		return "redirect:/board/list";
+	}
+	
+	@GetMapping("/replyDel")
+	public String replyDel(@RequestParam("replyNo") Long replyNo, @RequestParam("boardNo") Long boardNo,  RedirectAttributes rttr) {
+		log.info("delete replyNo: "+replyNo);
+		if(replyService.remove(replyNo)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		rttr.addAttribute("boardNo", boardNo);
+		return "redirect:/board/get";
 	}
 }
