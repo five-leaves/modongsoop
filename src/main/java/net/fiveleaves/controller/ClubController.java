@@ -70,15 +70,17 @@ public class ClubController {
 	public String register(ClubDTO clubDto, RedirectAttributes rttr, Authentication auth) throws Exception {
 		log.info("register: " + clubDto);
 		
-		clubDto.setUserNo(1L);
-		
 		try {
+			UserDTO userDto = userService.read(auth.getName());
+			clubDto.setUserNo(userDto.getUserNo());
 			clubService.register(clubDto);
+			rttr.addFlashAttribute("result", clubDto.getClubNo());
+			rttr.addFlashAttribute("isClub", "success");
+			return "redirect:/board/list?clubNo="+clubDto.getClubNo();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		rttr.addFlashAttribute("result", clubDto.getClubNo());
-		return "redirect:/board/list?clubNo="+clubDto.getClubNo();
+		return null;
 	}
 	
 	// 동호회 수정 페이지
@@ -124,11 +126,13 @@ public class ClubController {
 	
 	// 동호회 가입
 	@PostMapping("/join")
-	public String join(ClubLogDTO clubLogDto, Authentication auth) {
+	public String join(ClubLogDTO clubLogDto, RedirectAttributes rttr, Authentication auth) {
 		log.info("join: " + clubLogDto);
-		clubLogDto.setUsername(auth.getName());
 		try {
+			UserDTO userDto = userService.read(auth.getName());
+			clubLogDto.setUserNo(userDto.getUserNo());
 			clubService.join(clubLogDto);
+			rttr.addFlashAttribute("isJoin", "success");
 			return "redirect:/board/list?clubNo=" + clubLogDto.getClubNo();
 		} catch (Exception e) {
 			e.printStackTrace();

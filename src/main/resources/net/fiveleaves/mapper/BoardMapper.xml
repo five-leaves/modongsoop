@@ -6,19 +6,21 @@
 
 <select id="getList" parameterType="Long" resultType="BoardDTO">
 <![CDATA[
-    select board_no, board_Title, board_content, view_count, regdate, club_no, user_no 
-    from boards 
+    select board_no, board_Title, board_content, view_count, regdate, club_no, user_no , u.nickname as
+    from boards b
+    join users u on b.user_id = u.user_id
     where board_no > 0 and club_no = #{clubNo}
 ]]>
 </select>
 
 <select id="getListWithPaging" resultType="net.fiveleaves.domain.BoardDTO">
 	<![CDATA[
-		SELECT board_no, board_title, board_content, user_no, club_no, regdate, updateDate
+		SELECT b.board_no, b.board_title, b.board_content, b.user_no, b.club_no, b.regdate, b.updateDate, u.nickname
 		FROM (SELECT /*+INDEX_DESC(boards pk_boards) */
 			  ROWNUM rn, board_no, board_title, board_content, user_no, club_no, regdate, updateDate
 			  FROM boards
-			  WHERE ROWNUM <= #{pageNum} * #{amount})
+			  WHERE ROWNUM <= #{pageNum} * #{amount}) b
+		JOIN users u ON b.user_no=u.user_no
 		WHERE rn > (#{pageNum} -1) * #{amount}
 		AND club_no=#{clubNo}
 	]]>
@@ -60,6 +62,15 @@
 
 <select id="getTotalCount" resultType="int">
 	SELECT COUNT(*) FROM boards WHERE board_no >0
+</select>
+
+<select id="getUserAndClubInfo" resultType="map" parameterType="string">
+	SELECT u.user_no AS userNo,
+		   u.nickname AS nickname,
+		   c.club_no AS clubNo
+	FROM users u, club_logs c
+	WHERE u.user_no=c.user_no(+)
+		  AND u.username=#{username}
 </select>
 
 </mapper>

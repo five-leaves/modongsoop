@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ public class ReplyController {
 	
 	private ReplyService service;
 	
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value="/new",
 			 consumes="application/json",
 			 produces= {MediaType.TEXT_PLAIN_VALUE})
@@ -85,5 +87,52 @@ public class ReplyController {
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);		
 	}
-
+	
+	@GetMapping(value="/pages/{boardNo}/{page}",
+				produces= {MediaType.APPLICATION_XML_VALUE,
+						   MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<List<ReplyDTO>> getList(
+			@PathVariable("page") int page,
+			@PathVariable("boardNo") Long boardNo) {
+		log.info("getList.........");
+		Criteria cri=new Criteria(page,10);
+		log.info(cri);
+		return new ResponseEntity<>(replyService.getList(cri,boardNo),HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/{replyNo}",
+				produces= {MediaType.APPLICATION_XML_VALUE,
+						   MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<ReplyDTO> get(@PathVariable("replyNo") Long replyNo) {
+		   log.info("get: "+replyNo);
+		   return new ResponseEntity<>(replyService.get(replyNo), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@DeleteMapping(value="/{replyNo}", produces= {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> remove(@PathVariable("replyNo") Long replyNo) {
+		log.info("remove: "+replyNo);
+		
+		return replyService.remove(replyNo)==1
+				? new ResponseEntity<>("success", HttpStatus.OK)
+						: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(method= {RequestMethod.PUT, RequestMethod.PATCH},
+					value="/{replyNo}",
+					consumes="application/json",
+					produces= {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> modify(
+			@RequestBody ReplyDTO replyDto,
+			@PathVariable("replyNo") Long replyNo) {
+		replyDto.setReplyNo(replyNo);
+		log.info("replyNo: "+replyNo);
+		log.info("modify: "+replyNo);
+		return replyService.modify(replyDto)==1
+				? new ResponseEntity<>("success",HttpStatus.OK)
+						: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }
+	
+

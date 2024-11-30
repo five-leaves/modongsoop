@@ -127,7 +127,7 @@
  	<!-- 동호회 가입 -->
  	<insert id="joinClub">
  		insert into club_logs(club_no, user_no)
- 		values(#{clubNo}, (select user_no from users where username = #{username}))
+ 		values(#{clubNo}, #{userNo})
  	</insert>
  	
  	<!-- 동호회 정보 수정 -->
