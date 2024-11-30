@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@include file="../includes/head.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -15,6 +16,9 @@
             <h1>동호회 등록</h1>
         </div>
         <form action="/club/register" method="POST" enctype="multipart/form-data">
+        
+        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>  
+        
         	<div class="form-group">
 			    <label for="profileImage" class="form-label">프로필 이미지</label>
 			    <div class="profile-upload">
@@ -56,39 +60,66 @@
 			    <!-- 나이 제한 Select -->
 			    <div id="ageSelectWrapper" class="mt-3" style="display: none;">
 			        <select id="ageMin" name="ageMin" class="form-control me-2">
+			        	<option value=0>제한 없음</option>
 			            <c:forEach var="i" begin="1920" end="2023" step = "1">
 			            	<option value="<c:out value='${i}'/>"><c:out value="${i}"/></option>
 			            </c:forEach>
 			        </select>
 			        ~
 			        <select id="ageMax" name="ageMax" class="form-control ms-2">
+		            	<option value=0>제한 없음</option>
 			            <c:forEach var="i" begin="1920" end="2023" step = "1">
 			            	<option value="<c:out value='${i}'/>"><c:out value="${i}"/></option>
 			            </c:forEach>
 			        </select>
 			    </div>
+		        <div id="ageWarning" style="color: red; display: none;">최소 나이는 최대 나이보다 클 수 없습니다.</div>
 			</div>
-            <button type="submit" class="btn-forest">동호회 등록</button>
+			
+            <button id="regBtn" type="submit" class="btn-forest">동호회 등록</button>
         </form>
     </div>
     
 <script>
-    // 토글 스위치로 Select 표시/숨김 제어
     $(document).ready(function () {
-        // 토글 스위치 변경 이벤트
+        // 체크박스 변경 이벤트
         $('#ageToggle').on('change', function () {
             if ($(this).is(':checked')) {
             	$('#ageSelectWrapper').css('display', 'flex'); // 나이 제한 Select 보이기
                 $('#ageMin, #ageMax').val(2000);
             } else {
-            	$('#ageSelectWrapper').css('display', 'none'); // 나이 제한 Select 숨기기
+            	$('#ageSelectWrapper').hide(); // 나이 제한 Select 숨기기
+            	$("#ageWarning").hide();
             	$('#ageMin, #ageMax').val(0);
             }
         });
-    });
-    
-    $('#previewImage').click(function () {
-        $('#profileImage').click(); // 파일 입력 클릭 이벤트 트리거
+        
+        $("#ageMin, #ageMax").change(function () {
+			// "제한 없음"은 0으로 처리
+            if (ageMin === 0 || ageMax === 0) {
+                $("#ageWarning").hide(); // 경고 메시지 숨김
+                return;
+            }
+
+            // 최소 나이가 최대 나이보다 큰 경우 경고 메시지 표시
+            if ($("#ageMin").val() > $("#ageMax").val()) {
+                $("#ageWarning").show();
+            } else {
+                $("#ageWarning").hide();
+            }
+        });
+        
+    	$("#regBtn").click(function() {
+            // 최소 나이가 최대 나이보다 큰 경우 경고 메시지 표시
+            if ($("#ageMin").val() > $("#ageMax").val()) {
+				alert("최소 나이는 최대 나이보다 클 수 없습니다.");
+				return;
+            }
+    	})
+        
+		$('#previewImage').click(function () {
+	     	$('#uploadFile').click(); // 파일 입력 클릭 이벤트 트리거
+	    });
     });
 </script>
 </body>

@@ -20,6 +20,7 @@ public class ClubDTO {
 	private Date regdate;
 	private Date updateDate;
 	private Long userNo;
+	private String nickname;
 	private Long categoryNo;
 	private String categoryName;
 	private Integer memberCount;

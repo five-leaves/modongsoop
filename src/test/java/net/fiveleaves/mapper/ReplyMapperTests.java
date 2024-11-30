@@ -7,74 +7,69 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import lombok.extern.log4j.Log4j;
 import net.fiveleaves.domain.Criteria;
 import net.fiveleaves.domain.ReplyDTO;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(locations="file:**/*-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
+@ContextConfiguration(locations = "file:**/*-context.xml")
 @Log4j
 public class ReplyMapperTests {
 	
-	//테스트 전에 해당 번호의 게시물이 존재하는지 반드시 확인할 것
-	private Long[] boardNoArr = {659L, 658L, 99L, 98L, 97L, 96L, 95L, 94L, 93L};
-	
 	@Autowired
-	private ReplyMapper replyMapper;
+	private ReplyMapper mapper;
 	
 	@Test
 	public void testMapper() {
-		log.info(replyMapper);
+		log.info(mapper);
 	}
 	
 	@Test
 	public void testCreate() {
-		IntStream.rangeClosed(1, 10).forEach(i->{
-			ReplyDTO replyDto=new ReplyDTO();
+		IntStream.rangeClosed(1, 10).forEach(i -> {
+			ReplyDTO dto = new ReplyDTO();
+			dto.setBoardNo(1L);
+			dto.setReplyContent("댓글테스트" + i);
+			dto.setUserNo(1L);
 			
-			//게시물번호
-			replyDto.setBoardNo(boardNoArr[i%5]);
-			replyDto.setReplyContent("댓글 테스트" +i);
-			replyDto.setUserNo(1L);
-			replyMapper.insert(replyDto);
+			mapper.insert(dto);
 		});
 	}
 	
 	@Test
 	public void testRead() {
-		Long targetReplyNo= 5L;
-		ReplyDTO replyDto=replyMapper.read(targetReplyNo);
-		log.info(replyDto);
+		Long targetreplyNo = 5L;
+		ReplyDTO dto = mapper.read(targetreplyNo);
+		log.info(dto);
 	}
 	
 	@Test
 	public void testDelete() {
-		Long targetReplyNo=3L;
-		replyMapper.delete(targetReplyNo);
+		Long targetreplyNo = 1L;
+		mapper.delete(targetreplyNo);
 	}
 	
 	@Test
 	public void testUpdate() {
-		Long targetReplyNo=1L;
-		ReplyDTO replyDto= replyMapper.read(targetReplyNo);
-		replyDto.setReplyContent("Update Reply");
-		int count=replyMapper.update(replyDto);
-		log.info("UPDATE COUNT: "+count);
+		
+		Long targetreplyNo = 5L;
+		ReplyDTO dto = mapper.read(targetreplyNo);
+		dto.setReplyContent("Update Content");
+		int count = mapper.update(dto);
+		log.info("UPDATE COUNT: " + count);
 	}
 	
 	@Test
-	public void testList() {
-		Criteria cri=new Criteria();
-		//659L
-		List<ReplyDTO> replyDtos=replyMapper.getListWithPaging(cri, boardNoArr[0]);
-		replyDtos.forEach(replyDto -> log.info(replyDto));
+	public void testList() { 
+		Criteria cri = new Criteria();
+		List<ReplyDTO> replies = mapper.getListWithPaging(cri, 1L);
+		replies.forEach(reply -> log.info(replies));
 	}
-	
-	
-	
-	
+		
 }
+
+

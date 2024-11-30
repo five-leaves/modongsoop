@@ -14,7 +14,10 @@
         <div class="forest-header">
             <h1>동호회 설정</h1>
         </div>
-        <form action="/club/modify" method="POST" enctype="multipart/form-data">
+        <form action="/club/modify" method="post" enctype="multipart/form-data">
+        	<sec:csrfInput/>
+        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        	
         	<div class="form-group">
 			    <label for="profileImage" class="form-label">프로필 이미지</label>
 			    <div class="profile-upload">
@@ -29,11 +32,11 @@
 			</div>
             <div class="form-group">
                 <label for="clubName" class="form-label">동호회 이름 *</label>
-                <input type="text" id="clubName" name="clubName" class="form-control" placeholder="동호회 이름을 입력하세요" required>
+                <input type="text" id="clubName" name="clubName" class="form-control" value="<c:out value="${clubDto.clubName}" />" required>
             </div>
             <div class="form-group">
                 <label for="clubDescription" class="form-label">동호회 소개 *</label>
-                <textarea id="clubContent" name="clubContent" class="form-control" placeholder="간단한 동호회 소개를 작성하세요" required></textarea>
+                <textarea id="clubContent" name="clubContent" class="form-control" required><c:out value="${clubDto.clubContent}" /></textarea>
             </div>
             <div class="form-group category-select">
                 <label for="categoryNo" class="form-label">카테고리</label>
@@ -68,14 +71,27 @@
 			        </select>
 			    </div>
 			</div>
+			<input type="hidden" name="clubNo" value="<c:out value='${clubDto.clubNo}'/>" />
             <button type="submit" class="btn-forest">동호회 수정</button>
-            <button type="submit" data-oper='remove' class="btn-forest">동호회 삭제</button>
+        </form>
+        <!-- 동호회 삭제 -->
+        <form action="/club/remove" method="POST">
+            <input type="hidden" name="clubNo" value="<c:out value='${clubDto.clubNo}'/>" />
+            <button type="submit" id="deleteButton" class="btn-forest">동호회 삭제</button>
         </form>
     </div>
     
 <script>
-    // 토글 스위치로 Select 표시/숨김 제어
+	const ageLimit = '${clubDto.ageMin}';
     $(document).ready(function () {
+    	$('#ageMin').val('${clubDto.ageMin}');
+    	$('#ageMax').val('${clubDto.ageMax}');
+    	
+    	if (ageLimit) {
+    		$('#ageToggle').prop('checked', true);
+    		$('#ageSelectWrapper').css('display', 'flex'); // 나이 제한 Select 보이기
+    	}
+    	
         // 토글 스위치 변경 이벤트
         $('#ageToggle').on('change', function () {
             if ($(this).is(':checked')) {
@@ -89,12 +105,26 @@
     });
     
     $('#previewImage').click(function () {
-        $('#profileImage').click(); // 파일 입력 클릭 이벤트 트리거
+        $('#uploadFile').click(); // 파일 입력 클릭 이벤트 트리거
     });
     
-    if(operation === 'remove') {
-    	$('form').attr('action', '/club/remove');
-    }
+
+ 	// 삭제 버튼 클릭 이벤트
+    $('#deleteButton').on('click', function() {
+		if (confirm('정말로 동호회를 삭제하시겠습니까?')) {
+			const form = $('<form>', {
+				method : 'POST',
+				action : '/club/remove'
+			});
+			form.append($('<input>', {
+				type : 'hidden',
+				name : 'clubNo',
+				value : $('input[name="clubNo"]').val()
+			}));
+			$('body').append(form);
+			form.submit();
+		}
+	});
 </script>
 </body>
 <%@include file="../includes/foot.jsp" %>

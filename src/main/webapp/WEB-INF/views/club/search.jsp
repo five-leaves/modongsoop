@@ -36,4 +36,4 @@
 		</c:if>
 	</div>
 </body>
-</html>
+<%@include file="../includes/foot.jsp" %>
