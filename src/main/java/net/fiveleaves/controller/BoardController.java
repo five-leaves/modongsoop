@@ -2,6 +2,7 @@ package net.fiveleaves.controller;
 
 import java.math.BigDecimal;
 import java.util.Map;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -97,8 +98,8 @@ public class BoardController {
 		log.info("register: "+boardDto);
 		boardService.register(boardDto);
 		
-		UserDTO user = (UserDTO) auth.getPrincipal();	
-		user.getUserNo();
+//		UserDTO user = (UserDTO) auth.getPrincipal();	
+//		user.getUserNo();
 		
 		rttr.addFlashAttribute("result", boardDto.getBoardNo());
 		return "redirect:/board/list";
