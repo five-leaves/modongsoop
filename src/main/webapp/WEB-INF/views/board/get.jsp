@@ -133,7 +133,6 @@ body {
 		</div>
 	</div>
 
-
 	<!-- 게시글 영역 -->
 	<div class="forest-container">
 		<div class="content-title">
