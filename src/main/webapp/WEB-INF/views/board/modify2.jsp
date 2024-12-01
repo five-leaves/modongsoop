@@ -124,6 +124,9 @@
 
     <!-- Form -->
     <form action="/board/submit" method="post">
+    
+   		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    
         <!-- Title -->
         <div class="form-section">
             <input type="text" class="form-control" name="title" placeholder="새로운 동호회 이름 입력" required>

@@ -76,6 +76,9 @@
         </form>
         <!-- 동호회 삭제 -->
         <form action="/club/remove" method="POST">
+        
+       		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        	
             <input type="hidden" name="clubNo" value="<c:out value='${clubDto.clubNo}'/>" />
             <button type="submit" id="deleteButton" class="btn-forest">동호회 삭제</button>
         </form>

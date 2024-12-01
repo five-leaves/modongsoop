@@ -101,7 +101,7 @@ public class ClubController {
 	
 	// 동호회 수정
 	@PostMapping("/modify")
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.userNo == clubDto.userNo")
 	public String modify(ClubDTO clubDto, RedirectAttributes rttr) {
 		log.info("modify: "+ clubDto);
 		try {
@@ -116,6 +116,7 @@ public class ClubController {
 	}
 	
 	@PostMapping(value = "/remove")
+	@PreAuthorize("isAuthenticated()")
 	public String remove(@RequestParam("clubNo") Long clubNo, RedirectAttributes rttr) throws Exception {
 	    log.info("remove: " + clubNo);
 	    try {
