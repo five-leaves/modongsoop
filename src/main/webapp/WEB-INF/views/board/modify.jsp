@@ -70,16 +70,16 @@ $(document).ready(function() {
 			formObj.append(boardNo);
 			formObj.append(clubNo);
 		} else if(operation==='modify') {
-			//let boardTitle=$("input[name='boardTitle']").clone().val();
-			//let boardContent=$("input[name='boardContent']").clone().val();
-			//let trimBoardTitle = boardTitle.replace(/\s+/g, "");
-			//let trimBoardContent = boardContent.replace(/\s+/g, "");
-			//let trimBoardTitleLen = trimBoardTitle.length;
-			//let trimBoardContentLen = trimBoardContent.length;
-			//if(boardTitle.length === 0 || boardContent.length === 0) {
-			//	alert("제목과 내용을 반드시 입력 하세요");
-			//	return;
-			//}
+			let boardTitle=$("input[name='boardTitle']").clone().val();
+			let boardContent=$("textarea[name='boardContent']").clone().val();
+			let trimBoardTitle = boardTitle.replace(/\s+/g, "");
+			let trimBoardContent = boardContent.replace(/\s+/g, "");
+			let trimBoardTitleLen = trimBoardTitle.length;
+			let trimBoardContentLen = trimBoardContent.length;
+			if(boardTitle.length === 0 || boardContent.length === 0) {
+				alert("제목과 내용을 반드시 입력 하세요");
+				return;
+			}
 			if(!confirm("저장하시겠습니까?")) {
 				return;
 			}

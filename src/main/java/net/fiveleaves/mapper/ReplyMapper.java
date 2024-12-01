@@ -18,4 +18,6 @@ public interface ReplyMapper {
 			@Param("boardNo") Long boardNo);
 	public int getCountByBoardNo(Long boardNo);
 	public List<ReplyDTO> getBoardReplyList(Long boardNo);
+	public int deleteAll(Long boardNo);
+	public void removeAll(Long boardNo);
 }
