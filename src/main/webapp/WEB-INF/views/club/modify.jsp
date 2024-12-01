@@ -4,9 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@include file="../includes/head.jsp" %>
 <body>
-    <div class="forest-container">
-		<%@include file="../includes/header.jsp" %>
-		<div class="row">
+<div class="forest-container">
+	<%@include file="../includes/header.jsp" %>
+	<div class="row">
 			<h1 class="mb-4">동호회 설정</h1>
         <form action="/club/modify" method="post" enctype="multipart/form-data">
         	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -83,6 +83,7 @@
             <button type="submit" id="deleteButton" class="btn-forest w-100">동호회 삭제</button>
         </form>
     </div>
+</div>
     
 <script>
 $(document).ready(function () {

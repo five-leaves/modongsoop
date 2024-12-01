@@ -257,6 +257,11 @@ a * {
 	background: #6EBF72;
 }
 
+#regBtn:hover {
+    background: #977963;
+    color: white;
+}
+
 /* 동호회 목록 */
 .main-content {
 	background: #f9fbe7;
@@ -264,6 +269,7 @@ a * {
 	padding: 15px;
 	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 	max-height: none;
+	height: 100%;
 }
 
 .forest-container .row {
