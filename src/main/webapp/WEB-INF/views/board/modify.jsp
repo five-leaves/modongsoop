@@ -28,6 +28,9 @@
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 					<input type='hideen' name='amount' value='<c:out value="${cri.amount}"/>'>
+					<input type='hideen' name='clubNo' value='<c:out value="${boardDto.clubNo}"/>'>
+					<input type='hideen' name='userNo' value='<c:out value="${boardDto.userNo}"/>'>
+					<input type="hidden" name="_csrf" value="${_csrf.token}" />
 						<div class="form-group">
 							<label>게시판번호</label> <input class="form-control" name='boardNo'
 								value='<c:out value="${boardDto.boardNo}"/>' readonly="readonly">
@@ -45,13 +48,13 @@
 						</div>
 
 						<div class="form-group">
-							<label>작성자</label> <input class="form-control" name='userNo'
-								value='<c:out value="${boardDto.userNo}"/>' readonly="readonly">
+							<label>작성자</label> <input class="form-control" name='nickname'
+								value='<c:out value="${boardDto.nickname}"/>' readonly="readonly">
 						</div>
 
 						<div class="form-group">
-							<label>동호회</label> <input class="form-control" name='clubNo'
-								value='<c:out value="${boardDto.clubNo}"/>' readonly="readonly">
+							<label>동호회</label> <input class="form-control" name='clubName'
+								value='<c:out value="${boardDto.clubName}"/>' readonly="readonly">
 						</div>
 						
 						<div class="form-group">
@@ -82,23 +85,51 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	var formObj=$("form");
+	var loginUserNo = '<c:out value="${userNo}"/>'; // 로그인 유저 아이디
+	
 	$('button').on("click", function(e){
 		e.preventDefault();
 		var operation=$(this).data("oper");
 		console.log(operation);
+		let userNo=$("input[name='userNo']").clone();
 		
-		if(operation==='remove'){
-			formObj.attr("action","/board/remove");
-		}else if(operation==='list'){
+		if(operation==='remove') {
+			if(loginUserNo != userNo.val()) {
+				alert("삭제 권한이 없습니다.");
+				return;
+			} else {
+				if(!confirm("삭제하시겠습니까?")) return;
+				else formObj.attr("action","/board/remove");
+			}
+		} else if(operation==='list') {
 			//move to list
 			formObj.attr("action","/board/list").attr("method","get");
 			let pageNumTag=$("input[name='pageNum']").clone();
 			let amountTag=$("input[name='amount']").clone();
+			let boardNo=$("input[name='boardNo']").clone();
+			let clubNo=$("input[name='clubNo']").clone();
 			
 			formObj.empty();
 			formObj.append(pageNumTag);
 			formObj.append(amountTag);
+			formObj.append(boardNo);
+			formObj.append(clubNo);
+		} else if(operation==='modify') {
+			//let boardTitle=$("input[name='boardTitle']").clone().val();
+			//let boardContent=$("input[name='boardContent']").clone().val();
+			//let trimBoardTitle = boardTitle.replace(/\s+/g, "");
+			//let trimBoardContent = boardContent.replace(/\s+/g, "");
+			//let trimBoardTitleLen = trimBoardTitle.length;
+			//let trimBoardContentLen = trimBoardContent.length;
+			//if(boardTitle.length === 0 || boardContent.length === 0) {
+			//	alert("제목과 내용을 반드시 입력 하세요");
+			//	return;
+			//}
+			if(!confirm("저장하시겠습니까?")) {
+				return;
+			}
 		}
+		
 		formObj.submit();
 	});
 });

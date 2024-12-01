@@ -25,10 +25,12 @@
 	</update>
 	
 	<select id="getListWithPaging" resultType="net.fiveleaves.domain.ReplyDTO">
-		SELECT reply_no, board_no, reply_content, user_no, replyDate, updateDate
-		FROM replies
-		WHERE board_no=#{boardNo}
-		ORDER BY reply_no ASC
+		SELECT  a.reply_no, a.board_no, a.reply_content, a.user_no, a.replydate, a.updatedate, b.nickname
+		FROM    replies a
+		       ,users b
+		WHERE   a.board_no =  #{boardNo}
+		AND   a.user_no = b.user_no
+		ORDER BY a.reply_no
 	</select>
 	
 	<select id="getBoardReplyList" resultType="net.fiveleaves.domain.ReplyDTO">

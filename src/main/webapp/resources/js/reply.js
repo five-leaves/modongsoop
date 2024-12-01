@@ -3,28 +3,32 @@
  */
 
 let replyService=(function() {
-	function add(reply, callback, error){
-		console.log("add reply.....");
-		
-		$.ajax({
-			type:'post',
-			url: '/replies/new',
-			data: JSON.stringify(reply),
-			contentType: "application/json; charset=utf-8",
-			success: function(result, status, xhr) {
-				if(callback) {
-					callback(result);
-				}
-			},
-			error:function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
-		})
-	}
+    function add(reply, callback, error){
+      const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+	  const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content') || 'X-CSRF-TOKEN';
+      $.ajax({
+         type: 'post',
+         url: '/replies/new',
+         data: JSON.stringify(reply),
+         contentType: "application/json; charset=utf-8",
+         beforeSend: function(xhr) {
+            // CSRF 토큰 추가
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+         },
+         success: function(result, status, xhr){
+            if(callback){
+               callback(result);
+            }
+         },
+         error: function(xhr, status, er) {
+            if(error){
+               error(er);
+            }
+         }
+      })
+   }
 	
-	function getList(param, callback, error) {
+	function getBoardReplyList(param, callback, error) {
 		let boardNo=param.boardNo;
 		let page=param.page || 1;
 		
@@ -118,7 +122,7 @@ let replyService=(function() {
 	
 	return {
 		add:add,
-		getList:getList,
+		getBoardReplyList:getBoardReplyList,
 		remove: remove,
 		update: update,
 		get: get,
