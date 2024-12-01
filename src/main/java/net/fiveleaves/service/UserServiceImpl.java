@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 	
 	private PasswordEncoder pwencoder;
 
-  @Override
+    @Override
 	public UserDTO read(String username) throws Exception {
 		return mapper.read(username);
 	}
@@ -32,6 +32,15 @@ public class UserServiceImpl implements UserService {
 		
 		mapper.insertUser(user);
 		mapper.insertAuthority("ROLE_USER");
+		
+	}
+
+	@Override
+	public void withdraw(String username) {
+		UserDTO user = mapper.read(username);
+		
+		mapper.deleteAuthority(user.getUserNo());
+		mapper.deleteUser(user.getUserNo());
 		
 	}
 	

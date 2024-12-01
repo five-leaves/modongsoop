@@ -12,6 +12,8 @@ public interface UserMapper {
 	
 	public int update(UserDTO user);
 	
-	public int delete(String username);
+	public int deleteUser(Long userNo);
+	
+	public int deleteAuthority(Long userNo);
 	
 }

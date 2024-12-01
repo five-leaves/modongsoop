@@ -25,6 +25,7 @@
 					<form role="form" action="/board/modify" method="post">
 					
 					<!-- 추가 -->
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 					<input type='hideen' name='amount' value='<c:out value="${cri.amount}"/>'>
 					<input type='hideen' name='clubNo' value='<c:out value="${boardDto.clubNo}"/>'>

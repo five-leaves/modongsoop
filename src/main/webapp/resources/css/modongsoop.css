@@ -1,14 +1,18 @@
 body {
     font-family: "Nanum Pen Script", cursive;
     font-weight: 400;
-    background: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
-    color: #775D43;
+    background: #e8f5e9;
+    color: #735e47;
+    min-width: 770px;
+    font-size: 1.2rem;
+}
+
+.form-control {
+	font-size: 1.2rem;
 }
 
 .forest-container {
-    background: #f3f9f1;
-    padding: 1.25rem;
-    box-shadow: 0rem 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+    padding: 0.925rem;
 }
 
 /* Header */
@@ -67,6 +71,7 @@ body {
 
 .btn-forest:hover {
     background: #977963;
+    color: white;
 }
 
 /* 내가 가입한 동호회 */
@@ -93,10 +98,11 @@ body {
 .category-button {
     background-color: #f1f8e9;
     color: #4caf50;
-    border: 0.0625rem solid #81c784;
+    border: 0.125rem solid #81c784;
     border-radius: 1.875rem;
     padding: 0.3125rem 0.9375rem;
     margin: 0.3125rem;
+    font-size: larger;
 }
 
 .category-button:hover {
@@ -147,13 +153,14 @@ body {
     text-align: left;
 }
 
-a.club-link {
+/* a 밑줄 제거 */
+a {
     text-decoration: none; /* 밑줄 제거 */
     color: inherit; /* 텍스트 색상 초기화 (부모 요소의 색상 사용) */
 }
 
 /* 자식 요소 스타일이 변경되지 않도록 보호 */
-a.club-link * {
+a * {
     text-decoration: none; /* 모든 자식 요소에서 밑줄 제거 */
 }
 
@@ -212,4 +219,125 @@ a.club-link * {
 .bg-category {
 	background: #977963;
 	font-size: 0.9rem;
+}
+
+/* 사이드 바 */
+.sidebar {
+	position: relative;
+	background: #f3f9f1;
+	border-radius: 10px;
+	padding: 20px;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+	border: 1px solid #dfe2e6;
+}
+
+.sidebar .profile {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+.sidebar img {
+    background: white;
+    width: 60%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0.625rem;
+    margin-bottom: 0.625rem;
+    padding: 5px;
+}
+
+#regBtn {
+	background: #6EBF72;
+}
+
+/* 동호회 목록 */
+.main-content {
+	background: #f9fbe7;
+	border-radius: 10px;
+	padding: 15px;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.forest-container .row {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.post-card {
+	position: relative;
+	padding-bottom: 40px;
+	border: 1px solid #c8e6c9;
+	border-radius: 10px;
+	padding: 16px;
+	margin-bottom: 15px;
+	flex: 0 0 48%;
+	height: 200px;
+}
+
+.move {
+	margin: 0px;
+	padding: 0px;
+}
+
+.pull-right {
+	padding: 0px;
+}
+
+.text-right {
+	text-align: right;
+	position: absolute;
+    bottom: 40px;
+    left: 10px;
+    right: 10px;
+}
+
+.post-footer {
+	position: absolute; 
+	bottom: 16px; 
+	left: 16px; 
+	right: 16px;
+	display: flex; 
+	justify-content: space-between; 
+	font-size: 0.9rem;
+}
+
+.post-footer i {
+	color: #ff6f61;
+}
+
+.pagnation {
+	display: flex; /* 가로로 나열*/
+	list-style:none; /*기본 목록 스타일 제거*/
+	padding: 0; /* 기본 여백 제거 */
+	margin: 0; /* 기본 여백 제거 */
+}
+
+.pagnation li {
+	margin: 0 5px; /* 각 페이지 번호 간격 조정*/
+}
+
+.pagnation a {
+	text-decoration: none; /* 밑줄 제거 */
+	color: #4d774e; /* 페이지 번호 색상 */
+	padding: 5px 10px;
+	border: 1px solid #4d774e; /* 테두리 추가 */
+	border-radius: 5px;
+	transition: background-color 0.3s ease; /* 호버 효과 추가 */
+}
+
+.pagnation a:hover {
+	background-color: #c8e6c9; /* 호버 시 배경색*/
+}
+
+.pagnation .active a {
+	background-color: #81c784; /* 현재 페이지 배경색 */
+	color: white; /* 글자 색상 */
+}
+
+/* 동호회 등록 */
+#defaultProfileBtn {
+	width: 150px;
 }
