@@ -89,10 +89,11 @@
 	 			<button id='modalCloseBtn' type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
  	 			<!-- <button id='modalClassBtn' type='button' class='btn btn-default' data-dismiss='modal'>Close</button> -->		
 	 		<!-- /.modal-content -->
-	 	</div>
+	 		</div>
 	 	<!-- /.modal-dialog -->
-	 </div>
+	 	</div>
 	 <!-- /.modal -->
+	</div>
 </div>
 
 <form id='operForm' action="/board/modify" method="get">
@@ -326,4 +327,5 @@ $(document).ready(function() {
 	});
 </script>
 
+<%@ include file="../includes/sidebar_script.jsp" %>
 <%@include file="../includes/foot.jsp"%>

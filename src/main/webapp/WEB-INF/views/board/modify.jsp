@@ -6,7 +6,7 @@
 <div class="forest-container">
 	<%@include file="../includes/header.jsp" %>
 	<div class="row">
-		<h1 class="mb-4">동호회 설정</h1>
+		<h1 class="mb-4">게시글 수정</h1>
 		<form id="modifyForm" action="/board/modify" method="post">
 			<!-- 추가 -->
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

@@ -23,7 +23,7 @@
 	<c:if test="${isLeader}">
 		<form id="settingForm" action="/club/modify" method="get">
 			<input type="hidden" name="clubNo" value="${param.clubNo}" />
-			<button id="settingBtn" class="btn btn-forest w-100 mb-2">동호회 관리</button>
+			<button id="settingBtn" class="btn btn-forest w-100 mb-2">동호회 설정</button>
 		</form>
 	</c:if>
 	

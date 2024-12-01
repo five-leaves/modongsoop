@@ -6,53 +6,39 @@
 <%@include file="../includes/head.jsp"%>
 
 <body>
-<%@include file="../includes/header.jsp"%>
-
-<div class="row">
-  <div class="col-lg-12">
-    <h1 class="page-header">Board Register</h1>
-  </div>
-  <!-- /.col-lg-12 -->
+<div class="forest-container">
+	<%@include file="../includes/header.jsp"%>
+	<div class="row">
+	    <h1 class="mb-4">게시글 등록</h1>
+		<div class="row p-0">
+		  <div class="col-lg-12">
+		    <div class="panel panel-default">
+		      <div class="panel-body">
+		        <form role="form" action="/board/register" method="post">
+		    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+		        
+		            <div class="form-group mb-4">
+		              <label class="h3">제목</label> <input class="form-control" name='boardTitle' />
+		            </div>
+		          
+		            <div class="form-group mb-4">
+		              <label class="h3">내용</label>
+		              <textarea class="form-control" rows="5" name='boardContent'></textarea>
+		            </div>
+		            
+				    <input type="hidden" class="form-control" name='userNo' value=<c:out value="${userNo}" /> readonly />
+		            
+		            <input type="hidden" class="form-control" name='clubNo' value="${param.clubNo}" />
+		          
+			        <input type="hidden" id="csrfToken" name="_csrf" value="${_csrf.token}" />
+			        
+			        <button id="regBtn" type="submit" class="btn btn-forest w-30">등록</button>
+			        <button type="reset" class="btn btn-forest w-30">취소</button>
+		        </form>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</div>
 </div>
-<!-- /.row -->
-
-<div class="row">
-  <div class="col-lg-12">
-    <div class="panel panel-default">
-
-      <div class="panel-heading">Board Register</div>
-      <!-- /.panel-heading -->
-      <div class="panel-body">
-		
-        <form role="form" action="/board/register" method="post">
-        
-    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        
-            <div class="form-group">
-              <label>제목</label> <input class="form-control" name='boardTitle' />
-            </div>
-          
-            <div class="form-group">
-              <label>내용</label>
-              <textarea class="form-control" rows="3" name='boardContent'></textarea>
-            </div>
-		    <input type="hidden" class="form-control" name='userNo' value=<c:out value="${userNo}" /> readonly />
-            
-            <input type="hidden" class="form-control" name='clubNo' value="${param.clubNo}" />
-          
-	        <input type="hidden" id="csrfToken" name="_csrf" value="${_csrf.token}" />
-	        <button type="submit" class="btn btn-default">등록</button>
-	        <button type="reset" class="btn btn-default">취소</button>
-        </form>
-
-      </div>
-      <!--  end panel-body -->
-
-    </div>
-    <!--  end panel-body -->
-  </div>
-  <!-- end panel -->
-</div>
-<!-- /.row -->
-
-<%@include file="../includes/footer.jsp"%>
+<%@include file="../includes/foot.jsp"%>
