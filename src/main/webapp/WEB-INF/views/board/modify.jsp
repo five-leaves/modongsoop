@@ -97,8 +97,10 @@ $(document).ready(function() {
 			if(loginUserNo != userNo.val()) {
 				alert("삭제 권한이 없습니다.");
 				return;
+			} else {
+				if(!confirm("삭제하시겠습니까?")) return;
+				else formObj.attr("action","/board/remove");
 			}
-			else formObj.attr("action","/board/remove");
 		} else if(operation==='list') {
 			//move to list
 			formObj.attr("action","/board/list").attr("method","get");
