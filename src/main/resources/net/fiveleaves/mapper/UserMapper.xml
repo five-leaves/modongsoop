@@ -51,8 +51,16 @@
 	
 	</update>
 	
-	<delete id="delete">
+	<delete id="deleteUser">
 	
+		delete from users where user_no = #{userNo}
+		
+	</delete>
+	
+	<delete id="deleteAuthority">
+	
+		delete from authorities where user_no = #{userNo}
+		
 	</delete>
 
 </mapper>

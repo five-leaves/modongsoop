@@ -132,8 +132,27 @@
         </div>
 
         <button class="btn btn-profile" onclick="location.href='<%= request.getContextPath() %>/user/modifyProfile'">프로필 수정</button>
-        <button class="btn btn-logout" onclick="location.href='<%= request.getContextPath() %>/user/main'">로그아웃</button>
-        <button class="btn btn-delete" onclick="location.href='<%= request.getContextPath() %>/user/main'">회원탈퇴</button>
+        <form role="form" method='post' action="/includes/header">
+	        <button class="btn btn-logout" onclick="logoutHandler()">로그아웃</button>
+	        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+        <form role="form" method='post' action="/user/mypage">
+        	<button class="btn btn-delete" onclick="withdrawHandler()">회원탈퇴</button>
+    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    	</form>
     </div>
+    
+    <script>
+	    function logoutHandler() {
+	            alert("로그아웃 되었습니다.");
+	    }
+	</script>
+	
+    <script>
+	    function withdrawHandler() {
+	            alert("탈퇴가 완료되었습니다.");
+	    }
+	</script>
+
 </body>
 </html>
