@@ -1,5 +1,7 @@
 package net.fiveleaves.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
+import net.fiveleaves.domain.Criteria;
 import net.fiveleaves.domain.ReplyDTO;
 import net.fiveleaves.service.ReplyService;
 
@@ -26,6 +29,7 @@ public class ReplyController {
 	
 	private ReplyService replyService;
 	
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value ="/new",
 			consumes="application/json",
 			produces = {MediaType.TEXT_PLAIN_VALUE})
@@ -72,17 +76,17 @@ public class ReplyController {
 //	}
 
 
-//	@GetMapping(value="/pages/{boardNo}/{page}",
-//				produces= {MediaType.APPLICATION_XML_VALUE,
-//						   MediaType.APPLICATION_JSON_UTF8_VALUE})
-//	public ResponseEntity<List<ReplyDTO>> getList(
-//			@PathVariable("page") int page,
-//			@PathVariable("boardNo") Long boardNo) {
-//		log.info("getList.........");
-//		Criteria cri=new Criteria(page,10);
-//		log.info(cri);
-//		return new ResponseEntity<>(replyService.getList(cri,boardNo),HttpStatus.OK);
-//	}
+	@GetMapping(value="/pages/{boardNo}/{page}",
+				produces= {MediaType.APPLICATION_XML_VALUE,
+						   MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<List<ReplyDTO>> getList(
+			@PathVariable("page") int page,
+			@PathVariable("boardNo") Long boardNo) {
+		log.info("getList.........");
+		Criteria cri=new Criteria(page,10);
+		log.info(cri);
+		return new ResponseEntity<>(replyService.getList(cri,boardNo),HttpStatus.OK);
+	}
 	
 	@GetMapping(value="/{replyNo}",
 				produces= {MediaType.APPLICATION_XML_VALUE,

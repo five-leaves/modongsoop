@@ -19,5 +19,6 @@ public class ReplyDTO {
 	private Date updateDate;
 	private String nickname;
 	private String wrDate;
+	private String username;
 	
 }
