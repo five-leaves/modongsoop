@@ -67,6 +67,19 @@ public class UserController {
 		log.info("mypage");
 	}
 	
+	@PostMapping("/mypage")
+	public String doWithdrawal(Authentication auth) {
+
+		String username = auth.getName();
+		
+		log.info("탈퇴: " + username);
+		
+		service.withdraw(username);
+		
+		return "redirect:/user/main";
+		
+	}
+	
 	@GetMapping("/signup")
 	public void doSignUp() {
 		

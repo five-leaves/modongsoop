@@ -36,6 +36,7 @@ public class BoardController {
 	private ReplyService replyService;
 
 	@GetMapping("/list")
+	@PreAuthorize("isAuthenticated()")
 	public void list(@RequestParam(value = "clubNo") Long clubNo, Criteria cri, Model model, Authentication auth) {
 		//인증된 사용자 이름
 		String username= auth.getName();
@@ -120,6 +121,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify")
+	@PreAuthorize("principal.userNo == #boardDto.userNo")
 	public String modify(BoardDTO boardDto, @ModelAttribute("cri") Criteria cri ,RedirectAttributes rttr) {
 		log.info("modify: "+boardDto);
 		if (boardService.modify(boardDto)){
@@ -131,6 +133,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/remove")
+	@PreAuthorize("isAuthenticated()")
 	public String remove(@RequestParam("boardNo") Long boardNo, @ModelAttribute("cri") Criteria cri,RedirectAttributes rttr) {
 		log.info("remove: "+boardNo);
 		if(boardService.remove(boardNo)){

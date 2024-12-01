@@ -1,4 +1,5 @@
 <%@ page session="false" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!-- Header -->
 <header class="forest-header mb-4">
     <div class="d-flex align-items-center me-auto">
@@ -18,9 +19,9 @@
     <div class="user-info d-flex align-items-center ms-auto">
         <img src="/resources/img/profile_placeholder.png" alt="프로필 이미지" class="rounded-circle me-2 profile-img">
         <span class="me-3">${nickname}</span>
-        <form role="form" method="post" action="/includes/header">
-            <a href="/user/main" class="btn btn-logout btn-forest" id="logoutButton">로그아웃</a>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <form role="form" method='post' action="/includes/header">
+	        	<button class="btn btn-logout" onclick="logoutHandler()">로그아웃</button>
+	        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
     </div>
 </header>
