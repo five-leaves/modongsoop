@@ -86,6 +86,7 @@
             <input type="hidden" name="amount" value="<c:out value='${cri.amount }'/>">
             <input type="hidden" name="type" value="<c:out value='${cri.type }'/>">
             <input type="hidden" name="keyword" value="<c:out value='${cri.keyword }'/>">
+           	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <!-- Form Fields -->
             <div class="mb-3 cute-border">

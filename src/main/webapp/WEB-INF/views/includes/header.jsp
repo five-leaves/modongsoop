@@ -17,10 +17,10 @@
 
     <!-- 사용자 정보 -->
     <div class="user-info d-flex align-items-center ms-auto">
-        <img src="/resources/img/profile_placeholder.png" alt="프로필 이미지" class="rounded-circle me-2 profile-img">
+        <img src="/resources/img/profile_placeholder.png" alt="프로필 이미지" class="rounded-circle me-2 profile-img" onclick="location.href='/user/mypage'">
         <span class="me-3">${nickname}</span>
         <form role="form" method='post' action="/includes/header">
-	        	<button class="btn btn-logout" onclick="logoutHandler()">로그아웃</button>
+	        	<button class="btn btn-forest" onclick="logoutHandler()">로그아웃</button>
 	        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
     </div>

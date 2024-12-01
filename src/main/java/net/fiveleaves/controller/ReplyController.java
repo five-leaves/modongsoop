@@ -29,10 +29,10 @@ public class ReplyController {
 	
 	private ReplyService replyService;
 	
-	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value ="/new",
 			consumes="application/json",
 			produces = {MediaType.TEXT_PLAIN_VALUE})
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> create(@RequestBody ReplyDTO replyDto) {
 		log.info("replyDto: "+replyDto);
 		int insertCount= replyService.register(replyDto);
@@ -79,6 +79,7 @@ public class ReplyController {
 	@GetMapping(value="/pages/{boardNo}/{page}",
 				produces= {MediaType.APPLICATION_XML_VALUE,
 						   MediaType.APPLICATION_JSON_UTF8_VALUE})
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<List<ReplyDTO>> getList(
 			@PathVariable("page") int page,
 			@PathVariable("boardNo") Long boardNo) {
@@ -91,13 +92,14 @@ public class ReplyController {
 	@GetMapping(value="/{replyNo}",
 				produces= {MediaType.APPLICATION_XML_VALUE,
 						   MediaType.APPLICATION_JSON_UTF8_VALUE})
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<ReplyDTO> get(@PathVariable("replyNo") Long replyNo) {
 		   log.info("get: "+replyNo);
 		   return new ResponseEntity<>(replyService.get(replyNo), HttpStatus.OK);
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@DeleteMapping(value="/{replyNo}", produces= {MediaType.TEXT_PLAIN_VALUE})
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> remove(@PathVariable("replyNo") Long replyNo) {
 		log.info("remove: "+replyNo);
 		
@@ -106,11 +108,11 @@ public class ReplyController {
 						: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(method= {RequestMethod.PUT, RequestMethod.PATCH},
 					value="/{replyNo}",
 					consumes="application/json",
 					produces= {MediaType.TEXT_PLAIN_VALUE})
+	@PreAuthorize("principal.userNo == replyDto.userNo")
 	public ResponseEntity<String> modify(
 			@RequestBody ReplyDTO replyDto,
 			@PathVariable("replyNo") Long replyNo) {
