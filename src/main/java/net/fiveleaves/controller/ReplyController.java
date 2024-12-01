@@ -29,7 +29,7 @@ public class ReplyController {
 	
 	private ReplyService replyService;
 	
-	@PreAuthorize("isAuthenticated()")
+	//@PreAuthorize("isAuthenticated()")
 	@PostMapping(value ="/new",
 			consumes="application/json",
 			produces = {MediaType.TEXT_PLAIN_VALUE})

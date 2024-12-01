@@ -172,7 +172,7 @@ body {
 							onclick="location.href='/board/modify?boardNo=<c:out value="${boardDto.boardNo}"/>'">수정</button>
 							<button data-oper='list'
 							class="btn btn-info"
-							onclick="location.href='/board/list'">목록</button>
+							onclick="location.href='/board/list?clubNo=${boardDto.clubNo}'">목록</button>
 
 							<form id='operForm' action="/board/modify" method="get">
 								<input type='hidden' id='boardNo' name='boardNo' value='<c:out value="${boardDto.boardNo}"/>'>
@@ -201,6 +201,13 @@ body {
 									<!-- <li class="left clearfix" data-replyNo='12'>
 									</li> -->
 								</ul>
+								<script>
+								function fn_replyDel(replyNo,boardNo) {
+									if(confirm("삭제하시겠습니까?")) {
+										location.href="/board/replyDel?replyNo=" + replyNo + "&boardNo=" + boardNo;
+									}
+								}
+								</script>
 							</div>
 						</div>
 					</div>
@@ -260,12 +267,12 @@ body {
 	 		<div class="modal-body">
 	 			<div class="form-group">
 	 				<label>ReplyContent</label>
-	 				<input  class="form-control" name='replyContent' value='New Reply!!!!'>
+	 				<input  class="form-control" name='replyContent' value='New Reply!!!!' maxlength=100>
 	 			</div>
-	 			<div class="form-group">
+	 			<!--div class="form-group">
 	 				<label>UserNo</label>
 	 				<input class="form-control" name='userNo' value='userNo'>
-	 			</div>
+	 			</div-->
 	 			<div class="form-group">
 	 				<label>Reply Date</label>
 	 				<input class="form-control" name='replyDate' value=''>
@@ -295,23 +302,45 @@ body {
 $(document).ready(function(){
 	let boardNoValue='<c:out value="${boardDto.boardNo}"/>';
 	let replyUL=$(".chat");
+	var loginUserNo = '<c:out value="${userNo}"/>'; // 로그인 유저 아이디
 	
 		showList(1);
 		function showList(page){
-			replyService.getList({boardNo:boardNoValue, page: page||1}, function(list) {
+			
+			replyService.getBoardReplyList({boardNo:boardNoValue}, function(list) {
+				function aa(){
+					if(confirm("삭제?")) {
+						location.href="/board/replyDel?replyNo=" + list[i].replyNo + "&boardNo=" + list[i].boardNo;
+					}
+				}
+
 				let str="";
 				if(list==null||list.length==0){
 					replyUL.html("");
-					return;
+					return;	
 				}
 				
+				if(list.length==0) {
+					str+="<p>댓글이 없습니다</p>";
+				} else {
+					for (let i = 0, len =list.length || 0; i<len; i++) {
+						str+="<li class='left clearfix' data-replyno='"+list[i].replyNo+"'>";
+						str+="	<div><strong class='primary-font'> ["+list[i].nickname+"]</strong><br> &nbsp;" + list[i].replyContent;
+						str+="	(" + list[i].wrDate+") &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+						if(loginUserNo == list[i].userNo) { // 로그인 유저와 댓글 작성자가 같을때만 삭제 버튼 출력
+							str+="<button data-oper='replyDel' class='btn btn-default' onclick='fn_replyDel("+list[i].replyNo+","+list[i].boardNo+");'><b>삭제</b></button>";	
+						}
+					}
+				}
+
+				/*
 				for (let i = 0, len =list.length || 0; i<len; i++) {
 					str+="<li class='left clearfix' data-replyno='"+list[i].replyNo+"'>";
-					str+="	<div><div class='header'><strong class='primary-font'>"+list[i].userNo+"</strong>";
+					str+="	<div><div class='header'><strong class='primary-font'>"+list[i].nickname+"</strong>";
 					str+="		<small class='pull-right text-muted'>"+replyService.displayTime(list[i].replyDate)+"</small></div>";
 					str+="		<p>"+(list[i].replyContent || "댓글이 없습니다")+"</p></div></li>";
 					console.log(list[i]);
-				}
+				}*/
 				/* for (let i=0, len = list.length||0; i<len; i++) {
 					str+=`
 						<li class='left clearfix' data-replyNo='${list[i].replyNo}'>
@@ -342,13 +371,13 @@ $(document).ready(function(){
 		let username =null;
 		
 		<sec:authorize access="isAuthenticated()">
-			username='<sec:authentication property="principal.username"/>';
+			username='<set:authentication property="principal.username"/>';
 		</sec:authorize>
+
 		let csrfHeaderName="${_csrf.headerName}";
 		let csrfTokenValue="${_csrf.token}"
 			
 		$("#addReplyBtn").on("click", function(e){
-			
 			modal.find("input").val("");
 			modal.find("input[name='username']").val(username);
 			modalInputReplyDate.closest("div").hide();
@@ -365,13 +394,16 @@ $(document).ready(function(){
 		});
 		
 		modalRegisterBtn.on("click",function(e){
+	        let boardNoValue = '<c:out value="${boardDto.boardNo}"/>';
+	        let userNoValue = loginUserNo;
 			let reply= {
-					replyContent:modalInputReplyContent.val(),
-					userNo:modalInputUserNo.val(),
-					boardNo:boardNoValue
+		        	  replyContent: modalInputReplyContent.val(),
+		              userNo:userNoValue,
+		              boardNo:boardNoValue
 			};
 			replyService.add(reply, function(result) {
-				alert(result);
+				
+				alert((result==='success')?'등록되었습니다':result);
 				
 				modal.find("input").val("");
 				modal.modal("hide");
@@ -399,6 +431,7 @@ $(document).ready(function(){
 		});
 		
 		//댓글 조회 클릭 이벤트 처리
+		/*
 		$(".chat").on("click", "li", function(e){
 			let replyNo=$(this).data("replyno");
 			console.log(replyNo);
@@ -415,7 +448,7 @@ $(document).ready(function(){
 				
 				$(".modal").modal("show");
 			});
-		});
+		});*/
 		
 		//"Close"버튼 클릭시 모달 닫는 코드
 		$('#modalCloseBtn').click(function(){

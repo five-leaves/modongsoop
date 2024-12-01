@@ -30,10 +30,13 @@
 	SELECT a.board_no, a.board_title, a.board_content, a.view_count
 		  ,a.regDate, a.updateDate, a.club_no, a.user_no
 		  ,b.nickname
+		  ,c.club_name
 	FROM  boards a
 		 ,users b
+		 ,clubs c
 	WHERE a.board_no = #{boardNo}
 	AND   a.user_no = b.user_no
+	AND   a.club_no = c.club_no
 </select>
 
 <insert id="insert">
