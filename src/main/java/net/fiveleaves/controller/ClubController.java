@@ -49,9 +49,11 @@ public class ClubController {
 	// 동호회 검색
 	@GetMapping("/search")
 	@PreAuthorize("isAuthenticated()")
-	public String search(@RequestParam("clubName") String clubName, Model model) {
+	public String search(@RequestParam("clubName") String clubName, Model model, Authentication auth) {
+		log.info("search");
 		try {
-			log.info("search");
+			UserDTO userDto = userService.read(auth.getName());
+			model.addAttribute("nickname", userDto.getNickname());
 			model.addAttribute("searchedClub", clubService.search(clubName));
 			return "club/search";
 		} catch (Exception e) {
@@ -63,7 +65,9 @@ public class ClubController {
 	// 동호회 등록 페이지
 	@GetMapping("/register")
 	@PreAuthorize("isAuthenticated()")
-	public void register(Model model) throws Exception {
+	public void register(Model model, Authentication auth) throws Exception {
+		UserDTO userDto = userService.read(auth.getName());
+		model.addAttribute("nickname", userDto.getNickname());
 		model.addAttribute("categoryList", categoryService.getCategoryList());
 	}
 	
@@ -89,9 +93,11 @@ public class ClubController {
 	// 동호회 수정 페이지
 	@GetMapping("/modify")
 	@PreAuthorize("isAuthenticated()")
-	public void get(@RequestParam("clubNo") Long clubNo, Model model) {
+	public void get(@RequestParam("clubNo") Long clubNo, Model model, Authentication auth) {
 		log.info("modify");
 		try {
+			UserDTO userDto = userService.read(auth.getName());
+			model.addAttribute("nickname", userDto.getNickname());
 			model.addAttribute("clubDto", clubService.get(clubNo));
 			model.addAttribute("categoryList", categoryService.getCategoryList());
 		} catch (Exception e) {
