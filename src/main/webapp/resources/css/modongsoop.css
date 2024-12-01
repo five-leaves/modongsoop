@@ -263,6 +263,7 @@ a * {
 	border-radius: 10px;
 	padding: 15px;
 	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+	max-height: none;
 }
 
 .forest-container .row {
@@ -279,6 +280,7 @@ a * {
 	margin-bottom: 15px;
 	flex: 0 0 48%;
 	height: 200px;
+	background: white;
 }
 
 .move {
@@ -294,8 +296,7 @@ a * {
 	text-align: right;
 	position: absolute;
     bottom: 40px;
-    left: 10px;
-    right: 10px;
+    right: 16px;
 }
 
 .post-footer {
@@ -344,4 +345,38 @@ a * {
 /* 동호회 등록 */
 #defaultProfileBtn {
 	width: 150px;
+}
+
+/* 댓글 */
+.comment-box {
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	justify-content: flex-end; /*오른쪽 정렬*/
+}
+
+.comment-box input {
+	flex-grow: 1;
+	padding: 10px;
+	border-radius: 10px;
+	border: 1px solid #a5d6a7;
+	resize: vertical; /*사용자가 입력창을 늘릴수 있게함*/
+}
+
+.comment-list {
+	margin-top: 10px;
+	padding: 10px 0;
+	border-top: 1px solid #81c784;
+	max-height: none; /* 댓글 목록의 최대 높이를 설정하지 않음*/
+	overflow-y: auto; /* 댓글이 많아지면 스크롤바가 생기도록 함*/
+}
+
+.comment-item {
+	padding: 10px 0;
+	border-bottom: 1px dashed #81c784;
+}
+
+.content-content {
+	max-height: none; /* 댓글 목록의 최대 높이를 설정하지 않음*/
 }

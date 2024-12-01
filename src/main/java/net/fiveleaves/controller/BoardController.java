@@ -36,6 +36,7 @@ public class BoardController {
 	private ReplyService replyService;
 
 	@GetMapping("/list")
+	@PreAuthorize("isAuthenticated()")
 	public void list(@RequestParam(value = "clubNo") Long clubNo, Criteria cri, Model model, Authentication auth) {
 		//인증된 사용자 이름
 		String username= auth.getName();
@@ -106,28 +107,17 @@ public class BoardController {
 	}
 	
 	@GetMapping({"/get","/modify"})
-	/*
+	@PreAuthorize("isAuthenticated()")
 	public void get(@RequestParam("boardNo") Long boardNo, @RequestParam("clubNo") Long clubNo, @ModelAttribute("cri") Criteria cri, Model model, Authentication auth) {
-		log.info("/get or /modify");
-		try {
-			UserDTO userDto = userSevice.read(auth.getName());
-			model.addAttribute("boardDto", boardService.get(boardNo));
-			model.addAttribute("userNo", userDto.getUserNo());
-			model.addAttribute("userNickname", userDto.getNickname());
-			model.addAttribute("replyDto", replyService.getList(cri, boardNo));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-	
-	public void get(@RequestParam("boardNo") Long boardNo, @ModelAttribute("cri") Criteria cri, Model model, Authentication auth) {
 		log.info("/get or /modify");
 		try {
 			log.info("auth.getName()="+auth.getName());
 			UserDTO userDto = userSevice.read(auth.getName());
+			model.addAttribute("clubDto", clubService.get(clubNo));
 			model.addAttribute("boardDto", boardService.get(boardNo));
 			model.addAttribute("userNo", userDto.getUserNo());
-			model.addAttribute("userNickname", userDto.getNickname());
+			model.addAttribute("nickname", userDto.getNickname());
+			model.addAttribute("clubMemberCount", clubService.countMember(clubNo));
 			//model.addAttribute("replyDto", replyService.getList(cri, boardNo));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,6 +126,7 @@ public class BoardController {
 	
 	
 	@PostMapping("/modify")
+	@PreAuthorize("isAuthenticated()")
 	public String modify(BoardDTO boardDto, @RequestParam("boardNo") Long boardNo, @RequestParam("clubNo") Long clubNo, @ModelAttribute("cri") Criteria cri ,RedirectAttributes rttr) {
 		log.info("modify: "+boardDto);
 		if (boardService.modify(boardDto)){
@@ -149,6 +140,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/remove")
+	@PreAuthorize("isAuthenticated()")
 	public String remove(@RequestParam("boardNo") Long boardNo, @RequestParam("clubNo") Long clubNo, @ModelAttribute("cri") Criteria cri,RedirectAttributes rttr) {
 		log.info("remove: "+boardNo);
 		if(boardService.remove(boardNo)){
@@ -162,12 +154,13 @@ public class BoardController {
 	}
 	
 	@GetMapping("/replyDel")
-	public String replyDel(@RequestParam("replyNo") Long replyNo, @RequestParam("boardNo") Long boardNo,  RedirectAttributes rttr) {
+	@PreAuthorize("isAuthenticated()")
+	public String replyDel(@RequestParam("replyNo") Long replyNo, @RequestParam("clubNo") Long clubNo, @RequestParam("boardNo") Long boardNo,  RedirectAttributes rttr) {
 		log.info("delete replyNo: "+replyNo);
 		if(replyService.remove(replyNo)) {
 			rttr.addFlashAttribute("result", "success");
 		}
 		rttr.addAttribute("boardNo", boardNo);
-		return "redirect:/board/get";
+		return "redirect:/board/get?clubNo="+clubNo+"&boardNo="+boardNo;
 	}
 }
