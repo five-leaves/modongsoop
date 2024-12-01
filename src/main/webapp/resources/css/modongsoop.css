@@ -1,14 +1,13 @@
 body {
     font-family: "Nanum Pen Script", cursive;
     font-weight: 400;
-    background: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
+    background: #e8f5e9;
     color: #775D43;
+    min-width: 770px;
 }
 
 .forest-container {
-    background: #f3f9f1;
-    padding: 1.25rem;
-    box-shadow: 0rem 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+    padding: 0.925rem;
 }
 
 /* Header */
@@ -67,6 +66,7 @@ body {
 
 .btn-forest:hover {
     background: #977963;
+    color: white;
 }
 
 /* 내가 가입한 동호회 */
@@ -93,10 +93,11 @@ body {
 .category-button {
     background-color: #f1f8e9;
     color: #4caf50;
-    border: 0.0625rem solid #81c784;
+    border: 0.125rem solid #81c784;
     border-radius: 1.875rem;
     padding: 0.3125rem 0.9375rem;
     margin: 0.3125rem;
+    font-size: larger;
 }
 
 .category-button:hover {
@@ -212,4 +213,50 @@ a.club-link * {
 .bg-category {
 	background: #977963;
 	font-size: 0.9rem;
+}
+
+/* 사이드 바 */
+.sidebar {
+	position: relative;
+	background: #f3f9f1;
+	border-radius: 10px;
+	padding: 20px;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+	border: 1px solid #dfe2e6;
+}
+
+.sidebar .profile {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+.sidebar img {
+    background: white;
+    width: 60%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0.625rem;
+    margin-bottom: 0.625rem;
+    border: solid 2px #735e47;
+    padding: 5px;
+}
+
+.sidebar #regBtn {
+	background: #6EBF72;
+}
+
+/* 동호회 목록 */
+.main-content {
+	background: #f9fbe7;
+	border-radius: 10px;
+	padding: 15px;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.forest-container .row {
+	margin-left: 0px;
+	margin-right: 0px;
 }

@@ -6,81 +6,6 @@
 <%@ include file="../includes/head.jsp" %>
 
 <style>
-body {
-	font-family: "Nanum Pen Script", cursive;
-	background: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
-	color: #4d774e;
-}
-
-.container {
-	max-width: 1200px;
-	margin: auto;
-	padding: 20px;
-}
-
-.header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px;
-	background-color: #8d6e63;
-	color: white;
-	border-radius: 10px;
-	margin-bottom: 20px;
-}
-
-.header .logo {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-}
-
-.header .logo img {
-	height: 40px;
-}
-
-.sidebar {
-	background: #f3f9f1;
-	border-radius: 10px;
-	padding: 20px;
-	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.left-panel {
-	width: 25%;
-	background: #f3f9f1;
-	border-radius: 10px;
-	padding: 15px;
-	margin-right: 20px;
-	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.left-panel button {
-	width: 100%;
-	margin-bottom: 10px;
-}
-
-.btn-join {
-	background: #81c784;
-	color: white;
-	border: none;
-	padding: 10px 15px;
-	border-radius: 30px;
-	transition: all 0.3s ease;
-}
-
-.btn-join:hover {
-	background: #66bb6a;
-	transform: scale(1.05);
-}
-
-.main-content {
-	width: 75%;
-	background: #f9fbe7;
-	border-radius: 10px;
-	padding: 15px;
-	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
 
 .post-card {
 	position: relative;
@@ -109,30 +34,10 @@ body {
 	color: #ff6f61;
 }
 
-.row {
-	display: flex;
-	flex-wrap: wrap;
-}
-
 .post-card {
 	flex: 0 0 48%;
 	margin: 1%;
 	height: 200px;
-}
-
-.profile {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 10px;
-	margin-bottom: 20px;
-}
-
-.profile img {
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
-	background-color: #c8e6c9;
 }
 
 .pagnation {
@@ -165,66 +70,14 @@ body {
 }
 </style>
 <body>
+<div class="forest-container">
 	<%@ include file="../includes/header.jsp" %>
-<div class="container">
-	<!-- Header -->
-	<div class="header">
-		<div class="logo">
-			<img src="/path/to/logo.png" alt="Logo">
-			<h3>FOREST</h3>
-		</div>
-		<div>
-			<a href="#" class="btn btn-light">로그아웃</a> <span>닉네임</span> <a
-				href="#" class="btn btn-light">프로필</a>
-		</div>
-	</div>
-
 	<!-- Layout -->
 	<div class="row">
-		<!-- Sidebar -->
-		<div class="col-md-3 sidebar">
-			<div class="profile">
-				<c:choose>
-				    <c:when test="${empty clubDto.clubProfile}">
-				        <img src="/resources/img/club_placeholder.png" alt="동호회 이미지" />
-				    </c:when>
-				    <c:otherwise>
-				        <img src="/display?fileName=${clubDto.clubProfile}" alt="동호회 이미지" />
-				    </c:otherwise>
-				</c:choose>
-				<p><c:out value="${clubDto.clubName}" /></p>
-			</div>
-			<!-- 동호회 멤버이면 버튼 숨기기 -->
-			<c:choose> 
-				<c:when test="${isMember == 0}">
-					<form id="joinForm" action="/club/join" method="post">
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-						<input type="hidden" name="clubNo" value="${param.clubNo}" />
-						<button id="joinBtn" class="btn btn-join w-100">동호회 가입</button>
-					</form>
-				</c:when>
-				<c:otherwise>
-					<form id="withdrawForm" action="/club/withdraw" method="post">
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-						<input type="hidden" name="clubNo" value="${param.clubNo}" />
-						<button id="withdrawBtn" class="btn btn-join w-100">동호회 탈퇴</button>
-					</form>
-				</c:otherwise>
-			</c:choose>
-			<!-- 동호회 관리 버튼 -->
-			<c:if test="${isLeader}">
-				<form id="settingForm" action="/club/modify" method="get">
-					<input type="hidden" name="clubNo" value="${param.clubNo}" />
-					<button id="settingBtn" class="btn btn-join w-100">동호회 관리</button>
-				</form>
-			</c:if>
-			<button id='regBtn' type="button" class="btn btn-join w-100">새글작성</button>
-			<p>멤버 수: <c:out value="${clubMemberCount}"/></p>
-			<p>리더: <c:out value="${clubDto.nickname}" /></p>
-		</div>
+		<%@ include file="./sidebar.jsp" %>
 
 		<!-- Main Content -->
-		<div class="main-content">
+		<div class="main-content col col-md-9">
 			<div>
 				<input type="text" class="form-control mb-3" placeholder="글 내용 검색">
 				<div class="mb-3">
