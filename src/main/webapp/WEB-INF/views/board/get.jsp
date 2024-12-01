@@ -180,8 +180,13 @@ body {
 									<!--input type="text" id="replyInput" placeholder="댓글을 작성하세요"-->
 									<button class="btn btn-forest" id="replySubmit">댓글달기</button>
 								</div>
-
-
+								<style>
+								    .comment-box {
+								        display: flex;          /* 플렉스 컨테이너로 설정 */
+								        justify-content: flex-end; /* 오른쪽 정렬 */
+								    }
+								</style>
+								
 								<div class="comment-list" id="commentList">
 									<!-- 댓글 아이템 -->
 										<c:forEach var="item" items="${replyDto}">
