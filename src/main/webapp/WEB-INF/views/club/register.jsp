@@ -107,7 +107,7 @@
             }
         });
         
-    	$("#regBtn").click(function() {
+    	$("#regBtn").click(function(e) {
     		// "제한 없음" 건너뛰기
     		if ($("#ageMin").val() == '0' || $("#ageMax").val() == '0') {
                 $("#ageWarning").hide(); // 경고 메시지 숨김
@@ -116,6 +116,7 @@
             // 최소 나이가 최대 나이보다 큰 경우 경고 메시지 표시
             if ($("#ageMin").val() > $("#ageMax").val()) {
 				alert("최소 나이는 최대 나이보다 클 수 없습니다.");
+				e.preventDefault();
 				return;
             }
     	})
