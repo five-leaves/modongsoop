@@ -41,6 +41,7 @@ public class BoardController {
 //		model.addAttribute("list", boardService.getList());
 //	}
 	@GetMapping("/list")
+	@PreAuthorize("isAuthenticated()")
 	public void list(@RequestParam(value = "clubNo") Long clubNo, Criteria cri, Model model, Authentication auth) {
 //		UserDTO user = (UserDTO) auth.getPrincipal();
 //		log.info(user.getNickname());
@@ -106,6 +107,7 @@ public class BoardController {
 	}
 	
 	@GetMapping({"/get","/modify"})
+	@PreAuthorize("isAuthenticated()")
 	public void get(@RequestParam("boardNo") Long boardNo, @ModelAttribute("cri") Criteria cri, Model model, Authentication auth) {
 		
 		//인증된 사용자 이름
@@ -127,6 +129,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify")
+	@PreAuthorize("principal.userNo == #boardDto.userNo")
 	public String modify(BoardDTO boardDto, @ModelAttribute("cri") Criteria cri ,RedirectAttributes rttr) {
 		log.info("modify: "+boardDto);
 		if (boardService.modify(boardDto)){
@@ -138,6 +141,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/remove")
+	@PreAuthorize("isAuthenticated()")
 	public String remove(@RequestParam("boardNo") Long boardNo, @ModelAttribute("cri") Criteria cri,RedirectAttributes rttr) {
 		log.info("remove: "+boardNo);
 		if(boardService.remove(boardNo)){

@@ -137,6 +137,17 @@
 		});
 	
 	</script>
+	
+	<!-- 로그인 실패 메시지 -->
+    <script>
+    
+        // URL에 error 파라미터가 포함되어 있는지 확인
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('error')) {
+            alert('아이디 혹은 비밀번호를 확인해주세요.');
+        }
+        
+    </script>
     
 </body>
 </html>

@@ -350,7 +350,7 @@ body {
 		let userAge = '<c:out value="${userAge}"/>';
 		userAge = userAge.slice(0, 4);
 		$("#joinBtn").click(function (e) {
-			if ($('#ageMin').val() <= userAge || userAge >= $('#ageMax').val()) {
+			if (($('#ageMin').val() <= userAge && $('#ageMin').val() != '') && (userAge >= $('#ageMax').val() && $('#ageMax').val() != '')) {
 				e.preventDefault(); // 폼 전송 중지
                 alert("가입할 수 없습니다.");
 				return;

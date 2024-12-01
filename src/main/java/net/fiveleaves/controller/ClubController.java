@@ -31,6 +31,7 @@ public class ClubController {
 	
 	// 동호회 목록 페이지
 	@GetMapping("/list")
+	@PreAuthorize("isAuthenticated()")
 	public String list(@RequestParam(value = "categoryNo", required = false) Long categoryNo, Model model, Authentication auth) {
 		try {
 			UserDTO userDto = userService.read(auth.getName());
@@ -46,6 +47,7 @@ public class ClubController {
 
 	// 동호회 검색
 	@GetMapping("/search")
+	@PreAuthorize("isAuthenticated()")
 	public String search(@RequestParam("clubName") String clubName, Model model) {
 		try {
 			log.info("search");
@@ -85,6 +87,7 @@ public class ClubController {
 	
 	// 동호회 수정 페이지
 	@GetMapping("/modify")
+	@PreAuthorize("isAuthenticated()")
 	public void get(@RequestParam("clubNo") Long clubNo, Model model) {
 		log.info("modify");
 		try {
@@ -97,6 +100,7 @@ public class ClubController {
 	
 	// 동호회 수정
 	@PostMapping("/modify")
+	@PreAuthorize("isAuthenticated()")
 	public String modify(ClubDTO clubDto, RedirectAttributes rttr) {
 		log.info("modify: "+ clubDto);
 		try {
@@ -140,6 +144,7 @@ public class ClubController {
 	
 	//동호회 탈퇴
 	@PostMapping("/withdraw")
+	@PreAuthorize("isAuthenticated()")
 	public String withdraw(ClubLogDTO clubLogDto, Authentication auth) {
 		log.info("withdraw: " + clubLogDto);
 		clubLogDto.setUsername(auth.getName());
