@@ -74,7 +74,7 @@
 			    </div>
 			</div>
 			<input type="hidden" name="clubNo" value="<c:out value='${clubDto.clubNo}'/>" />
-            <button id="regBtn" type="submit" class="btn-forest w-100">동호회 수정</button>
+            <button id="regBtn" type="submit" class="btn-forest mb-4 w-100">동호회 수정</button>
         </form>
         <!-- 동호회 삭제 -->
         <form action="/club/remove" method="POST">
