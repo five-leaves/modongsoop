@@ -5,38 +5,6 @@
 
 <%@ include file="../includes/head.jsp" %>
 
-<style>
-
-
-.pagnation {
-	display: flex; /* 가로로 나열*/
-	list-style:none; /*기본 목록 스타일 제거*/
-	padding: 0; /* 기본 여백 제거 */
-	margin: 0; /* 기본 여백 제거 */
-}
-
-.pagnation li {
-	margin: 0 5px; /* 각 페이지 번호 간격 조정*/
-}
-
-.pagnation a {
-	text-decoration: none; /* 밑줄 제거 */
-	color: #4d774e; /* 페이지 번호 색상 */
-	padding: 5px 10px;
-	border: 1px solid #4d774e; /* 테두리 추가 */
-	border-radius: 5px;
-	transition: background-color 0.3s ease; /* 호버 효과 추가 */
-}
-
-.pagnation a:hover {
-	background-color: #c8e6c9; /* 호버 시 배경색*/
-}
-
-.pagnation .active a {
-	background-color: #81c784; /* 현재 페이지 배경색 */
-	color: white; /* 글자 색상 */
-}
-</style>
 <body>
 <div class="forest-container">
 	<%@ include file="../includes/header.jsp" %>

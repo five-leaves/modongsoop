@@ -14,7 +14,7 @@
         	<div class="col">
 	        	<a class="club-link" href='/club/register'>
 		            <div class="club-card mb-2 d-flex">
-		                <p class="h2">동호회 만들기</p>
+		                <p class="h2">동호회 등록</p>
 		            </div>
 		        </a>
 	        </div>
