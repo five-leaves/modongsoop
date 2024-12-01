@@ -17,5 +17,8 @@ public class ReplyDTO {
 	private Long boardNo;
 	private Date replyDate;
 	private Date updateDate;
+	private String nickname;
+	private String wrDate;
+	private String username;
 	
 }

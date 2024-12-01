@@ -82,7 +82,7 @@
     </div>
     
 <script>
-	const ageLimit = '${clubDto.ageMin}';
+	const ageLimit = <c:out value='${clubDto.ageMin}' /> && <c:out value='${clubDto.ageMax}' /> ;
     $(document).ready(function () {
     	$('#ageMin').val('${clubDto.ageMin}');
     	$('#ageMax').val('${clubDto.ageMax}');

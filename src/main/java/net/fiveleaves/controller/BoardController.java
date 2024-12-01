@@ -1,8 +1,5 @@
 package net.fiveleaves.controller;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -17,12 +14,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import net.fiveleaves.domain.BoardDTO;
+import net.fiveleaves.domain.ClubDTO;
 import net.fiveleaves.domain.ClubLogDTO;
 import net.fiveleaves.domain.Criteria;
 import net.fiveleaves.domain.PageDTO;
 import net.fiveleaves.domain.UserDTO;
 import net.fiveleaves.service.BoardService;
 import net.fiveleaves.service.ClubService;
+import net.fiveleaves.service.ReplyService;
 import net.fiveleaves.service.UserService;
 
 @Controller
@@ -34,53 +33,41 @@ public class BoardController {
 	private BoardService boardService;
 	private ClubService clubService;
 	private UserService userSevice;
-	
-//	@GetMapping("/list")
-//	public void list(Model model) {
-//		log.info("list");
-//		model.addAttribute("list", boardService.getList());
-//	}
+	private ReplyService replyService;
+
 	@GetMapping("/list")
 	@PreAuthorize("isAuthenticated()")
 	public void list(@RequestParam(value = "clubNo") Long clubNo, Criteria cri, Model model, Authentication auth) {
-//		UserDTO user = (UserDTO) auth.getPrincipal();
-//		log.info(user.getNickname());
-		
 		//인증된 사용자 이름
 		String username= auth.getName();
 		log.info("auth.name: "+username);
-		
-//		//사용자및 클럽 정보 조회
-//		Map<String, Object> userInfo = boardService.getUserAndClubInfo(username);
-//		BigDecimal userNoBigDecimal =(BigDecimal) userInfo.get("USERNO");
-//		Long userNo= userNoBigDecimal.longValue();
-//		BigDecimal clubNoBigDecimal =(BigDecimal) userInfo.get("USERNO");
-//		Long clubNoFromDb= clubNoBigDecimal.longValue();
-//		String nickname=(String)userInfo.get("NICKNAME");
-//		
-//		if (clubNo==null) {
-//			clubNo=clubNoFromDb;
-//		}
-//		log.info(userInfo);
-//		log.info("*************************userNo:"+userNo+", clubNo:"+clubNo+", nickname:"+nickname);
 		
 		log.info("list: "+cri);
 		
 		try {
 			cri.setClubNo(clubNo);
+			
+			// 회원 정보 가져오기
 			UserDTO userDto = userSevice.read(auth.getName());
 			
+			// 멤버인지 확인
 			ClubLogDTO clubLogDto = new ClubLogDTO();
 			clubLogDto.setClubNo(clubNo);
 			clubLogDto.setUserNo(userDto.getUserNo());
 			int isMember = clubService.isMember(clubLogDto);
 			
+			// 동호회 정보 가져오기
+			ClubDTO clubDto = clubService.get(clubNo);
+			
+			// 리더인지 확인
+			boolean isLeader = clubDto.getUserNo() == userDto.getUserNo();
+			
 			model.addAttribute("isMember", isMember);
+			model.addAttribute("isLeader", isLeader);
 			model.addAttribute("userAge", userDto.getBirth());
 			model.addAttribute("list", boardService.getList(cri));
-			model.addAttribute("clubDto", clubService.get(clubNo));
+			model.addAttribute("clubDto", clubDto);
 			model.addAttribute("clubMemberCount", clubService.countMember(clubNo));
-//			model.addAttribute("pageMaker",new PageDTO(cri, 123));
 			int total=boardService.getTotal(cri);
 			log.info("total: "+total);
 			model.addAttribute("pageMaker", new PageDTO(cri, total));
@@ -91,7 +78,14 @@ public class BoardController {
 	
 	@GetMapping("/register")
 	@PreAuthorize("isAuthenticated()")
-	public void register() {}
+	public void register(Model model, Authentication auth) {
+		try {
+			UserDTO userDto = userSevice.read(auth.getName());
+			model.addAttribute("userNo", userDto.getUserNo());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@PostMapping("/register")
 	@PreAuthorize("isAuthenticated()")
@@ -99,33 +93,31 @@ public class BoardController {
 		log.info("register: "+boardDto);
 		boardService.register(boardDto);
 		
-//		UserDTO user = (UserDTO) auth.getPrincipal();	
-//		user.getUserNo();
+		try {
+			UserDTO userDto = userSevice.read(auth.getName());
+			userDto.getUserNo();
+			
+			rttr.addFlashAttribute("result", boardDto.getBoardNo());
+			return "redirect:/board/list?clubNo="+boardDto.getClubNo();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		rttr.addFlashAttribute("result", boardDto.getBoardNo());
-		return "redirect:/board/list";
+		return null;
 	}
 	
 	@GetMapping({"/get","/modify"})
-	@PreAuthorize("isAuthenticated()")
-	public void get(@RequestParam("boardNo") Long boardNo, @ModelAttribute("cri") Criteria cri, Model model, Authentication auth) {
-		
-		//인증된 사용자 이름
-		String username= auth.getName();
-		log.info("auth.name: "+username);
-		
-		//사용자및 클럽 정보 조회
-		Map<String, Object> userInfo = boardService.getUserAndClubInfo(username);
-		BigDecimal userNoBigDecimal =(BigDecimal) userInfo.get("USERNO");
-		Long userNo= userNoBigDecimal.longValue();
-		BigDecimal clubNoBigDecimal =(BigDecimal) userInfo.get("USERNO");
-		Long clubNoFromDb= clubNoBigDecimal.longValue();
-		String nickname=(String)userInfo.get("NICKNAME");
-		
+	public void get(@RequestParam("boardNo") Long boardNo, @RequestParam("clubNo") Long clubNo, @ModelAttribute("cri") Criteria cri, Model model, Authentication auth) {
 		log.info("/get or /modify");
-		model.addAttribute("boardDto", boardService.get(boardNo));
-		model.addAttribute("userNo", userNo);
-		model.addAttribute("userNickname", nickname);
+		try {
+			UserDTO userDto = userSevice.read(auth.getName());
+			model.addAttribute("boardDto", boardService.get(boardNo));
+			model.addAttribute("userNo", userDto.getUserNo());
+			model.addAttribute("userNickname", userDto.getNickname());
+			model.addAttribute("replyDto", replyService.getList(cri, boardNo));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@PostMapping("/modify")
@@ -150,5 +142,15 @@ public class BoardController {
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 		return "redirect:/board/list";
+	}
+	
+	@GetMapping("/replyDel")
+	public String replyDel(@RequestParam("replyNo") Long replyNo, @RequestParam("boardNo") Long boardNo,  RedirectAttributes rttr) {
+		log.info("delete replyNo: "+replyNo);
+		if(replyService.remove(replyNo)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		rttr.addAttribute("boardNo", boardNo);
+		return "redirect:/board/get";
 	}
 }

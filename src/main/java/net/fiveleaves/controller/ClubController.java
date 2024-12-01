@@ -35,6 +35,7 @@ public class ClubController {
 	public String list(@RequestParam(value = "categoryNo", required = false) Long categoryNo, Model model, Authentication auth) {
 		try {
 			UserDTO userDto = userService.read(auth.getName());
+			model.addAttribute("nickname", userDto.getNickname());
 			model.addAttribute("myClubList", clubService.getMyClubList(userDto.getUserNo()));
 			model.addAttribute("allClubList", clubService.getAllClubList(categoryNo));
 			model.addAttribute("categoryList", categoryService.getCategoryList());
@@ -128,6 +129,7 @@ public class ClubController {
 	
 	// 동호회 가입
 	@PostMapping("/join")
+	@PreAuthorize("isAuthenticated()")
 	public String join(ClubLogDTO clubLogDto, RedirectAttributes rttr, Authentication auth) {
 		log.info("join: " + clubLogDto);
 		try {
@@ -147,8 +149,9 @@ public class ClubController {
 	@PreAuthorize("isAuthenticated()")
 	public String withdraw(ClubLogDTO clubLogDto, Authentication auth) {
 		log.info("withdraw: " + clubLogDto);
-		clubLogDto.setUsername(auth.getName());
 		try {
+			UserDTO userDto = userService.read(auth.getName());
+			clubLogDto.setUserNo(userDto.getUserNo());
 			clubService.withdraw(clubLogDto);
 			return "redirect:/club/list";
 		} catch (Exception e) {
