@@ -18,6 +18,10 @@
 	<delete id="delete">
 		DELETE FROM replies WHERE reply_no=#{replyNo}
 	</delete>
+	
+	<delete id="deleteAll">
+		DELETE FROM replies WHERE board_no=#{boardNo}
+	</delete>
 
 	<update id="update">
 		UPDATE replies SET reply_content=#{replyContent},

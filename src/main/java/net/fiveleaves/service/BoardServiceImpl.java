@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import net.fiveleaves.domain.BoardDTO;
 import net.fiveleaves.domain.Criteria;
 import net.fiveleaves.mapper.BoardMapper;
+import net.fiveleaves.mapper.ReplyMapper;
 
 @Log4j
 @Service
@@ -17,6 +19,7 @@ import net.fiveleaves.mapper.BoardMapper;
 public class BoardServiceImpl implements BoardService{
 	
 	private BoardMapper boardMapper;
+	private ReplyMapper replyMapper;
 	
 	public void register(BoardDTO boardDto) {
 		log.info("register:"+boardDto);
@@ -37,10 +40,14 @@ public class BoardServiceImpl implements BoardService{
 		return boardMapper.update(boardDto)==1;
 	}
 
+	@Transactional
 	@Override
 	public boolean remove(Long boardNo) {
 		log.info("remove: "+boardNo);
-		return boardMapper.delete(boardNo)==1;
+		boolean result = boardMapper.delete(boardNo)==1;
+		replyMapper.removeAll(boardNo);
+		
+		return result;
 	}
 
 	@Override
