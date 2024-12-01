@@ -35,7 +35,6 @@ public class ClubController {
 	public String list(@RequestParam(value = "categoryNo", required = false) Long categoryNo, Model model, Authentication auth) {
 		try {
 			UserDTO userDto = userService.read(auth.getName());
-			model.addAttribute("nickname", userDto.getNickname());
 			model.addAttribute("myClubList", clubService.getMyClubList(userDto.getUserNo()));
 			model.addAttribute("allClubList", clubService.getAllClubList(categoryNo));
 			model.addAttribute("categoryList", categoryService.getCategoryList());
@@ -52,8 +51,6 @@ public class ClubController {
 	public String search(@RequestParam("clubName") String clubName, Model model, Authentication auth) {
 		log.info("search");
 		try {
-			UserDTO userDto = userService.read(auth.getName());
-			model.addAttribute("nickname", userDto.getNickname());
 			model.addAttribute("searchedClub", clubService.search(clubName));
 			return "club/search";
 		} catch (Exception e) {
@@ -66,8 +63,6 @@ public class ClubController {
 	@GetMapping("/register")
 	@PreAuthorize("isAuthenticated()")
 	public void register(Model model, Authentication auth) throws Exception {
-		UserDTO userDto = userService.read(auth.getName());
-		model.addAttribute("nickname", userDto.getNickname());
 		model.addAttribute("categoryList", categoryService.getCategoryList());
 	}
 	
@@ -96,8 +91,6 @@ public class ClubController {
 	public void get(@RequestParam("clubNo") Long clubNo, Model model, Authentication auth) {
 		log.info("modify");
 		try {
-			UserDTO userDto = userService.read(auth.getName());
-			model.addAttribute("nickname", userDto.getNickname());
 			model.addAttribute("clubDto", clubService.get(clubNo));
 			model.addAttribute("categoryList", categoryService.getCategoryList());
 		} catch (Exception e) {
