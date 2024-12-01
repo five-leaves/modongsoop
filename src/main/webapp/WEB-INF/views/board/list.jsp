@@ -10,7 +10,7 @@
 	<%@ include file="../includes/header.jsp" %>
 	<!-- Layout -->
 	<div class="row">
-		<%@ include file="./sidebar.jsp" %>
+		<%@ include file="../includes/sidebar.jsp" %>
 
 		<!-- Main Content -->
 		<div class="main-content col col-md-9">
