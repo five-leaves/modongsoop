@@ -2,10 +2,10 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!-- Header -->
 <header class="forest-header mb-4">
-    <div class="d-flex align-items-center me-auto">
+    <a class="d-flex align-items-center me-auto" href="/club/list">
         <img class="logo me-3" src="/resources/img/logo.png" alt="로고">
         <div class="title me-4">모동숲</div>
-    </div>
+    </a>
 
     <!-- 동호회 검색 -->
     <form class="d-flex search-bar" role="search" action="/club/search" method="get">

@@ -170,9 +170,15 @@
 				c.age_max,
 				c.user_no,
 				c.category_no,
-				c.regdate,
-				c.updatedate
+				ca.category_name,
+	            c.regdate,
+	            c.updatedate,
+	            cl.member_count
 		from clubs c
+		inner join categories ca on c.category_no = ca.category_no 
+		inner join (select club_no, count(*) member_count
+		            from club_logs
+		            group by club_no) cl on c.club_no = cl.club_no
 		where c.club_name like '%' || #{clubName} || '%'
 		or c.club_content like '%' || #{clubContent} || '%'
 	</select>

@@ -45,7 +45,7 @@ public class ReplyServiceImpl implements ReplyService{
 	@Override
 	public List<ReplyDTO> getList(Criteria cri, Long boardNo) {
 		log.info("get Reply List of a Board: "+boardNo);
-		return replyMapper.getListWithPaging(cri, boardNo);
+		return replyMapper.getBoardReplyList(boardNo);
 	}
 	
 	@Override

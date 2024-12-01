@@ -17,5 +17,5 @@ public interface ReplyMapper {
 			@Param("cri") Criteria cri,
 			@Param("boardNo") Long boardNo);
 	public int getCountByBoardNo(Long boardNo);
-	public List<ReplyDTO> getBoardReplyList(Criteria cri, Long boardNo);
+	public List<ReplyDTO> getBoardReplyList(Long boardNo);
 }

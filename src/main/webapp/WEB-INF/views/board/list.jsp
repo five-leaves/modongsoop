@@ -5,237 +5,24 @@
 
 <%@ include file="../includes/head.jsp" %>
 
-<style>
-body {
-	font-family: "Nanum Pen Script", cursive;
-	background: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
-	color: #4d774e;
-}
-
-.container {
-	max-width: 1200px;
-	margin: auto;
-	padding: 20px;
-}
-
-.header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px;
-	background-color: #8d6e63;
-	color: white;
-	border-radius: 10px;
-	margin-bottom: 20px;
-}
-
-.header .logo {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-}
-
-.header .logo img {
-	height: 40px;
-}
-
-.sidebar {
-	background: #f3f9f1;
-	border-radius: 10px;
-	padding: 20px;
-	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.left-panel {
-	width: 25%;
-	background: #f3f9f1;
-	border-radius: 10px;
-	padding: 15px;
-	margin-right: 20px;
-	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.left-panel button {
-	width: 100%;
-	margin-bottom: 10px;
-}
-
-.btn-join {
-	background: #81c784;
-	color: white;
-	border: none;
-	padding: 10px 15px;
-	border-radius: 30px;
-	transition: all 0.3s ease;
-}
-
-.btn-join:hover {
-	background: #66bb6a;
-	transform: scale(1.05);
-}
-
-.main-content {
-	width: 75%;
-	background: #f9fbe7;
-	border-radius: 10px;
-	padding: 15px;
-	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.post-card {
-	position: relative;
-	padding-bottom: 40px;
-	border: 1px solid #c8e6c9;
-	border-radius: 10px;
-	padding: 10px;
-	margin-bottom: 15px;
-}
-
-.post-card h5 {
-	font-size: 1.2rem;
-}
-
-.post-footer {
-	position: absolute; 
-	bottom: 10px; 
-	left: 10px; 
-	right: 10px;
-	display: flex; 
-	justify-content: space-between; 
-	font-size: 0.9rem;
-}
-
-.post-footer i {
-	color: #ff6f61;
-}
-
-.row {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.post-card {
-	flex: 0 0 48%;
-	margin: 1%;
-	height: 200px;
-}
-
-.profile {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 10px;
-	margin-bottom: 20px;
-}
-
-.profile img {
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
-	background-color: #c8e6c9;
-}
-
-.pagnation {
-	display: flex; /* 가로로 나열*/
-	list-style:none; /*기본 목록 스타일 제거*/
-	padding: 0; /* 기본 여백 제거 */
-	margin: 0; /* 기본 여백 제거 */
-}
-
-.pagnation li {
-	margin: 0 5px; /* 각 페이지 번호 간격 조정*/
-}
-
-.pagnation a {
-	text-decoration: none; /* 밑줄 제거 */
-	color: #4d774e; /* 페이지 번호 색상 */
-	padding: 5px 10px;
-	border: 1px solid #4d774e; /* 테두리 추가 */
-	border-radius: 5px;
-	transition: background-color 0.3s ease; /* 호버 효과 추가 */
-}
-
-.pagnation a:hover {
-	background-color: #c8e6c9; /* 호버 시 배경색*/
-}
-
-.pagnation .active a {
-	background-color: #81c784; /* 현재 페이지 배경색 */
-	color: white; /* 글자 색상 */
-}
-</style>
 <body>
+<div class="forest-container">
 	<%@ include file="../includes/header.jsp" %>
-<div class="container">
-	<!-- Header -->
-	<div class="header">
-		<div class="logo">
-			<img src="/path/to/logo.png" alt="Logo">
-			<h3>FOREST</h3>
-		</div>
-		<div>
-			<a href="#" class="btn btn-light">로그아웃</a> <span>닉네임</span> <a
-				href="#" class="btn btn-light">프로필</a>
-		</div>
-	</div>
-
 	<!-- Layout -->
 	<div class="row">
-		<!-- Sidebar -->
-		<div class="col-md-3 sidebar">
-			<div class="profile">
-				<c:choose>
-				    <c:when test="${empty clubDto.clubProfile}">
-				        <img src="/resources/img/club_placeholder.png" alt="동호회 이미지" />
-				    </c:when>
-				    <c:otherwise>
-				        <img src="/display?fileName=${clubDto.clubProfile}" alt="동호회 이미지" />
-				    </c:otherwise>
-				</c:choose>
-				<p><c:out value="${clubDto.clubName}" /></p>
-			</div>
-			<!-- 동호회 멤버이면 버튼 숨기기 -->
-			<c:choose> 
-				<c:when test="${isMember == 0}">
-					<form id="joinForm" action="/club/join" method="post">
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-						<input type="hidden" name="clubNo" value="${param.clubNo}" />
-						<button id="joinBtn" class="btn btn-join w-100">동호회 가입</button>
-					</form>
-				</c:when>
-				<c:otherwise>
-					<form id="withdrawForm" action="/club/withdraw" method="post">
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-						<input type="hidden" name="clubNo" value="${param.clubNo}" />
-						<button id="withdrawBtn" class="btn btn-join w-100">동호회 탈퇴</button>
-					</form>
-				</c:otherwise>
-			</c:choose>
-			<!-- 동호회 관리 버튼 -->
-			<c:if test="${isLeader}">
-				<form id="settingForm" action="/club/modify" method="get">
-					<input type="hidden" name="clubNo" value="${param.clubNo}" />
-					<button id="settingBtn" class="btn btn-join w-100">동호회 관리</button>
-				</form>
-			</c:if>
-			<button id='regBtn' type="button" class="btn btn-join w-100">새글작성</button>
-			<p>멤버 수: <c:out value="${clubMemberCount}"/></p>
-			<p>리더: <c:out value="${clubDto.nickname}" /></p>
-		</div>
+		<%@ include file="../includes/sidebar.jsp" %>
 
 		<!-- Main Content -->
-		<div class="main-content">
+		<div class="main-content col col-md-9">
 			<div>
 				<input type="text" class="form-control mb-3" placeholder="글 내용 검색">
 				<div class="mb-3">
-					<div class="form-control" >
-						동호회 소개 및 정보
-						
-							<div>나이제한: 
-								<c:if test="${clubDto.ageMin != 0}"><span id="ageMin"><c:out value="${clubDto.ageMin}"/></span></c:if>
-								~ <c:if test="${clubDto.ageMax != 0}"><span id="ageMax"><c:out value="${clubDto.ageMax}"/></span></c:if>
-							</div>
-						
+					<div class="form-control p-3" >
+						<div class="h3 mb-3">동호회 소개 및 정보</div>
+						<div class="mb-2">나이제한: 
+							<c:if test="${clubDto.ageMin != 0}"><span id="ageMin"><c:out value="${clubDto.ageMin}"/></span></c:if>
+							~ <c:if test="${clubDto.ageMax != 0}"><span id="ageMax"><c:out value="${clubDto.ageMax}"/></span></c:if>
+						</div>
 						<div><c:out value="${clubDto.clubContent}"/></div>
 					</div>
 					
@@ -245,13 +32,13 @@ body {
 			<!-- Post Cards -->
 			<div class="row">
 				<c:forEach items="${list}" var="boardDto">
-					<a class='move' href='<c:out value="${boardDto.boardNo}"/>'>
+					<a class='move board-link' href='<c:out value="${boardDto.boardNo}"/>'>
 						<div class="post-card">
 							<input type="hidden" value='<c:out value="${boardDto.boardNo}" />'/>
 							<input type="hidden" value='<c:out value="${boardDto.clubNo}" />'/>
-							<h5><c:out value="${boardDto.boardTitle}" /></h5>
-							<div><c:out value="${boardDto.userNo}" /></div>
-							<p><c:out value="${boardDto.boardContent}" /></p>
+							<h3><c:out value="${boardDto.boardTitle}" /></h5>
+							<p class="text-ellipsis"><c:out value="${boardDto.boardContent}" /></p>
+							<div class="text-right">작성자 <c:out value="${boardDto.nickname}" /></div>
 							<div class="post-footer">
 								<!-- 왼쪽: 좋아요 -->
 								<span> <i class="fa fa-heart"></i> 좋아요

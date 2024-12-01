@@ -20,5 +20,6 @@ public class BoardDTO {
 	private Long clubNo;
 	private Long userNo;
 	private String nickname;
+	private String clubName;
 	
 }
