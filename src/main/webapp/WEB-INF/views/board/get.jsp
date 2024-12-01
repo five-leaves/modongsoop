@@ -7,7 +7,7 @@
 <%@ include file="../includes/head.jsp"%>
 
 <body>
-<div class="forest-container container">
+<div class="forest-container">
 	<%@ include file="../includes/header.jsp" %>
 
 	<div class="row">
@@ -237,10 +237,6 @@ $(document).ready(function(){
 		$('#modalCloseBtn').click(function(){
 			$('#myModal').modal('hide'); //모달 숨기기
 		});
-		
-		
-		
-
 			
 /* 		//댓글 입력 이벤트
 		$("#commentSubmit").on("click", function() {

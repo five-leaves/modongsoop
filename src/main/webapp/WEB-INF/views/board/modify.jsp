@@ -3,88 +3,43 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../includes/head.jsp"%>
-<body>
-	<%@include file="../includes/header.jsp"%>
-
+<div class="forest-container">
+	<%@include file="../includes/header.jsp" %>
 	<div class="row">
-		<div class="col-lg-12">
-			<h1 class="page-header">게시글 수정</h1>
-		</div>
-		<!-- /.col-lg-12 -->
-	</div>
-	<!-- /.row -->
+		<h1 class="mb-4">동호회 설정</h1>
+		<form id="modifyForm" action="/board/modify" method="post">
+			<!-- 추가 -->
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+			<input type="hidden" name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+			<input type="hidden" name='amount' value='<c:out value="${cri.amount}"/>'>
+			<input type="hidden" name='clubNo' value='<c:out value="${boardDto.clubNo}"/>'>
+			<input type="hidden" name='userNo' value='<c:out value="${boardDto.userNo}"/>'>
+			<input type="hidden" name="_csrf" value="${_csrf.token}" />
+			<input type="hidden" class="form-control" name='boardNo' value='<c:out value="${boardDto.boardNo}"/>'>
+			<input type="hidden" class="form-control" name='nickname'	value='<c:out value="${boardDto.nickname}"/>' >
+			<input type="hidden" class="form-control" name='clubName' value='<c:out value="${boardDto.clubName}"/>' >
 
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-default">
-
-				<div class="panel-heading">게시글 수정</div>
-				<!-- /.panel-heading -->
-				<div class="panel-body">
-
-					<form role="form" action="/board/modify" method="post">
-					
-					<!-- 추가 -->
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
-					<input type='hideen' name='amount' value='<c:out value="${cri.amount}"/>'>
-					<input type='hideen' name='clubNo' value='<c:out value="${boardDto.clubNo}"/>'>
-					<input type='hideen' name='userNo' value='<c:out value="${boardDto.userNo}"/>'>
-					<input type="hidden" name="_csrf" value="${_csrf.token}" />
-						<div class="form-group">
-							<label>게시판번호</label> <input class="form-control" name='boardNo'
-								value='<c:out value="${boardDto.boardNo}"/>' readonly="readonly">
-						</div>
-
-						<div class="form-group">
-							<label>제목</label> <input class="form-control" name='boardTitle'
-								value='<c:out value="${boardDto.boardTitle}"/>'>
-						</div>
-
-						<div class="form-group">
-							<label>내용</label>
-							<textarea class="form-control" rows="3" name='boardContent'><c:out value="${boardDto.boardContent}" />
-							</textarea>
-						</div>
-
-						<div class="form-group">
-							<label>작성자</label> <input class="form-control" name='nickname'
-								value='<c:out value="${boardDto.nickname}"/>' readonly="readonly">
-						</div>
-
-						<div class="form-group">
-							<label>동호회</label> <input class="form-control" name='clubName'
-								value='<c:out value="${boardDto.clubName}"/>' readonly="readonly">
-						</div>
-						
-						<div class="form-group">
-							<label>작성일</label> <input class="form-control" name='regdate'
-								value='<fmt:formatDate pattern="yyyy/MM/dd" value= "${boardDto.regdate}"/>' readonly="readonly">
-						</div>
-						
-						<div class="form-group">
-							<label>수정일</label> <input class="form-control" name='updateDate'
-								value='<fmt:formatDate pattern="yyyy/MM/dd" value= "${boardDto.updateDate}"/>' readonly="readonly">
-						</div>
-						
-						<button type="submit" data-oper='modify' class="btn btn-default">수정</button>
-						<button type="submit" data-oper='remove' class="btn btn-danger">삭제</button>
-						<button type="submit" data-oper='list' class="btn btn-info">목록</button>
-					</form>
-
-				</div>
-				<!--  end panel-body -->
-
+			<div class="form-group">
+				<label class="h3">제목</label> <input class="form-control" name='boardTitle'
+					value='<c:out value="${boardDto.boardTitle}"/>'>
 			</div>
-			<!--  end panel-body -->
-		</div>
-		<!-- end panel -->
+
+			<div class="form-group mb-5">
+				<label class="h3">내용</label>
+				<textarea class="form-control" rows="5" name='boardContent'><c:out value="${boardDto.boardContent}" />
+				</textarea>
+			</div>
+
+			<button type="submit" data-oper='modify' class="btn btn-forest">수정</button>
+			<button type="submit" data-oper='remove' class="btn btn-forest">삭제</button>
+			<button type="submit" data-oper='list' class="btn btn-forest">목록</button>
+		</form>
 	</div>
-	<!-- /.row -->
+</div>
 	
 <script type="text/javascript">
 $(document).ready(function() {
-	var formObj=$("form");
+	var formObj=$("#modifyForm");
 	var loginUserNo = '<c:out value="${userNo}"/>'; // 로그인 유저 아이디
 	
 	$('button').on("click", function(e){
