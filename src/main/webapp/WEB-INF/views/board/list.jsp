@@ -7,38 +7,6 @@
 
 <style>
 
-.post-card {
-	position: relative;
-	padding-bottom: 40px;
-	border: 1px solid #c8e6c9;
-	border-radius: 10px;
-	padding: 10px;
-	margin-bottom: 15px;
-}
-
-.post-card h5 {
-	font-size: 1.2rem;
-}
-
-.post-footer {
-	position: absolute; 
-	bottom: 10px; 
-	left: 10px; 
-	right: 10px;
-	display: flex; 
-	justify-content: space-between; 
-	font-size: 0.9rem;
-}
-
-.post-footer i {
-	color: #ff6f61;
-}
-
-.post-card {
-	flex: 0 0 48%;
-	margin: 1%;
-	height: 200px;
-}
 
 .pagnation {
 	display: flex; /* 가로로 나열*/
@@ -81,14 +49,12 @@
 			<div>
 				<input type="text" class="form-control mb-3" placeholder="글 내용 검색">
 				<div class="mb-3">
-					<div class="form-control" >
-						동호회 소개 및 정보
-						
-							<div>나이제한: 
-								<c:if test="${clubDto.ageMin != 0}"><span id="ageMin"><c:out value="${clubDto.ageMin}"/></span></c:if>
-								~ <c:if test="${clubDto.ageMax != 0}"><span id="ageMax"><c:out value="${clubDto.ageMax}"/></span></c:if>
-							</div>
-						
+					<div class="form-control p-3" >
+						<div class="h3 mb-3">동호회 소개 및 정보</div>
+						<div class="mb-2">나이제한: 
+							<c:if test="${clubDto.ageMin != 0}"><span id="ageMin"><c:out value="${clubDto.ageMin}"/></span></c:if>
+							~ <c:if test="${clubDto.ageMax != 0}"><span id="ageMax"><c:out value="${clubDto.ageMax}"/></span></c:if>
+						</div>
 						<div><c:out value="${clubDto.clubContent}"/></div>
 					</div>
 					
@@ -98,13 +64,13 @@
 			<!-- Post Cards -->
 			<div class="row">
 				<c:forEach items="${list}" var="boardDto">
-					<a class='move' href='<c:out value="${boardDto.boardNo}"/>'>
+					<a class='move board-link' href='<c:out value="${boardDto.boardNo}"/>'>
 						<div class="post-card">
 							<input type="hidden" value='<c:out value="${boardDto.boardNo}" />'/>
 							<input type="hidden" value='<c:out value="${boardDto.clubNo}" />'/>
-							<h5><c:out value="${boardDto.boardTitle}" /></h5>
-							<div><c:out value="${boardDto.userNo}" /></div>
-							<p><c:out value="${boardDto.boardContent}" /></p>
+							<h3><c:out value="${boardDto.boardTitle}" /></h5>
+							<p class="text-ellipsis"><c:out value="${boardDto.boardContent}" /></p>
+							<div class="text-right">작성자 <c:out value="${boardDto.nickname}" /></div>
 							<div class="post-footer">
 								<!-- 왼쪽: 좋아요 -->
 								<span> <i class="fa fa-heart"></i> 좋아요

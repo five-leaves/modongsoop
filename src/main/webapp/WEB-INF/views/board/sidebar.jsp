@@ -45,7 +45,7 @@
 		</c:otherwise>
 	</c:choose>
 	<br/>
-	<div>
+	<div class="b-info">
 		<p class="mb-2 h5">멤버 수: <c:out value="${clubMemberCount}"/></p>
 		<p class="mb-0 h5">리더: <c:out value="${clubDto.nickname}" /></p>
 	</div>

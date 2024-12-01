@@ -2,7 +2,7 @@ body {
     font-family: "Nanum Pen Script", cursive;
     font-weight: 400;
     background: #e8f5e9;
-    color: #775D43;
+    color: #735e47;
     min-width: 770px;
 }
 
@@ -148,13 +148,14 @@ body {
     text-align: left;
 }
 
-a.club-link {
+/* a 밑줄 제거 */
+a {
     text-decoration: none; /* 밑줄 제거 */
     color: inherit; /* 텍스트 색상 초기화 (부모 요소의 색상 사용) */
 }
 
 /* 자식 요소 스타일이 변경되지 않도록 보호 */
-a.club-link * {
+a * {
     text-decoration: none; /* 모든 자식 요소에서 밑줄 제거 */
 }
 
@@ -240,7 +241,6 @@ a.club-link * {
     object-fit: cover;
     border-radius: 0.625rem;
     margin-bottom: 0.625rem;
-    border: solid 2px #735e47;
     padding: 5px;
 }
 
@@ -259,4 +259,46 @@ a.club-link * {
 .forest-container .row {
 	margin-left: 0px;
 	margin-right: 0px;
+}
+
+.post-card {
+	position: relative;
+	padding-bottom: 40px;
+	border: 1px solid #c8e6c9;
+	border-radius: 10px;
+	padding: 16px;
+	margin-bottom: 15px;
+	flex: 0 0 48%;
+	height: 200px;
+}
+
+.move {
+	margin: 0px;
+	padding: 0px;
+}
+
+.pull-right {
+	padding: 0px;
+}
+
+.text-right {
+	text-align: right;
+	position: absolute;
+    bottom: 40px;
+    left: 10px;
+    right: 10px;
+}
+
+.post-footer {
+	position: absolute; 
+	bottom: 16px; 
+	left: 16px; 
+	right: 16px;
+	display: flex; 
+	justify-content: space-between; 
+	font-size: 0.9rem;
+}
+
+.post-footer i {
+	color: #ff6f61;
 }
