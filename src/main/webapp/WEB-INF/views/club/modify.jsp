@@ -7,7 +7,7 @@
 <div class="forest-container">
 	<%@include file="../includes/header.jsp" %>
 	<div class="row">
-			<h1 class="mb-4">동호회 설정</h1>
+		<h1 class="mb-4">동호회 설정</h1>
         <form action="/club/modify" method="post" enctype="multipart/form-data">
         	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         	
@@ -28,7 +28,7 @@
 				        
 				        <!-- 파일 입력 -->
 				        <input type="file" id="uploadFile" name="uploadFile" class="form-control hide" accept="image/*" />
-				        <input type="hidden" id="clubProfile" name="clubProfile" value=""/>
+				        <input type="hidden" id="clubProfile" name="clubProfile" value="${clubDto.clubProfile}"/>
 				    </div>
 				    <button id="defaultProfileBtn" type="button" class="btn-forest">기본 이미지 등록</button>
 				</div>

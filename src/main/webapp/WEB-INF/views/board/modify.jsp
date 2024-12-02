@@ -6,7 +6,7 @@
 <div class="forest-container">
 	<%@include file="../includes/header.jsp" %>
 	<div class="row">
-		<h1 class="mb-4">동호회 설정</h1>
+		<h1 class="mb-4">게시글 수정</h1>
 		<form id="modifyForm" action="/board/modify" method="post">
 			<!-- 추가 -->
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -70,18 +70,24 @@ $(document).ready(function() {
 			formObj.append(boardNo);
 			formObj.append(clubNo);
 		} else if(operation==='modify') {
-			let boardTitle=$("input[name='boardTitle']").clone().val();
-			let boardContent=$("textarea[name='boardContent']").clone().val();
-			let trimBoardTitle = boardTitle.replace(/\s+/g, "");
-			let trimBoardContent = boardContent.replace(/\s+/g, "");
-			let trimBoardTitleLen = trimBoardTitle.length;
-			let trimBoardContentLen = trimBoardContent.length;
-			if(boardTitle.length === 0 || boardContent.length === 0) {
-				alert("제목과 내용을 반드시 입력 하세요");
+			if(loginUserNo != userNo.val()) {
+				e.preventDefault();
+				alert("수정 권한이 없습니다.");
 				return;
-			}
-			if(!confirm("저장하시겠습니까?")) {
-				return;
+			} else {
+				let boardTitle=$("input[name='boardTitle']").clone().val();
+				let boardContent=$("textarea[name='boardContent']").clone().val();
+				let trimBoardTitle = boardTitle.replace(/\s+/g, "");
+				let trimBoardContent = boardContent.replace(/\s+/g, "");
+				let trimBoardTitleLen = trimBoardTitle.length;
+				let trimBoardContentLen = trimBoardContent.length;
+				if(boardTitle.length === 0 || boardContent.length === 0) {
+					alert("제목과 내용을 반드시 입력 하세요");
+					return;
+				}
+				if(!confirm("저장하시겠습니까?")) {
+					return;
+				}
 			}
 		}
 		

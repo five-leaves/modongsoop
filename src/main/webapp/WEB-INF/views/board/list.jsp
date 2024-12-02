@@ -11,62 +11,63 @@
 	<!-- Layout -->
 	<div class="row">
 		<%@ include file="../includes/sidebar.jsp" %>
-
+		<div class="col-md-9 p-0">
 		<!-- Main Content -->
-		<div class="main-content col col-md-9">
-			<div>
-				<input type="text" class="form-control mb-3" placeholder="글 내용 검색">
-				<div class="mb-3">
-					<div class="form-control p-3" >
-						<div class="h3 mb-3">동호회 소개 및 정보</div>
-						<div class="mb-2">나이제한: 
-							<c:if test="${clubDto.ageMin != 0}"><span id="ageMin"><c:out value="${clubDto.ageMin}"/></span></c:if>
-							~ <c:if test="${clubDto.ageMax != 0}"><span id="ageMax"><c:out value="${clubDto.ageMax}"/></span></c:if>
-						</div>
-						<div><c:out value="${clubDto.clubContent}"/></div>
-					</div>
-					
-				</div>
-			</div>
-
-			<!-- Post Cards -->
-			<div class="row">
-				<c:forEach items="${list}" var="boardDto">
-					<a class='move board-link' href='<c:out value="${boardDto.boardNo}"/>'>
-						<div class="post-card">
-							<input type="hidden" value='<c:out value="${boardDto.boardNo}" />'/>
-							<input type="hidden" value='<c:out value="${boardDto.clubNo}" />'/>
-							<h3><c:out value="${boardDto.boardTitle}" /></h5>
-							<p class="text-ellipsis"><c:out value="${boardDto.boardContent}" /></p>
-							<div class="text-right">작성자 <c:out value="${boardDto.nickname}" /></div>
-							<div class="post-footer">
-								<!-- 왼쪽: 좋아요 -->
-								<span> <i class="fa fa-heart"></i> 좋아요
-								</span>
-								<!-- 오른쪽: 생성일 -->
-								<span>생성일 <fmt:formatDate pattern="yyyy-MM-dd" value="${boardDto.regdate}" /></span>
+			<div class="main-content">
+				<div>
+					<input type="text" class="form-control mb-3" placeholder="글 내용 검색">
+					<div class="mb-3">
+						<div class="form-control p-3" >
+							<div class="h3 mb-3">동호회 소개 및 정보</div>
+							<div class="mb-2">나이제한: 
+								<c:if test="${clubDto.ageMin != 0}"><span id="ageMin"><c:out value="${clubDto.ageMin}"/></span></c:if>
+								~ <c:if test="${clubDto.ageMax != 0}"><span id="ageMax"><c:out value="${clubDto.ageMax}"/></span></c:if>
 							</div>
+							<div><c:out value="${clubDto.clubContent}"/></div>
 						</div>
-					</a>
-				</c:forEach>
-				
-				<div class='pull-right'>
-					<ul class="pagnation">
-						<c:if test="${pageMaker.prev}">
-							<li class="paginate_button previous"><a href="${pageMaker.startPage -1}">Previous</a></li>
-						</c:if>
 						
-						<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-							<li class="paginate_button ${pageMaker.cri.pageNum==num ? "active":""}"><a href="${num}">${num}</a></li>
-						</c:forEach>
-						
-						<c:if test="${pageMaker.next}">
-							<li class="paginate_button next"><a href="${pageMaker.endPage+1}">Next</a></li>
-						</c:if>
-					</ul>
+					</div>
 				</div>
-				<!-- end Pagination -->
-
+	
+				<!-- Post Cards -->
+				<div class="row">
+					<c:forEach items="${list}" var="boardDto">
+						<a class='move board-link' href='<c:out value="${boardDto.boardNo}"/>'>
+							<div class="post-card">
+								<input type="hidden" value='<c:out value="${boardDto.boardNo}" />'/>
+								<input type="hidden" value='<c:out value="${boardDto.clubNo}" />'/>
+								<h3><c:out value="${boardDto.boardTitle}" /></h5>
+								<p class="text-ellipsis"><c:out value="${boardDto.boardContent}" /></p>
+								<div class="text-right">작성자 <c:out value="${boardDto.nickname}" /></div>
+								<div class="post-footer">
+									<!-- 왼쪽: 좋아요 -->
+									<span> <i class="fa fa-heart"></i> 좋아요
+									</span>
+									<!-- 오른쪽: 생성일 -->
+									<span>생성일 <fmt:formatDate pattern="yyyy-MM-dd" value="${boardDto.regdate}" /></span>
+								</div>
+							</div>
+						</a>
+					</c:forEach>
+					
+					<div class='pull-right'>
+						<ul class="pagnation">
+							<c:if test="${pageMaker.prev}">
+								<li class="paginate_button previous"><a href="${pageMaker.startPage -1}">Previous</a></li>
+							</c:if>
+							
+							<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+								<li class="paginate_button ${pageMaker.cri.pageNum==num ? "active":""}"><a href="${num}">${num}</a></li>
+							</c:forEach>
+							
+							<c:if test="${pageMaker.next}">
+								<li class="paginate_button next"><a href="${pageMaker.endPage+1}">Next</a></li>
+							</c:if>
+						</ul>
+					</div>
+					<!-- end Pagination -->
+	
+				</div>
 			</div>
 		</div>
 	</div>
@@ -99,34 +100,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-	    let result = '<c:out value="${result}"/>';
-	    let isClub = '<c:out value="${isClub}"/>';
-	    let isJoin = '<c:out value="${isJoin}"/>';
-		checkModal(result);
-		history.replaceState({},null,null);
-		function checkModal(result) {
-			if (result === '' || history.state) {
-				return;
-			}
-			if (parseInt(result) > 0) {
-				$(".modal-body").html(
-						"게시글 " + parseInt(result) + " 번이 등록되었습니다.");
-			}
-			if (parseInt(result) > 0 && isClub !== '') {
-				$(".modal-body").html(
-						"동호회 등록 완료되었습니다.");
-			}
-			if (isJoin !== '') {
-				$(".modal-body").html(
-						"동호회 가입 완료되었습니다.");
-			}
-			$("#myModal").modal("show");
-		}
-		
-		let params = new URLSearchParams(window.location.search);
-		$('#regBtn').on("click", function() {
-			self.location="/board/register?clubNo="+params.get('clubNo');
-		});
 		let actionForm=$("#actionForm");
 		$(".paginate_button a").on("click", function(e) {
 			e.preventDefault();
@@ -142,28 +115,8 @@
 			actionForm.submit();
 		});
 		
-		// 가입시 나이제한 확인
-		let userAge = '<c:out value="${userAge}"/>';
-		userAge = userAge.slice(0, 4);
-		$("#joinBtn").click(function (e) {
-			if (($('#ageMin').val() <= userAge && $('#ageMin').val() != '') && (userAge >= $('#ageMax').val() && $('#ageMax').val() != '')) {
-				e.preventDefault(); // 폼 전송 중지
-                alert("가입할 수 없습니다.");
-				return;
-			}
-		})
-		
-		// 리더 동호회 탈퇴 방지
-		$('#withdrawBtn').click(function (e) {
-			e.preventDefault();
-			if (confirm('정말로 동호회를 탈퇴하시겠습니까?')) {
-				if ('<c:out value="${isLeader}"/>') {
-					alert("회장은 탈퇴할 수 없습니다. 동호회를 삭제해주세요.");
-					return;
-				}
-			}
-		})
 			
 	});
 	</script>
+<%@ include file="../includes/sidebar_script.jsp" %>
 <%@ include file="../includes/foot.jsp" %>

@@ -43,7 +43,7 @@
         <!-- 카테고리 -->
         <h2 class="mt-4">카테고리</h2>
         <div class="d-flex flex-wrap">
-        	<button class="category-button <c:if test="${empty param.categoryNo}">active</c:if> onclick="location.href='?'">전체</button>
+        	<button class="category-button <c:if test="${empty param.categoryNo}">active</c:if>" onclick="location.href='?'">전체</button>
         	<c:forEach items="${categoryList}" var="category">
         		<button class="category-button <c:if test="${param.categoryNo eq category.categoryNo}">active</c:if>" onclick="location.href='?categoryNo=<c:out value="${category.categoryNo}" />'"><c:out value="${category.categoryName}" /></button>
         	</c:forEach>

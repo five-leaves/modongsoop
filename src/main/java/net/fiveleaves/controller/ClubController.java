@@ -100,7 +100,7 @@ public class ClubController {
 	
 	// 동호회 수정
 	@PostMapping("/modify")
-	@PreAuthorize("principal.userNo == clubDto.userNo")
+	@PreAuthorize("isAuthenticated()")
 	public String modify(ClubDTO clubDto, RedirectAttributes rttr) {
 		log.info("modify: "+ clubDto);
 		try {

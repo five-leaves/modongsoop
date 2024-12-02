@@ -88,6 +88,7 @@ public class UploadController {
 			uploadFileName = uuid.toString() + "_" + uploadFileName;
 
 			try {
+				// 원본 저장
 				File saveFile = new File(uploadPath, uploadFileName);
 				multipartFile.transferTo(saveFile);
 
@@ -99,24 +100,26 @@ public class UploadController {
 				if (checkImageType(saveFile)) {
 
 					attachDTO.setImage(true);
-
+					log.info(attachDTO);
 					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "t_" + uploadFileName));
+					log.info(attachDTO);
 					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
-					
+					log.info(attachDTO);
 					File thumbFile = new File(uploadFolderPath, "t_" + uploadFileName);
+					log.info(attachDTO);
 					attachDTO.setThumbnailPath(thumbFile.getPath());
 
-					
 					thumbnail.close();
+					log.info(attachDTO);
 				}
 
-				// add to List
-				list.add(attachDTO);
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
+			// add to List
+			list.add(attachDTO);
 		}
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
