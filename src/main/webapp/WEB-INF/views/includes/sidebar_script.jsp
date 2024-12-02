@@ -43,7 +43,7 @@ $(document).ready(function() {
 	let userAge = '<c:out value="${userAge}"/>';
 	userAge = userAge.slice(0, 4);
 	$("#joinBtn").click(function (e) {
-		if (($('#ageMin').text() >= userAge && $('#ageMin').text() != '') || (userAge <= $('#ageMax').text() && $('#ageMax').text() != '')) {
+		if (($('#ageMin').text() < userAge && $('#ageMin').text() != '') || (userAge > $('#ageMax').text() && $('#ageMax').text() != '')) {
 			e.preventDefault(); // 폼 전송 중지
             alert("가입할 수 없습니다.");
 			return;
