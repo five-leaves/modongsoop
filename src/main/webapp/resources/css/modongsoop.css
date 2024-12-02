@@ -147,7 +147,7 @@ h2 {
 
 .club-card-lg img {
 	width: 12vh;
-    height: auto;
+    height: 12vh;
     object-fit: cover;
     border-radius: 0.625rem;
     margin-bottom: 0.625rem;
