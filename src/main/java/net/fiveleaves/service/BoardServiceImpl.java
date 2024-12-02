@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -40,12 +39,10 @@ public class BoardServiceImpl implements BoardService{
 		return boardMapper.update(boardDto)==1;
 	}
 
-	@Transactional
 	@Override
 	public boolean remove(Long boardNo) {
 		log.info("remove: "+boardNo);
 		boolean result = boardMapper.delete(boardNo)==1;
-		replyMapper.removeAll(boardNo);
 		
 		return result;
 	}
