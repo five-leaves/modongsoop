@@ -18,15 +18,15 @@
 		    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		        
 		            <div class="form-group mb-4">
-		              <label class="h3">제목</label> <input class="form-control" name='boardTitle' />
+		              <label class="h3">제목</label> <input class="form-control" name='boardTitle' required/>
 		            </div>
 		          
 		            <div class="form-group mb-4">
 		              <label class="h3">내용</label>
-		              <textarea class="form-control" rows="5" name='boardContent'></textarea>
+		              <textarea class="form-control" rows="5" name='boardContent' required></textarea>
 		            </div>
 		            
-				    <input type="hidden" class="form-control" name='userNo' value=<c:out value="${userNo}" /> readonly />
+				    <input type="hidden" class="form-control" name='userNo' value=<c:out value="${userNo}" /> />
 		            
 		            <input type="hidden" class="form-control" name='clubNo' value="${param.clubNo}" />
 		          

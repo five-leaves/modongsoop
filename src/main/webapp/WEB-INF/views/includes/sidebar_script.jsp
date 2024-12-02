@@ -29,7 +29,13 @@ $(document).ready(function() {
 	}
 	
 	let params = new URLSearchParams(window.location.search);
-	$('#regBtn').on("click", function() {
+	$('#regBtn').on("click", function(e) {
+		// 회원이 아닌 경우 새글 작성 방지
+		if (<c:out value="${isMember}"/> == 0) {
+			e.preventDefault();
+            alert("게시글을 작성할 수 없습니다. 동호회에 가입해주세요.");
+			return;
+		}
 		self.location="/board/register?clubNo="+params.get('clubNo');
 	});
 	
