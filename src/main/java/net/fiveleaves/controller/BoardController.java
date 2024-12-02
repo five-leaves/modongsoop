@@ -113,6 +113,22 @@ public class BoardController {
 		try {
 			log.info("auth.getName()="+auth.getName());
 			UserDTO userDto = userSevice.read(auth.getName());
+			
+			// 멤버인지 확인
+			ClubLogDTO clubLogDto = new ClubLogDTO();
+			clubLogDto.setClubNo(clubNo);
+			clubLogDto.setUserNo(userDto.getUserNo());
+			int isMember = clubService.isMember(clubLogDto);
+			
+			// 동호회 정보 가져오기
+			ClubDTO clubDto = clubService.get(clubNo);
+			
+			// 리더인지 확인
+			boolean isLeader = clubDto.getUserNo() == userDto.getUserNo();
+			
+			model.addAttribute("isMember", isMember);
+			model.addAttribute("isLeader", isLeader);
+			model.addAttribute("userAge", userDto.getBirth());
 			model.addAttribute("clubDto", clubService.get(clubNo));
 			model.addAttribute("boardDto", boardService.get(boardNo));
 			model.addAttribute("userNo", userDto.getUserNo());
